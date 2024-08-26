@@ -1,0 +1,17 @@
+.nav-bar {
+  background: #030303;
+
+  color: #fff;
+
+  ul {
+    justify-content: center;
+    align-items: center;
+    list-style: none;
+    display: flex;
+    padding: 10px;
+    height: 100%;
+    gap: 20px;
+
+    border-bottom: solid #3b404e;
+  }
+}

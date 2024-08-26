@@ -1,0 +1,50 @@
+@import "./Scss/theme";
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+
+@keyframes init {
+  from {
+    filter: opacity(0);
+  }
+  to {
+    filter: opacity(1);
+  }
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  animation: init 500ms;
+  font-family: "DM Sans", sans-serif;
+  border-radius: 10px;
+  user-select: none;
+  overflow: hidden;
+}
+
+/* For WebKit browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: #2c2c2c;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #555;
+  border-radius: 10px;
+  border: 3px solid #2c2c2c;
+}
+
+/* For Firefox */
+.scrollable-element {
+  scrollbar-color: #555 #2c2c2c;
+  scrollbar-width: thin;
+}
+
+#root {
+  height: 100vh;
+  width: 100vw;
+}

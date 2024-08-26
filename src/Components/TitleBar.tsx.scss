@@ -1,0 +1,25 @@
+.title-bar {
+  border-radius: 10px 10px 0px 0px;
+  background-color: #030303;
+  padding: 10px;
+  cursor: grab;
+  color: #fff;
+  display: flex;
+
+  .buttons,
+  p {
+    width: 50%;
+  }
+
+  p {
+    pointer-events: none;
+  }
+
+  .buttons {
+    // pointer-events: none;
+    justify-content: flex-end;
+    align-items: center;
+    display: flex;
+    gap: 5px;
+  }
+}

@@ -1,0 +1,21 @@
+.nav-item {
+  background-color: #141518;
+  border-radius: 10px;
+  transition: 200ms;
+  text-align: center;
+  cursor: pointer;
+  padding: 20px;
+  width: 150px;
+
+  border: solid #3b404e;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  gap: 20px;
+
+  &:hover {
+    transform: translateY(-10px);
+    background-color: #3b404e;
+    border-color: #141518;
+  }
+}

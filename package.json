@@ -1,0 +1,32 @@
+{
+  "name": "nostalgianexus",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "tauri": "tauri"
+  },
+  "dependencies": {
+    "@tauri-apps/api": "^1",
+    "axios": "^1.7.5",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.26.1",
+    "sqlite3": "^5.1.7",
+    "tauri-plugin-sql-api": "github:tauri-apps/tauri-plugin-sql#v1"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "^1",
+    "@types/axios": "^0.14.0",
+    "@types/react": "^18.2.15",
+    "@types/react-dom": "^18.2.7",
+    "@types/sqlite3": "^3.1.11",
+    "@vitejs/plugin-react": "^4.2.1",
+    "sass": "^1.77.8",
+    "typescript": "^5.2.2",
+    "vite": "^5.3.1"
+  }
+}
