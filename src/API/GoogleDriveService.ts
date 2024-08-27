@@ -87,7 +87,6 @@ export default class GoogleDriveService {
     if (this.options && this.options.onProgress) {
       listen("download-progress", (event) => {
         this.options?.onProgress!(event.payload as DownloadPayload);
-        console.log(event);
       });
     }
 

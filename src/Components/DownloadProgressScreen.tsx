@@ -46,11 +46,13 @@ const DownloadProgressScreen = ({ payload }: Props) => {
         <img src="icons/spinner.svg" alt="loading spinner" />
       </h1>
       <div className="progress-bar">
-        <p>{payload?.progress.toFixed(1)} %</p>
+        <p>{payload?.progress.toFixed(1) || "0"} %</p>
         <div
           className="progress-bar-fill"
           style={{
-            width: `${payload?.progress === 0 ? 0.5 : payload?.progress}%`,
+            width: `${
+              payload?.progress === 0 || !payload ? 2 : payload?.progress
+            }%`,
           }}
         ></div>
       </div>
