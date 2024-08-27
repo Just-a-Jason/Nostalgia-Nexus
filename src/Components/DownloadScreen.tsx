@@ -24,8 +24,8 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
           <p className="relese-date">{app?.ReleseDate}</p>
 
           <div className="buttons">
-            <button className="download-button" title="Download">
-              Download
+            <button className="download-button" title="Install">
+              Install
               <img
                 src="icons/download.svg"
                 alt="download icon"
