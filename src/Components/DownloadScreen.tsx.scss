@@ -112,6 +112,10 @@
       img {
         width: 30px;
       }
+
+      &.disabled {
+        filter: opacity(0.5);
+      }
     }
   }
 }

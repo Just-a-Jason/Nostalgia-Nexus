@@ -9,16 +9,20 @@ import { createDir } from "@tauri-apps/api/fs";
 import { VIRUS_WARNING_REGEX } from "../constants";
 
 interface DownloadOptions {
-  onProgressCallback: (progress: { loaded: number; total: number }) => void;
+  downloadingFinished: () => void;
   fileName: string;
 }
 
 export default class GoogleDriveService {
-  constructor(private savePath: string) {}
+  constructor(
+    private savePath: string = "",
+    private options: DownloadOptions | null = null
+  ) {}
   public async downloadFile(
     fileId: string,
     options: DownloadOptions
   ): Promise<void> {
+    this.options = options;
     const DOWNLOAD_DRIVE_URL = `https://drive.google.com/uc?id=${fileId}&export=download`;
     this.savePath = `${await appDataDir()}apps\\${options.fileName}`;
     const BASE_PATH = (await appDataDir()) + "apps";
@@ -78,6 +82,15 @@ export default class GoogleDriveService {
   }
 
   private async downloadZip(downloadURL: string) {
-    console.log(`Starting downloading zip files from: ${downloadURL}`);
+    const client = await getClient();
+    const response = await client.get(downloadURL, {
+      responseType: ResponseType.Binary,
+    });
+    const data = response.data;
+
+    await writeBinaryFile(this.savePath, data as BinaryFileContents);
+    console.log(`download finished! File at: ${this.savePath}`);
+
+    this.options?.downloadingFinished();
   }
 }

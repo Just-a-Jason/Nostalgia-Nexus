@@ -16,6 +16,9 @@
         "all": false,
         "open": true
       },
+      "notification": {
+        "all": true
+      },
       "path": {
         "all": true
       },

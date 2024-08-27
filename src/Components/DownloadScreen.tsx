@@ -1,3 +1,4 @@
+import { useState } from "react";
 import GoogleDriveService from "../API/GoogleDriveService";
 import { BASE_IMAGE_URL } from "../constants";
 import { App } from "../Interfaces/App";
@@ -10,19 +11,19 @@ interface Props {
 }
 
 const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
-  let downloading = false;
+  const [downloading, setDownloading] = useState(false);
 
-  const downloadFiles = () => {
+  const downloadFiles = async () => {
     if (downloading || !app) return;
 
     const service = new GoogleDriveService();
 
-    service.downloadFile(app.download.fileID, {
-      fileName: app.name + ".zip",
-      onProgressCallback: () => {},
-    });
+    setDownloading(true);
 
-    downloading = true;
+    await service.downloadFile(app.download.fileID, {
+      downloadingFinished: () => setDownloading(false),
+      fileName: app.name + ".zip",
+    });
   };
 
   return (
@@ -43,20 +44,29 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
           <div className="buttons">
             <button
               className="download-button"
-              title="Install"
+              title="Install!"
               onClick={downloadFiles}
             >
-              Install
-              <img
-                src="icons/download.svg"
-                alt="download icon"
-                draggable={false}
-              />
+              {(!downloading && "Install") || "Instaling..."}
+              {(!downloading && (
+                <img
+                  src="icons/download.svg"
+                  alt="download icon"
+                  draggable={false}
+                />
+              )) || (
+                <img
+                  src="icons/spinner.svg"
+                  alt="download icon"
+                  draggable={false}
+                />
+              )}
             </button>
             <button
-              className="cancel-button"
+              className={`cancel-button ${(downloading && "disabled") || ""}`}
               onClick={hideDownloadScreen}
               title="Cancel"
+              disabled={downloading}
             >
               Cancel
               <img
