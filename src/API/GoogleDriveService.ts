@@ -3,12 +3,13 @@ import {
   writeBinaryFile,
   exists,
 } from "@tauri-apps/api/fs";
+import { appDataDir } from "@tauri-apps/api/path";
 import { getClient, ResponseType } from "@tauri-apps/api/http";
+import { createDir } from "@tauri-apps/api/fs";
 
 interface DownloadOptions {
   onProgressCallback: (progress: { loaded: number; total: number }) => void;
   fileName: string;
-  savePath: string;
 }
 
 export default class GoogleDriveService {
@@ -17,7 +18,18 @@ export default class GoogleDriveService {
     options: DownloadOptions
   ): Promise<void> {
     const DOWNLOAD_URL = `https://drive.google.com/uc?id=${fileId}&export=download`;
-    const SAVE_PATH = `${options.savePath}${options.fileName}`;
+    const BASE_PATH = (await appDataDir()) + "apps";
+
+    if (!(await exists(BASE_PATH))) {
+      console.info(`Folder does not exist, creating... ${BASE_PATH}`);
+      await createDir(BASE_PATH, { recursive: true });
+    } else {
+      console.info("Folder already exists");
+    }
+
+    const SAVE_PATH = `${await appDataDir()}apps\\${options.fileName}`;
+
+    console.log(SAVE_PATH);
 
     if (await exists(SAVE_PATH)) return;
 
@@ -37,7 +49,7 @@ export default class GoogleDriveService {
         });
       }
 
-      console.log(`File downloaded successfully to ${options.savePath}`);
+      console.info(`File downloaded successfully to ${SAVE_PATH}`);
     } catch (error) {
       console.warn(
         `Something went wrong while accessing: ${DOWNLOAD_URL}`,
