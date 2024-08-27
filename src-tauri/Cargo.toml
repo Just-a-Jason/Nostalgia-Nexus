@@ -1,7 +1,7 @@
 [package]
-name = "nostalgianexus"
+name = "nostalgia-nexus"
 version = "0.1.0"
-description = "A Tauri App"
+description = "Nostalgia nexus launcher"
 authors = ["you"]
 edition = "2021"
 
@@ -25,6 +25,7 @@ tauri = { version = "1", features = [
 ] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
+
 
 [dependencies.tauri-plugin-sql]
 git = "https://github.com/tauri-apps/plugins-workspace"
