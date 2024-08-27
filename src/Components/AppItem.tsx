@@ -1,20 +1,8 @@
+import { App } from "../Interfaces/App";
 import "./AppItem.tsx.scss";
 
-interface App {
-  Description: string;
-  IconName: string;
-  AppName: string;
-  Versions: Version[];
-  ReleseDate: string;
-}
-
-interface Version {
-  AppVersion: string;
-  FileSize: string;
-  FileID: string;
-}
-
 interface Props {
+  showDownloadScreen: (app: App) => void;
   inLibrary: boolean;
   app: App;
 }
@@ -22,9 +10,9 @@ interface Props {
 const cutContent = (text: string, maxChars: number) =>
   (text.length > maxChars && text.substring(0, maxChars) + "...") || text;
 
-const AppItem = ({ app, inLibrary = false }: Props) => {
+const AppItem = ({ app, inLibrary = false, showDownloadScreen }: Props) => {
   return (
-    <div className="app-item">
+    <div className="app-item" onClick={() => showDownloadScreen(app)}>
       <h3>{cutContent(app.AppName, 25)}</h3>
       <img
         src={`icons/Apps/${app.IconName}`}

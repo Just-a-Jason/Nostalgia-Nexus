@@ -9,13 +9,96 @@
 }
 
 .download-screen {
+  justify-content: center;
+  align-items: center;
+  display: flex;
+
+  color: #939393;
+
+  gap: 10px;
+
   animation: slide-up 500ms;
   background-color: #000000d1;
   border-radius: 10px;
+
   height: 100%;
   width: 100%;
   z-index: 2;
   inset: 0;
 
   position: absolute;
+
+  .app-icon {
+    border-radius: 10px;
+    width: 350px;
+  }
+
+  .wrapper {
+    justify-content: space-around;
+    display: flex;
+    width: 100%;
+  }
+
+  .options {
+    position: relative;
+    background: linear-gradient(45deg, #0b1437, black);
+    flex-direction: column;
+    border-radius: 10px;
+    display: flex;
+    padding: 10px;
+    width: 50%;
+    gap: 10px;
+
+    .buttons {
+      position: absolute;
+      display: flex;
+      bottom: 10px;
+      gap: 10px;
+    }
+
+    .file-size {
+      color: #e1650a;
+      font-weight: bold;
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+    }
+
+    .relese-date {
+      position: absolute;
+      right: 10px;
+      bottom: 35px;
+      font-size: 15px;
+    }
+
+    .download-button {
+      background: linear-gradient(45deg, #15b746, #1f522e);
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px;
+      transition: 200ms;
+      border: none;
+      cursor: pointer;
+      font-size: 20px;
+      display: flex;
+      color: #fff;
+      padding: 10px;
+      gap: 40px;
+
+      bottom: 10px;
+
+      &:hover {
+        transform: scale(1.1);
+      }
+    }
+
+    .cancel-button {
+      @extend .download-button;
+      background: linear-gradient(45deg, #f00, #3e0707);
+
+      img {
+        width: 30px;
+      }
+    }
+  }
 }
