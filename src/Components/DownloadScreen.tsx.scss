@@ -1,3 +1,5 @@
+$border: solid 4px #ffffff34;
+
 @keyframes slide-up {
   from {
     transform: translateY(100vh);
@@ -9,9 +11,12 @@
 }
 
 .download-screen {
+  cursor: grabbing;
   justify-content: center;
   align-items: center;
   display: flex;
+
+  filter: contrast(1.2);
 
   color: #939393;
 
@@ -35,13 +40,14 @@
 
   .place-holder,
   .lazy-img {
-    border-radius: 10px;
+    border-radius: 40px;
     width: 350px;
     height: 350px;
   }
 
   .lazy-img {
     animation: fade 1s;
+    border: $border;
   }
 
   .wrapper {
@@ -51,6 +57,7 @@
   }
 
   .options {
+    border: 4px solid #ffffff61;
     position: relative;
     background: linear-gradient(45deg, #0b1437, black);
     flex-direction: column;
@@ -63,6 +70,7 @@
     height: 350px;
 
     .buttons {
+      filter: opacity(0.7);
       position: absolute;
       display: flex;
       bottom: 10px;
@@ -111,6 +119,10 @@
 
       img {
         width: 30px;
+      }
+
+      &.disabled {
+        filter: opacity(0.5);
       }
     }
   }

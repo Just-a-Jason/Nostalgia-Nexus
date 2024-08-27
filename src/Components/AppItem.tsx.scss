@@ -19,6 +19,7 @@
 }
 
 .app-item {
+  filter: opacity(0.7);
   animation: pop 500ms;
   background: linear-gradient(45deg, #0b1437, black);
   justify-content: center;
@@ -58,6 +59,7 @@
   // }
 
   &:hover {
+    filter: opacity(1);
     transform: translateY(-20px);
     color: #fff;
 

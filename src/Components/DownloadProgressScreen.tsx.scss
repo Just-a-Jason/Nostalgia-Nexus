@@ -1,0 +1,63 @@
+$bg-color: linear-gradient(45deg, #141313, #1b1818);
+$bar-size: 50px;
+$border: solid 2px #2e2b2b;
+
+.download-progress-screen {
+  cursor: grabbing;
+  background: #000;
+  border-radius: 10px;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 3;
+  inset: 0;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+  filter: opacity(0.8);
+
+  .progress-bar {
+    border: $border;
+    background: $bg-color;
+    justify-content: flex-start;
+    border-radius: 10px;
+    align-items: center;
+    position: relative;
+    display: flex;
+    padding: 10px;
+    width: 400px;
+    height: 50px;
+
+    .progress-bar-fill {
+      background: linear-gradient(90deg, #37a4fe, #ffffff00);
+      border-radius: 20px;
+      height: $bar-size - 30px;
+      width: 10%;
+      inset: 0;
+    }
+
+    p {
+      position: absolute;
+      right: 10px;
+    }
+  }
+  h1 {
+    width: 400px;
+    border: $border;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    gap: 10px;
+
+    padding: 10px;
+    background: $bg-color;
+    border-radius: 10px;
+  }
+  .statistic {
+    width: 400px;
+    text-align: center;
+  }
+}
