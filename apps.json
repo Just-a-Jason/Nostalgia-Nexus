@@ -178,5 +178,16 @@
       "version": "1.0.0",
       "fileID": "1tp67xUlSLzkFHDlCeWM5nM5Mg8JDxT9y"
     }
+  },
+  {
+    "name": "Sklepik Nemo",
+    "releseDate": "October 10, 2008",
+    "iconUrl": "SklepikNemo.jpg",
+    "description": "\"Sklepik Nemo\" to symulator, w którym zarządzasz własnym sklepem. Gracze muszą dbać o zaopatrzenie, obsługę klientów i rozwój swojego biznesu, aby osiągnąć sukces. Gra oferuje różnorodne wyzwania związane z prowadzeniem sklepu, co sprawia, że jest interesująca i wciągająca.",
+    "download": {
+      "fileSize": "30 MB",
+      "version": "1.0.0",
+      "fileID": "1Hq4cVVd9gQtH5mNN2o0VQvB9TmE3VUu-"
+    }
   }
 ]
