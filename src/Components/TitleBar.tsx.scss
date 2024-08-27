@@ -8,7 +8,14 @@
 
   .buttons,
   p {
+    align-items: center;
+    display: flex;
     width: 50%;
+    gap: 10px;
+
+    img {
+      height: 30px;
+    }
   }
 
   p {
