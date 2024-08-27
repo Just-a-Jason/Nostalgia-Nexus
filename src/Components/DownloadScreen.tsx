@@ -1,3 +1,4 @@
+import GoogleDriveService from "../API/GoogleDriveService";
 import { App } from "../Interfaces/App";
 import "./DownloadScreen.tsx.scss";
 
@@ -7,6 +8,21 @@ interface Props {
 }
 
 const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
+  let downloading = false;
+
+  const downloadFiles = () => {
+    if (downloading || !app) return;
+
+    const service = new GoogleDriveService();
+
+    service.downloadFile(app.download.fileId, {
+      fileName: app.name + ".zip",
+      onProgressCallback: () => {},
+    });
+
+    downloading = true;
+  };
+
   return (
     <div className="download-screen">
       <div className="wrapper">
@@ -24,7 +40,11 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
           <p className="relese-date">{app?.releseDate}</p>
 
           <div className="buttons">
-            <button className="download-button" title="Install">
+            <button
+              className="download-button"
+              title="Install"
+              onClick={downloadFiles}
+            >
               Install
               <img
                 src="icons/download.svg"
