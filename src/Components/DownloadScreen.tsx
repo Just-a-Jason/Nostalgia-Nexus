@@ -1,4 +1,5 @@
 import GoogleDriveService from "../API/GoogleDriveService";
+import { BASE_IMAGE_URL } from "../constants";
 import { App } from "../Interfaces/App";
 import "./DownloadScreen.tsx.scss";
 
@@ -27,7 +28,7 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
     <div className="download-screen">
       <div className="wrapper">
         <img
-          src={`icons/Apps/${app?.iconUrl}`}
+          src={`${BASE_IMAGE_URL}${app?.iconUrl}?raw=true`}
           alt="app download icon"
           className="app-icon"
           draggable={false}

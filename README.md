@@ -1,7 +1,8 @@
-# Tauri + React + Typescript
+# Nostalgia Nexus
 
-This template should help get you started developing with Tauri, React and Typescript in Vite.
+![image](https://github.com/user-attachments/assets/12355582-ca61-4f10-a3af-65c16ed2420f)
+![image](https://github.com/user-attachments/assets/ec72f320-a1ba-4fa7-a64e-ded52bfd7306)
 
-## Recommended IDE Setup
+App made with TypeScript, Tauri, React, Scss & Rust 💞
 
-- [VS Code](https://code.visualstudio.com/) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+It is a launcher for old games wich you can't play anymore... 😢
