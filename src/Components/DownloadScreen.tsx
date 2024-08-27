@@ -11,17 +11,17 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
     <div className="download-screen">
       <div className="wrapper">
         <img
-          src={`icons/Apps/${app?.IconName}`}
+          src={`icons/Apps/${app?.iconUrl}`}
           alt="app download icon"
           className="app-icon"
           draggable={false}
         />
         <div className="options">
-          <p className="file-size">{app?.Versions[0].FileSize}</p>
-          <h1>{app?.AppName}</h1>
+          <p className="file-size">{app?.download.fileSize}</p>
+          <h1>{app?.name}</h1>
 
-          <p>{app?.Description}</p>
-          <p className="relese-date">{app?.ReleseDate}</p>
+          <p>{app?.description}</p>
+          <p className="relese-date">{app?.releseDate}</p>
 
           <div className="buttons">
             <button className="download-button" title="Install">

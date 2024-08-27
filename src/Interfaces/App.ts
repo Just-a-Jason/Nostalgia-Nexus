@@ -1,13 +1,13 @@
 export interface App {
-  Description: string;
-  IconName: string;
-  AppName: string;
-  Versions: Version[];
-  ReleseDate: string;
+  description: string;
+  download: Download;
+  releseDate: string;
+  iconUrl: string;
+  name: string;
 }
 
-interface Version {
-  AppVersion: string;
-  FileSize: string;
-  FileID: string;
+interface Download {
+  fileSize: string;
+  version: string;
+  fileId: string;
 }

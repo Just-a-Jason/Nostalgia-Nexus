@@ -13,16 +13,12 @@ const cutContent = (text: string, maxChars: number) =>
 const AppItem = ({ app, inLibrary = false, showDownloadScreen }: Props) => {
   return (
     <div className="app-item" onClick={() => showDownloadScreen(app)}>
-      <h3>{cutContent(app.AppName, 25)}</h3>
-      <img
-        src={`icons/Apps/${app.IconName}`}
-        alt={app.AppName}
-        draggable="false"
-      />
+      <h3>{cutContent(app.name, 25)}</h3>
+      <img src={`icons/Apps/${app.iconUrl}`} alt={app.name} draggable="false" />
 
-      <p>{cutContent(app.Description, 150)}</p>
-      <p className="file-size">{app.Versions[0].FileSize}</p>
-      <p className="relese-date">{app.ReleseDate}</p>
+      <p>{cutContent(app.description, 150)}</p>
+      <p className="file-size">{app.download.fileSize}</p>
+      <p className="relese-date">{app.releseDate}</p>
 
       {inLibrary && (
         <div className="in-library">
