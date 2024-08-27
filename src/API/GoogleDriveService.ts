@@ -6,9 +6,11 @@ import { VIRUS_WARNING_REGEX } from "../constants";
 import { notification } from "@tauri-apps/api";
 import { listen } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api/tauri";
+import { DownloadPayload } from "../Interfaces/DownloadPayload";
+
 interface DownloadOptions {
   downloadingFinished: () => void;
-  onProgress?: (progress: number) => void;
+  onProgress?: (payload: DownloadPayload) => void;
   fileName: string;
   appName: string;
 }
@@ -84,7 +86,8 @@ export default class GoogleDriveService {
   private async downloadZip(downloadURL: string) {
     if (this.options && this.options.onProgress) {
       listen("download-progress", (event) => {
-        this.options?.onProgress!(event.payload as number);
+        this.options?.onProgress!(event.payload as DownloadPayload);
+        console.log(event);
       });
     }
 

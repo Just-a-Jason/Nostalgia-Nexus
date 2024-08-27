@@ -5,6 +5,7 @@ import { App } from "../Interfaces/App";
 import "./DownloadScreen.tsx.scss";
 import LazyImage from "./LazyImage";
 import DownloadProgressScreen from "./DownloadProgressScreen";
+import { DownloadPayload } from "../Interfaces/DownloadPayload";
 
 interface Props {
   hideDownloadScreen: () => void;
@@ -12,8 +13,11 @@ interface Props {
 }
 
 const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
+  const [payload, setPayload] = useState<undefined | DownloadPayload>(
+    undefined
+  );
+
   const [downloading, setDownloading] = useState(false);
-  const [progress, setProgress] = useState(0);
 
   const downloadFiles = async () => {
     if (downloading || !app) return;
@@ -24,7 +28,7 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
 
     await service.downloadFile(app.download.fileID, {
       downloadingFinished: () => setDownloading(false),
-      onProgress: (progress) => setProgress(progress),
+      onProgress: (payload) => setPayload(payload),
       fileName: app.name + ".zip",
       appName: app.name,
     });
@@ -32,7 +36,7 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
 
   return (
     <>
-      {downloading && <DownloadProgressScreen progress={progress} />}
+      {downloading && <DownloadProgressScreen payload={payload} />}
       <div className="download-screen" data-tauri-drag-region>
         <div className="wrapper">
           <LazyImage

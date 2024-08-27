@@ -45,6 +45,7 @@ $border: solid 2px #2e2b2b;
     }
   }
   h1 {
+    width: 400px;
     border: $border;
     justify-content: center;
     align-items: center;
@@ -54,5 +55,9 @@ $border: solid 2px #2e2b2b;
     padding: 10px;
     background: $bg-color;
     border-radius: 10px;
+  }
+  .statistic {
+    width: 400px;
+    text-align: center;
   }
 }

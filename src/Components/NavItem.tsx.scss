@@ -1,5 +1,5 @@
 .nav-item {
-  background-color: #141518;
+  background: linear-gradient(45deg, black, #1f2355);
   border-radius: 10px;
   transition: 200ms;
   text-align: center;
@@ -12,10 +12,10 @@
   align-items: center;
   display: flex;
   gap: 20px;
+  font-weight: bold;
 
   &:hover {
     transform: translateY(-10px);
-    background-color: #3b404e;
-    border-color: #141518;
+    border-color: #ffffff86;
   }
 }
