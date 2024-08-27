@@ -1,16 +1,16 @@
-import {
-  BinaryFileContents,
-  writeBinaryFile,
-  exists,
-} from "@tauri-apps/api/fs";
+import { exists } from "@tauri-apps/api/fs";
 import { appDataDir } from "@tauri-apps/api/path";
 import { getClient, ResponseType } from "@tauri-apps/api/http";
 import { createDir } from "@tauri-apps/api/fs";
 import { VIRUS_WARNING_REGEX } from "../constants";
-
+import { notification } from "@tauri-apps/api";
+import { listen } from "@tauri-apps/api/event";
+import { invoke } from "@tauri-apps/api/tauri";
 interface DownloadOptions {
   downloadingFinished: () => void;
+  onProgress?: (progress: number) => void;
   fileName: string;
+  appName: string;
 }
 
 export default class GoogleDriveService {
@@ -82,14 +82,25 @@ export default class GoogleDriveService {
   }
 
   private async downloadZip(downloadURL: string) {
-    const client = await getClient();
-    const response = await client.get(downloadURL, {
-      responseType: ResponseType.Binary,
-    });
-    const data = response.data;
+    if (this.options && this.options.onProgress) {
+      listen("download-progress", (event) => {
+        this.options?.onProgress!(event.payload as number);
+      });
+    }
 
-    await writeBinaryFile(this.savePath, data as BinaryFileContents);
-    console.log(`download finished! File at: ${this.savePath}`);
+    await invoke("download_file", {
+      url: downloadURL,
+      dest: this.savePath,
+    });
+
+    if (await notification.isPermissionGranted()) {
+      await notification.sendNotification({
+        title: "Nostalgia Nexus | App installed! ✨",
+        icon: "icons/icon.png",
+        body: `${this.options?.appName || ""} installed successfully! 💞`,
+        sound: "Alarm2",
+      });
+    }
 
     this.options?.downloadingFinished();
   }

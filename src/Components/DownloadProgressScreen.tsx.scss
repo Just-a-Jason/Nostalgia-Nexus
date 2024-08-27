@@ -1,0 +1,49 @@
+$bar-size: 50px;
+
+.download-progress-screen {
+  background: linear-gradient(45deg, #26465d, transparent);
+  border-radius: 10px;
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  z-index: 3;
+  inset: 0;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+
+  .progress-bar {
+    padding: 10px;
+    width: 400px;
+    height: 50px;
+    background-color: #141313;
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+
+    .progress-bar-fill {
+      background: linear-gradient(90deg, #37a4fe, #ffffff00);
+      border-radius: 10px;
+      height: 30px;
+      width: 10%;
+      inset: 0;
+    }
+
+    p {
+      position: absolute;
+      right: 10px;
+    }
+
+    h1 {
+      justify-content: center;
+      align-items: center;
+      display: flex;
+      gap: 10px;
+    }
+  }
+}

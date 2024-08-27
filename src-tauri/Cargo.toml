@@ -11,7 +11,8 @@ edition = "2021"
 tauri-build = { version = "1", features = [] }
 
 [dependencies]
-tauri = { version = "1", features = [ "notification-all",
+tauri = { version = "1", features = [
+    "notification-all",
     "path-all",
     "fs-all",
     "http-all",
@@ -25,6 +26,8 @@ tauri = { version = "1", features = [ "notification-all",
 ] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
+reqwest = { version = "0.11", features = ["blocking"] }
+tokio = { version = "1", features = ["full"] }
 
 
 [dependencies.tauri-plugin-sql]
