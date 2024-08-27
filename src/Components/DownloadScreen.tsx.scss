@@ -28,9 +28,20 @@
 
   position: absolute;
 
-  .app-icon {
+  .lazy-image {
+    width: 350px;
+    height: 350px;
+  }
+
+  .place-holder,
+  .lazy-img {
     border-radius: 10px;
     width: 350px;
+    height: 350px;
+  }
+
+  .lazy-img {
+    animation: fade 1s;
   }
 
   .wrapper {
@@ -48,6 +59,8 @@
     padding: 10px;
     width: 50%;
     gap: 10px;
+
+    height: 350px;
 
     .buttons {
       position: absolute;
