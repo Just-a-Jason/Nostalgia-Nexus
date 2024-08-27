@@ -5,7 +5,9 @@ import TitleBarButton from "./TitleBarButton";
 const TitleBar = () => {
   return (
     <section data-tauri-drag-region className="title-bar">
-      <p data-tauri-drag-region>Nostalgia Nexus</p>
+      <p data-tauri-drag-region>
+        Nostalgia Nexus <img src="icons/icon.svg" alt="" />
+      </p>
       <div data-tauri-drag-region className="buttons">
         <TitleBarButton
           onClick={() => app.minimize()}

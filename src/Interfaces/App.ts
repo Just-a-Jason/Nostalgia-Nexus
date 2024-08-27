@@ -9,5 +9,5 @@ export interface App {
 interface Download {
   fileSize: string;
   version: string;
-  fileId: string;
+  fileID: string;
 }

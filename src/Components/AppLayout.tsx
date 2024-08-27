@@ -24,6 +24,7 @@ const AppLayout = () => {
       {downloadScreen && (
         <DownloadScreen app={appData} hideDownloadScreen={hideDownloadScreen} />
       )}
+
       <Footer />
     </section>
   );

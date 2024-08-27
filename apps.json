@@ -200,5 +200,16 @@
       "version": "1.0.0",
       "fileID": "1xF4ggJ3yK44iQmmKjtTbHxDXf_nmGUQr"
     }
+  },
+  {
+    "name": "CubiQ",
+    "releseDate": "October 10, 2009",
+    "iconUrl": "cubiq.jpg",
+    "description": "Stara gra dodawana do zestawu CD razem z grą \"Sklepik Nemo\"",
+    "download": {
+      "fileSize": "30 MB",
+      "version": "1.0.0",
+      "fileID": "1KP3XJZ_2AfvLnZ-8H0_OKd-AadyNtnHL"
+    }
   }
 ]

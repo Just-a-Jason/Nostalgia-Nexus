@@ -2,6 +2,7 @@ import GoogleDriveService from "../API/GoogleDriveService";
 import { BASE_IMAGE_URL } from "../constants";
 import { App } from "../Interfaces/App";
 import "./DownloadScreen.tsx.scss";
+import LazyImage from "./LazyImage";
 
 interface Props {
   hideDownloadScreen: () => void;
@@ -16,7 +17,7 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
 
     const service = new GoogleDriveService();
 
-    service.downloadFile(app.download.fileId, {
+    service.downloadFile(app.download.fileID, {
       fileName: app.name + ".zip",
       onProgressCallback: () => {},
     });
@@ -27,12 +28,11 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
   return (
     <div className="download-screen">
       <div className="wrapper">
-        <img
+        <LazyImage
           src={`${BASE_IMAGE_URL}${app?.iconUrl}?raw=true`}
           alt="app download icon"
-          className="app-icon"
-          draggable={false}
         />
+
         <div className="options">
           <p className="file-size">{app?.download.fileSize}</p>
           <h1>{app?.name}</h1>

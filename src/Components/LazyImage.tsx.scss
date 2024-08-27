@@ -1,0 +1,25 @@
+@keyframes pulse {
+  0% {
+    filter: opacity(0);
+  }
+  50% {
+    filter: opacity(1);
+  }
+  100% {
+    filter: opacity(0);
+  }
+}
+
+.lazy-image {
+  position: relative;
+
+  .hidden {
+    display: none;
+  }
+
+  .place-holder {
+    animation: pulse 2s infinite;
+    position: absolute;
+    inset: 0;
+  }
+}

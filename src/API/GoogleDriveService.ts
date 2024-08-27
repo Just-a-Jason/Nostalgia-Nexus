@@ -20,6 +20,8 @@ export default class GoogleDriveService {
     const DOWNLOAD_URL = `https://drive.google.com/uc?id=${fileId}&export=download`;
     const BASE_PATH = (await appDataDir()) + "apps";
 
+    console.log(DOWNLOAD_URL);
+
     if (!(await exists(BASE_PATH))) {
       console.info(`Folder does not exist, creating... ${BASE_PATH}`);
       await createDir(BASE_PATH, { recursive: true });

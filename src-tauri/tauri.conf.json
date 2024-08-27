@@ -6,7 +6,7 @@
     "distDir": "../dist"
   },
   "package": {
-    "productName": "nostalgianexus",
+    "productName": "Nostalgia Nexus Launcher",
     "version": "0.1.0"
   },
   "tauri": {
@@ -64,7 +64,7 @@
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "com.nostalgianexus.app",
+      "identifier": "com.nostalgia-nexus.app",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
