@@ -33,7 +33,7 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
   return (
     <>
       {downloading && <DownloadProgressScreen progress={progress} />}
-      <div className="download-screen">
+      <div className="download-screen" data-tauri-drag-region>
         <div className="wrapper">
           <LazyImage
             src={`${BASE_IMAGE_URL}${app?.iconUrl}?raw=true`}

@@ -6,7 +6,7 @@ interface Props {
 
 const DownloadProgressScreen = ({ progress }: Props) => {
   return (
-    <section className="download-progress-screen">
+    <section data-tauri-drag-region className="download-progress-screen">
       <h1>
         Downloading files...
         <img src="icons/spinner.svg" alt="loading spinner" />
