@@ -17,7 +17,7 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
 
     const service = new GoogleDriveService();
 
-    service.downloadFile(app.download.fileId, {
+    service.downloadFile(app.download.fileID, {
       fileName: app.name + ".zip",
       onProgressCallback: () => {},
     });

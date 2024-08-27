@@ -1,7 +1,7 @@
 import { BASE_IMAGE_URL } from "../constants";
 import { App } from "../Interfaces/App";
-import "./AppItem.tsx.scss";
 import LazyImage from "./LazyImage";
+import "./AppItem.tsx.scss";
 
 interface Props {
   showDownloadScreen: (app: App) => void;
