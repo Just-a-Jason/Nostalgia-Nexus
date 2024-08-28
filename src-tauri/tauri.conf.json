@@ -14,6 +14,7 @@
       "all": false,
       "shell": {
         "all": false,
+        "execute": true,
         "open": true
       },
       "notification": {
@@ -47,7 +48,7 @@
         "removeFile": true,
         "renameFile": true,
         "exists": true,
-        "scope": ["$APPDATA/*", "$APPDATA/apps/**"]
+        "scope": ["$APPDATA/*", "$APPDATA/library/**"]
       }
     },
     "windows": [

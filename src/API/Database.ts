@@ -28,14 +28,7 @@ export const addGameToLibrary = async ({ app, basePath }: SaveAppOptions) => {
 
   const FULL_GAME_CODE = basePath + "//code.txt";
 
-  const inLibrary: boolean =
-    (
-      (await db.select("SELECT fileID FROM apps WHERE fileID = ?;", [
-        app.download.fileID,
-      ])) as any[]
-    ).length !== 0;
-
-  if (inLibrary) return;
+  if ((await inLibrary(app.download.fileID)).exists) return;
 
   await db.execute(
     "INSERT INTO apps(name, savePath, fileID, totalPlayTime) VALUES(?,?,?,?);",
@@ -49,12 +42,17 @@ export const addGameToLibrary = async ({ app, basePath }: SaveAppOptions) => {
       app.download.fileID,
     ]);
   }
+};
 
-  const res = await db.select("SELECT * FROM apps;");
+export const inLibrary = async (fileID: string) => {
+  const db = await setupDatabase();
 
-  console.log(res);
+  const savePath: Record<string, any> = await db.select(
+    "SELECT savePath FROM apps WHERE fileID = ?;",
+    [fileID]
+  );
 
-  await db.close();
+  return { exists: savePath.length !== 0, savePath: savePath[0]["savePath"] };
 };
 
 export default setupDatabase;

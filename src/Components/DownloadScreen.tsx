@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GoogleDriveService from "../API/GoogleDriveService";
 import { BASE_IMAGE_URL } from "../constants";
 import { App } from "../Interfaces/App";
@@ -6,6 +6,8 @@ import "./DownloadScreen.tsx.scss";
 import LazyImage from "./LazyImage";
 import DownloadProgressScreen from "./DownloadProgressScreen";
 import { DownloadPayload } from "../Interfaces/DownloadPayload";
+import { invoke } from "@tauri-apps/api";
+import { inLibrary } from "../API/Database";
 
 interface Props {
   hideDownloadScreen: () => void;
@@ -17,17 +19,50 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
     undefined
   );
 
+  useEffect(() => {
+    const inlib = async () => {
+      if (app) {
+        const res = await inLibrary(app?.download.fileID);
+        setInLibrary(res.exists);
+
+        if (res.exists) {
+          setExePath(res.savePath);
+        }
+      }
+    };
+
+    inlib();
+  }, []);
+
   const [downloading, setDownloading] = useState(false);
+  const [isInLibrary, setInLibrary] = useState(false);
+  const [exePath, setExePath] = useState("");
 
   const downloadFiles = async () => {
     if (downloading || !app) return;
 
-    const service = new GoogleDriveService(app);
+    if (isInLibrary) {
+      try {
+        await invoke("run_game", { dirPath: exePath });
+      } catch (error) {
+        console.error("Failed to start game:", error);
+      }
+      return;
+    }
+
+    const driveService = new GoogleDriveService(app);
 
     setDownloading(true);
 
-    await service.downloadFile(app.download.fileID, {
-      downloadingFinished: () => setDownloading(false),
+    await driveService.downloadFile(app.download.fileID, {
+      downloadingFinished: (path) => {
+        if (path) {
+          setExePath(path);
+          setDownloading(false);
+          setInLibrary(true);
+          return;
+        }
+      },
       onProgress: (payload) => setPayload(payload),
       fileName: app.name + ".zip",
       appName: app.name,
@@ -37,6 +72,7 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
   return (
     <>
       {downloading && <DownloadProgressScreen payload={payload} />}
+
       <div className="download-screen" data-tauri-drag-region>
         <div className="wrapper">
           <LazyImage
@@ -57,20 +93,29 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
                 title="Install!"
                 onClick={downloadFiles}
               >
-                {(!downloading && "Install") || "Instaling..."}
-                {(!downloading && (
+                {(isInLibrary && "Run game") ||
+                  (!downloading && "Install") ||
+                  "Instaling..."}
+                {(isInLibrary && (
                   <img
-                    src="icons/download.svg"
+                    src="icons/run game.svg"
                     alt="download icon"
                     draggable={false}
                   />
-                )) || (
-                  <img
-                    src="icons/spinner.svg"
-                    alt="download icon"
-                    draggable={false}
-                  />
-                )}
+                )) ||
+                  (!downloading && (
+                    <img
+                      src="icons/download.svg"
+                      alt="download icon"
+                      draggable={false}
+                    />
+                  )) || (
+                    <img
+                      src="icons/spinner.svg"
+                      alt="download icon"
+                      draggable={false}
+                    />
+                  )}
               </button>
               <button
                 className={`cancel-button ${(downloading && "disabled") || ""}`}

@@ -11,7 +11,7 @@ import { addGameToLibrary } from "./Database";
 import { App } from "../Interfaces/App";
 
 interface DownloadOptions {
-  downloadingFinished: () => void;
+  downloadingFinished: (path: string | null) => void;
   onProgress?: (payload: DownloadPayload) => void;
   fileName: string;
   appName: string;
@@ -29,10 +29,10 @@ export default class GoogleDriveService {
   ): Promise<void> {
     this.options = options;
     const DOWNLOAD_DRIVE_URL = `https://drive.google.com/uc?id=${fileId}&export=download`;
-    this.savePath = `${await appDataDir()}apps\\${options.fileName}`;
-    const BASE_PATH = (await appDataDir()) + "apps";
+    this.savePath = `${await appDataDir()}library\\${options.fileName}`;
+    const BASE_PATH = (await appDataDir()) + "library";
 
-    await this.createAppsFolder(BASE_PATH);
+    await this.createLibraryFolder(BASE_PATH);
     if (await exists(this.savePath)) return;
 
     await this.downloadAppFiles(DOWNLOAD_DRIVE_URL);
@@ -63,9 +63,8 @@ export default class GoogleDriveService {
     return VIRUS_WARNING_REGEX.test(data);
   }
 
-  private async createAppsFolder(path: string) {
+  private async createLibraryFolder(path: string) {
     if (!(await exists(path))) {
-      console.info(`Folder does not exist, creating... ${path}`);
       await createDir(path, { recursive: true });
     }
   }
@@ -115,6 +114,7 @@ export default class GoogleDriveService {
         body: `${this.options?.appName || ""} installed successfully! 💞`,
         sound: "Alarm2",
       });
+      this.options?.downloadingFinished(destPath);
     } catch (error) {
       console.error(error);
 
@@ -126,9 +126,9 @@ export default class GoogleDriveService {
         }. 😱`,
         sound: "Default",
       });
-    }
 
-    this.options?.downloadingFinished();
+      this.options?.downloadingFinished(null);
+    }
   }
 
   private async showNotif(data: notification.Options) {
