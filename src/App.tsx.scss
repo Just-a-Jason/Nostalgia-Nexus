@@ -23,7 +23,6 @@ body {
   overflow: hidden;
 }
 
-/* For WebKit browsers (Chrome, Safari) */
 ::-webkit-scrollbar {
   width: 12px;
 }
@@ -38,13 +37,14 @@ body {
   border: 3px solid #2c2c2c;
 }
 
-/* For Firefox */
 .scrollable-element {
   scrollbar-color: #555 #2c2c2c;
   scrollbar-width: thin;
 }
 
 #root {
+  border: 3px solid #474b4f;
+  border-radius: 10px;
   height: 100vh;
   width: 100vw;
 }

@@ -70,7 +70,6 @@ $border: solid 4px #ffffff34;
     height: 350px;
 
     .buttons {
-      filter: opacity(0.7);
       position: absolute;
       display: flex;
       bottom: 10px;
@@ -93,6 +92,7 @@ $border: solid 4px #ffffff34;
     }
 
     .download-button {
+      filter: opacity(0.5);
       background: linear-gradient(45deg, #15b746, #1f522e);
       justify-content: center;
       align-items: center;
@@ -110,6 +110,7 @@ $border: solid 4px #ffffff34;
 
       &:hover {
         transform: scale(1.1);
+        filter: opacity(1);
       }
     }
 
@@ -122,7 +123,7 @@ $border: solid 4px #ffffff34;
       }
 
       &.disabled {
-        filter: opacity(0.5);
+        filter: grayscale(1);
       }
     }
   }

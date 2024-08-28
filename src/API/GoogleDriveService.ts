@@ -87,7 +87,6 @@ export default class GoogleDriveService {
     if (this.options && this.options.onProgress) {
       listen("download-progress", (event) => {
         this.options?.onProgress!(event.payload as DownloadPayload);
-        console.log(event);
       });
     }
 
@@ -96,15 +95,34 @@ export default class GoogleDriveService {
       dest: this.savePath,
     });
 
-    if (await notification.isPermissionGranted()) {
-      await notification.sendNotification({
+    try {
+      const zipPath = this.savePath;
+      const destPath = this.savePath.replace(".zip", "").trim();
+
+      await invoke("unzip_file", { zipPath, destPath });
+
+      await this.showNotif({
         title: "Nostalgia Nexus | App installed! ✨",
         icon: "icons/icon.png",
         body: `${this.options?.appName || ""} installed successfully! 💞`,
         sound: "Alarm2",
       });
+    } catch {
+      await this.showNotif({
+        title: "Nostalgia Nexus | Something went wrong! ⚠️",
+        icon: "icons/icon.png",
+        body: `Something whent wrong when installing ${
+          this.options?.appName || ""
+        }. 😱`,
+        sound: "Default",
+      });
     }
 
     this.options?.downloadingFinished();
+  }
+
+  private async showNotif(data: notification.Options) {
+    if (!(await notification.isPermissionGranted())) return;
+    await notification.sendNotification(data);
   }
 }
