@@ -63,7 +63,7 @@ const DownloadProgressScreen = ({ payload }: Props) => {
       )}
       {payload?.operation === "Downloading files..." && (
         <p className="statistic">
-          Downloaded: {bytesToFileSize(payload?.downloaded) || "0 MB"} /
+          Downloaded: {bytesToFileSize(payload?.downloaded) || "0 MB"} /{" "}
           {bytesToFileSize(payload?.fileSize) || "0 MB"}
         </p>
       )}
