@@ -42,17 +42,21 @@ export const addGameToLibrary = async ({ app, basePath }: SaveAppOptions) => {
       app.download.fileID,
     ]);
   }
+
+  await db.close();
 };
 
 export const inLibrary = async (fileID: string) => {
   const db = await setupDatabase();
 
-  const savePath: Record<string, any> = await db.select(
+  const appData: Record<string, any> = await db.select(
     "SELECT savePath FROM apps WHERE fileID = ?;",
     [fileID]
   );
 
-  return { exists: savePath.length !== 0, savePath: savePath[0]["savePath"] };
+  const exists = appData.length !== 0;
+
+  return { exists: exists, savePath: exists ? appData[0]["savePath"] : "" };
 };
 
 export default setupDatabase;
