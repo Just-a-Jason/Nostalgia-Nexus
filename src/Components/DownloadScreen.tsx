@@ -22,7 +22,7 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
   const downloadFiles = async () => {
     if (downloading || !app) return;
 
-    const service = new GoogleDriveService();
+    const service = new GoogleDriveService(app);
 
     setDownloading(true);
 

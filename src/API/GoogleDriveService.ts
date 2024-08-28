@@ -7,6 +7,8 @@ import { notification } from "@tauri-apps/api";
 import { listen } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api/tauri";
 import { DownloadPayload } from "../Interfaces/DownloadPayload";
+import { addGameToLibrary } from "./Database";
+import { App } from "../Interfaces/App";
 
 interface DownloadOptions {
   downloadingFinished: () => void;
@@ -17,6 +19,7 @@ interface DownloadOptions {
 
 export default class GoogleDriveService {
   constructor(
+    private app: App,
     private savePath: string = "",
     private options: DownloadOptions | null = null
   ) {}
@@ -101,13 +104,20 @@ export default class GoogleDriveService {
 
       await invoke("unzip_file", { zipPath, destPath });
 
+      await addGameToLibrary({
+        basePath: destPath,
+        app: this.app,
+      });
+
       await this.showNotif({
         title: "Nostalgia Nexus | App installed! ✨",
         icon: "icons/icon.png",
         body: `${this.options?.appName || ""} installed successfully! 💞`,
         sound: "Alarm2",
       });
-    } catch {
+    } catch (error) {
+      console.error(error);
+
       await this.showNotif({
         title: "Nostalgia Nexus | Something went wrong! ⚠️",
         icon: "icons/icon.png",
