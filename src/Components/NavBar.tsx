@@ -8,10 +8,14 @@ const NavBar = () => {
       <TitleBar />
       <nav className="nav-bar">
         <ul>
-          <NavItem icon="icons/apps.svg" text="Apps" />
-          <NavItem icon="icons/games.svg" text="Games" />
-          <NavItem icon="icons/settings.svg" text="Settings" />
-          <NavItem icon="icons/library.svg" text="Library" />
+          <NavItem route="/apps" icon="icons/apps.svg" text="Apps" />
+          <NavItem route="/" icon="icons/games.svg" text="Games" />
+          <NavItem
+            route="/settings"
+            icon="icons/settings.svg"
+            text="Settings"
+          />
+          <NavItem route="/library" icon="icons/library.svg" text="Library" />
         </ul>
       </nav>
     </>

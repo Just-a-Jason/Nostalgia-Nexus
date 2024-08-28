@@ -7,8 +7,19 @@ export const BASE_IMAGE_URL =
 export const VIRUS_WARNING_REGEX =
   /<form[^>]*action="https:\/\/drive\.usercontent\.google\.com\/download"[^>]*>/;
 
-export const enum Category {
-  Simulators,
-  Fnaf,
-  AngryBirds,
-}
+const fileEndings = ["B", "KB", "MB", "GB", "TB"];
+
+export const bytesToFileSize = (fileSize: number | undefined) => {
+  if (fileSize === undefined) return;
+
+  let fileEnding = 0;
+
+  while (fileSize > 1024) {
+    fileSize /= 1024;
+    fileEnding++;
+  }
+
+  if (fileEnding > fileEndings.length) fileEnding = fileEndings.length - 1;
+
+  return `${fileSize.toFixed(0)} ${fileEndings[fileEnding]}`;
+};

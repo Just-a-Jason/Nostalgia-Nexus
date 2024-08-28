@@ -1,3 +1,4 @@
+import { bytesToFileSize } from "../constants";
 import { DownloadPayload } from "../Interfaces/DownloadPayload";
 import "./DownloadProgressScreen.tsx.scss";
 
@@ -5,23 +6,7 @@ interface Props {
   payload?: DownloadPayload;
 }
 
-const fileEndings = ["B", "KB", "MB", "GB", "TB"];
 const timeEndings = ["sec", "min", "h"];
-
-const bytesToFileSize = (fileSize: number | undefined) => {
-  if (fileSize === undefined) return;
-
-  let fileEnding = 0;
-
-  while (fileSize > 1024) {
-    fileSize /= 1024;
-    fileEnding++;
-  }
-
-  if (fileEnding > fileEndings.length) fileEnding = fileEndings.length - 1;
-
-  return `${fileSize.toFixed(0)} ${fileEndings[fileEnding]}`;
-};
 
 const secToTime = (time: number | undefined) => {
   if (time === undefined) return;
@@ -33,7 +18,7 @@ const secToTime = (time: number | undefined) => {
     fileEnding++;
   }
 
-  if (fileEnding > fileEndings.length) fileEnding = fileEndings.length - 1;
+  if (fileEnding > timeEndings.length) fileEnding = timeEndings.length - 1;
 
   return `${time.toFixed(0)} ${timeEndings[fileEnding]}`;
 };

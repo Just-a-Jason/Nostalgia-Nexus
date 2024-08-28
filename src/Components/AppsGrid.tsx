@@ -38,7 +38,6 @@ const AppsGrid = ({ showDownloadScreen }: Props) => {
           <AppItem
             app={app}
             key={index}
-            inLibrary={false}
             showDownloadScreen={showDownloadScreen}
           />
         ))

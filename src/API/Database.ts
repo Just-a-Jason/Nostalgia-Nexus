@@ -7,7 +7,7 @@ interface SaveAppOptions {
   app: App;
 }
 
-const setupDatabase = async () => {
+const loadDataBase = async () => {
   const db = await Database.load("sqlite:library.db");
 
   await db.execute(`
@@ -24,11 +24,14 @@ const setupDatabase = async () => {
 };
 
 export const addGameToLibrary = async ({ app, basePath }: SaveAppOptions) => {
-  const db = await setupDatabase();
+  const db = await loadDataBase();
 
   const FULL_GAME_CODE = basePath + "//code.txt";
 
-  if ((await inLibrary(app.download.fileID)).exists) return;
+  if ((await inLibrary(app.download.fileID)).exists) {
+    await db.close();
+    return;
+  }
 
   await db.execute(
     "INSERT INTO apps(name, savePath, fileID, totalPlayTime) VALUES(?,?,?,?);",
@@ -47,7 +50,7 @@ export const addGameToLibrary = async ({ app, basePath }: SaveAppOptions) => {
 };
 
 export const inLibrary = async (fileID: string) => {
-  const db = await setupDatabase();
+  const db = await loadDataBase();
 
   const appData: Record<string, any> = await db.select(
     "SELECT savePath FROM apps WHERE fileID = ?;",
@@ -59,4 +62,18 @@ export const inLibrary = async (fileID: string) => {
   return { exists: exists, savePath: exists ? appData[0]["savePath"] : "" };
 };
 
-export default setupDatabase;
+export const clearUninstalledGames = async () => {
+  const db = await loadDataBase();
+
+  const games: any[] = await db.select("SELECT fileID, savePath FROM apps;");
+
+  for (const game of games) {
+    if (!(await exists(game.savePath))) {
+      await db.execute("DELETE FROM apps WHERE fileID = ?;", [game.fileID]);
+    }
+  }
+
+  await db.close();
+};
+
+export default loadDataBase;

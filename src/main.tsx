@@ -1,9 +1,16 @@
 import ReactDOM from "react-dom/client";
 import React from "react";
 import App from "./App";
+import { clearUninstalledGames } from "./API/Database";
 
-ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
+const main = async () => {
+  await clearUninstalledGames();
+
+  ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
+  );
+};
+
+document.addEventListener("DOMContentLoaded", main);

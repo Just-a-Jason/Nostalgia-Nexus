@@ -1,13 +1,13 @@
+import { DownloadPayload } from "../Interfaces/DownloadPayload";
+import DownloadProgressScreen from "./DownloadProgressScreen";
 import { useEffect, useState } from "react";
 import GoogleDriveService from "../API/GoogleDriveService";
 import { BASE_IMAGE_URL } from "../constants";
+import { inLibrary } from "../API/Database";
+import { invoke } from "@tauri-apps/api";
 import { App } from "../Interfaces/App";
 import "./DownloadScreen.tsx.scss";
 import LazyImage from "./LazyImage";
-import DownloadProgressScreen from "./DownloadProgressScreen";
-import { DownloadPayload } from "../Interfaces/DownloadPayload";
-import { invoke } from "@tauri-apps/api";
-import { inLibrary } from "../API/Database";
 
 interface Props {
   hideDownloadScreen: () => void;
@@ -90,7 +90,7 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
             <div className="buttons">
               <button
                 className="download-button"
-                title="Install!"
+                title={(!isInLibrary && "Install!") || "Run game! ▶️"}
                 onClick={downloadFiles}
               >
                 {(isInLibrary && "Run game") ||
