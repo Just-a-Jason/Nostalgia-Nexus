@@ -26,6 +26,18 @@ export const initDataBase = async () => {
   await db.close();
 };
 
+export const getAllIds = async () => {
+  const db = await loadDataBase();
+
+  const res: string[] = (
+    (await db.select("SELECT fileID FROM apps;")) as string[]
+  ).map((obj: any) => obj.fileID);
+
+  await db.close();
+
+  return res as string[];
+};
+
 const loadDataBase = async () => {
   const db = await Database.load("sqlite:library.db");
 

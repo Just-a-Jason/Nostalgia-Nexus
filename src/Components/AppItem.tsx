@@ -8,24 +8,20 @@ import SvgIcon from "./SvgIcon";
 
 interface Props {
   showDownloadScreen: (app: App) => void;
+  appIds: string[];
   app: App;
 }
 
 const cutContent = (text: string, maxChars: number) =>
   (text.length > maxChars && text.substring(0, maxChars) + "...") || text;
 
-const AppItem = ({ app, showDownloadScreen }: Props) => {
+const AppItem = ({ app, showDownloadScreen, appIds }: Props) => {
   const [inLib, setInLib] = useState(false);
 
   app.setInLib = (inLib: boolean) => setInLib(inLib);
 
   useEffect(() => {
-    const init = async () => {
-      try {
-        setInLib((await inLibrary(app.download.fileID)).exists);
-      } catch {}
-    };
-    init();
+    setInLib(appIds.includes(app.download.fileID));
   }, []);
 
   return (

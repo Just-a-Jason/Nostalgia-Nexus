@@ -75,10 +75,18 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
 
       <div className="download-screen" data-tauri-drag-region>
         <div className="wrapper">
-          <LazyImage
-            src={`${BASE_IMAGE_URL}${app?.iconUrl}?raw=true`}
-            alt="app download icon"
-          />
+          <div className="app-img">
+            <LazyImage
+              src={`${BASE_IMAGE_URL}${app?.iconUrl}?raw=true`}
+              alt="app download icon"
+            />
+            {isInLibrary && (
+              <div className="in-library">
+                <h2>In library</h2>
+                <SvgIcon src="icons/in library.svg" alt="checkmark" />
+              </div>
+            )}
+          </div>
 
           <div className="options">
             <p className="file-size">{app?.download.fileSize}</p>
