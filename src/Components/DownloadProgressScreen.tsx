@@ -1,6 +1,7 @@
 import { bytesToFileSize } from "../constants";
 import { DownloadPayload } from "../Interfaces/DownloadPayload";
 import "./DownloadProgressScreen.tsx.scss";
+import SvgIcon from "./SvgIcon";
 
 interface Props {
   payload?: DownloadPayload;
@@ -28,7 +29,7 @@ const DownloadProgressScreen = ({ payload }: Props) => {
     <section data-tauri-drag-region className="download-progress-screen">
       <h1>
         {payload?.operation || "The download will start soon..."}
-        {payload && <img src="icons/spinner.svg" alt="loading spinner" />}
+        {payload && <SvgIcon src="icons/spinner.svg" alt="loading spinner" />}
       </h1>
       <div className="progress-bar">
         <p>{payload?.progress.toFixed(1) || "0"} %</p>

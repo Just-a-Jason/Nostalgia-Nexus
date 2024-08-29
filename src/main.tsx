@@ -1,10 +1,10 @@
 import ReactDOM from "react-dom/client";
 import React from "react";
 import App from "./App";
-import { clearUninstalledGames } from "./API/Database";
+import { initDataBase } from "./API/Database";
 
 const main = async () => {
-  await clearUninstalledGames();
+  await initDataBase();
 
   ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
     <React.StrictMode>
@@ -13,4 +13,4 @@ const main = async () => {
   );
 };
 
-document.addEventListener("DOMContentLoaded", main);
+document.addEventListener("DOMContentLoaded", await main);

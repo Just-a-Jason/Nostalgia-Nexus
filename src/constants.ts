@@ -23,3 +23,11 @@ export const bytesToFileSize = (fileSize: number | undefined) => {
 
   return `${fileSize.toFixed(0)} ${fileEndings[fileEnding]}`;
 };
+
+export const fileSizeToBytes = (fileSize: string) => {
+  const FILE_SIZE_POWER = 1024;
+  const data = fileSize.trim().split(" ");
+  const power = Math.pow(FILE_SIZE_POWER, fileEndings.indexOf(data[1]));
+
+  return parseFloat(data[0]) * power;
+};

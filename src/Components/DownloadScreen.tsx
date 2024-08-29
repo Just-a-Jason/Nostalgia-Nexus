@@ -8,6 +8,7 @@ import { invoke } from "@tauri-apps/api";
 import { App } from "../Interfaces/App";
 import "./DownloadScreen.tsx.scss";
 import LazyImage from "./LazyImage";
+import SvgIcon from "./SvgIcon";
 
 interface Props {
   hideDownloadScreen: () => void;
@@ -18,6 +19,9 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
   const [payload, setPayload] = useState<undefined | DownloadPayload>(
     undefined
   );
+  const [downloading, setDownloading] = useState(false);
+  const [isInLibrary, setInLibrary] = useState(false);
+  const [exePath, setExePath] = useState("");
 
   useEffect(() => {
     const inlib = async () => {
@@ -33,10 +37,6 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
 
     inlib();
   }, []);
-
-  const [downloading, setDownloading] = useState(false);
-  const [isInLibrary, setInLibrary] = useState(false);
-  const [exePath, setExePath] = useState("");
 
   const downloadFiles = async () => {
     if (downloading || !app) return;
@@ -96,26 +96,14 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
                 {(isInLibrary && "Run game") ||
                   (!downloading && "Install") ||
                   "Instaling..."}
-                {(isInLibrary && (
-                  <img
-                    src="icons/run game.svg"
-                    alt="download icon"
-                    draggable={false}
-                  />
-                )) ||
-                  (!downloading && (
-                    <img
-                      src="icons/download.svg"
-                      alt="download icon"
-                      draggable={false}
-                    />
-                  )) || (
-                    <img
-                      src="icons/spinner.svg"
-                      alt="download icon"
-                      draggable={false}
-                    />
-                  )}
+                <SvgIcon
+                  src={
+                    (isInLibrary && "icons/run game.svg") ||
+                    (!downloading && "icons/download.svg") ||
+                    "icons/spinner.svg"
+                  }
+                  alt="green button icon"
+                />
               </button>
               <button
                 className={`cancel-button ${(downloading && "disabled") || ""}`}

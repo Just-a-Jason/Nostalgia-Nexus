@@ -101,6 +101,14 @@ export default class GoogleDriveService {
       const zipPath = this.savePath;
       const destPath = this.savePath.replace(".zip", "").trim();
 
+      this.options?.onProgress!({
+        downloaded: 0,
+        fileSize: 0,
+        operation: "Unziping game files...",
+        progress: 0,
+        remainingTime: 0,
+      });
+
       await invoke("unzip_file", { zipPath, destPath });
 
       await addGameToLibrary({

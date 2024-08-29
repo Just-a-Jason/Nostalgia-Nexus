@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { App } from "../Interfaces/App";
 import LazyImage from "./LazyImage";
 import "./AppItem.tsx.scss";
+import SvgIcon from "./SvgIcon";
 
 interface Props {
   showDownloadScreen: (app: App) => void;
@@ -18,7 +19,9 @@ const AppItem = ({ app, showDownloadScreen }: Props) => {
 
   useEffect(() => {
     const init = async () => {
-      setInLib((await inLibrary(app.download.fileID)).exists);
+      try {
+        setInLib((await inLibrary(app.download.fileID)).exists);
+      } catch {}
     };
     init();
   }, []);
@@ -39,7 +42,7 @@ const AppItem = ({ app, showDownloadScreen }: Props) => {
       {inLib && (
         <div className="in-library">
           <h2>In library</h2>
-          <img src="icons/in library.svg" alt="in library icon" />
+          <SvgIcon src="icons/in library.svg" alt="in library icon" />
         </div>
       )}
     </div>
