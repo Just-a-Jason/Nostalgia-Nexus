@@ -1,0 +1,14 @@
+.route {
+  height: 100%;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  padding: 10px;
+}
+
+.settings {
+  background-color: #000;
+  flex-direction: column;
+  align-items: center;
+  display: flex;
+  gap: 10px;
+}

@@ -1,4 +1,7 @@
-type Operation = "Unziping game files..." | "Downloading files...";
+type Operation =
+  | "Unziping game files..."
+  | "Downloading files..."
+  | "Uninstalling game files...";
 
 export interface DownloadPayload {
   remainingTime: number;

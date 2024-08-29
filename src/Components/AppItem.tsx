@@ -1,18 +1,28 @@
 import { BASE_IMAGE_URL } from "../constants";
+import { useEffect, useState } from "react";
 import { App } from "../Interfaces/App";
 import LazyImage from "./LazyImage";
 import "./AppItem.tsx.scss";
+import SvgIcon from "./SvgIcon";
 
 interface Props {
   showDownloadScreen: (app: App) => void;
-  inLibrary: boolean;
+  appIds: string[];
   app: App;
 }
 
 const cutContent = (text: string, maxChars: number) =>
   (text.length > maxChars && text.substring(0, maxChars) + "...") || text;
 
-const AppItem = ({ app, inLibrary = false, showDownloadScreen }: Props) => {
+const AppItem = ({ app, showDownloadScreen, appIds }: Props) => {
+  const [inLib, setInLib] = useState(false);
+
+  app.setInLib = (inLib: boolean) => setInLib(inLib);
+
+  useEffect(() => {
+    setInLib(appIds.includes(app.download.fileID));
+  }, []);
+
   return (
     <div className="app-item" onClick={() => showDownloadScreen(app)}>
       <h3>{cutContent(app.name, 25)}</h3>
@@ -26,10 +36,10 @@ const AppItem = ({ app, inLibrary = false, showDownloadScreen }: Props) => {
       <p className="file-size">{app.download.fileSize}</p>
       <p className="relese-date">{app.releseDate}</p>
 
-      {inLibrary && (
+      {inLib && (
         <div className="in-library">
           <h2>In library</h2>
-          <img src="icons/in library.svg" alt="in library icon" />
+          <SvgIcon src="icons/in library.svg" alt="in library icon" />
         </div>
       )}
     </div>

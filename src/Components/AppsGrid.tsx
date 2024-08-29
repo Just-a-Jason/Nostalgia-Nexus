@@ -1,20 +1,22 @@
-import AnimatedBackground from "./AnimatedBackGround";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { APPS_URL } from "../constants";
 import { App } from "../Interfaces/App";
 import AppItem from "./AppItem";
 import "./AppsGrid.tsx.scss";
+import { getAllIds } from "../API/Database";
 
 interface Props {
   showDownloadScreen: (app: App) => void;
 }
 
 const AppsGrid = ({ showDownloadScreen }: Props) => {
+  const [libraryIds, setLibraryIds] = useState<string[]>([]);
   const [apps, setApps] = useState<App[]>([]);
 
   const fetchApps = async () => {
     try {
+      setLibraryIds(await getAllIds());
       const response = await axios.get(APPS_URL, { responseType: "json" });
       if (response.status === 200) {
         setApps(response.data);
@@ -30,7 +32,6 @@ const AppsGrid = ({ showDownloadScreen }: Props) => {
 
   return (
     <section className="apps-grid">
-      <AnimatedBackground />
       {apps.length === 0 ? (
         <h1>Loading apps...</h1>
       ) : (
@@ -38,7 +39,7 @@ const AppsGrid = ({ showDownloadScreen }: Props) => {
           <AppItem
             app={app}
             key={index}
-            inLibrary={false}
+            appIds={libraryIds}
             showDownloadScreen={showDownloadScreen}
           />
         ))

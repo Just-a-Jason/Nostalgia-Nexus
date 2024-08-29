@@ -1,10 +1,13 @@
 import DownloadScreen from "./DownloadScreen";
 import { App } from "../Interfaces/App";
-import AppsGrid from "./AppsGrid";
+import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import { useState } from "react";
 import "./AppLayout.tsx.scss";
 import Footer from "./Footer";
 import NavBar from "./NavBar";
+import AppsGrid from "./AppsGrid";
+import Settings from "./Routes/Settings";
+import AnimatedBackground from "./AnimatedBackGround";
 
 const AppLayout = () => {
   const [downloadScreen, setDownloadScreen] = useState(false);
@@ -18,15 +21,31 @@ const AppLayout = () => {
   const hideDownloadScreen = () => setDownloadScreen(false);
 
   return (
-    <section className="app-layout">
-      <NavBar />
-      <AppsGrid showDownloadScreen={showDownloadScreen} />
-      {downloadScreen && (
-        <DownloadScreen app={appData} hideDownloadScreen={hideDownloadScreen} />
-      )}
+    <Router>
+      <section className="app-layout">
+        <NavBar />
 
-      <Footer />
-    </section>
+        <div className="app-router">
+          <AnimatedBackground />
+          <Routes>
+            <Route
+              path="/"
+              element={<AppsGrid showDownloadScreen={showDownloadScreen} />}
+            />
+            <Route path="/settings" element={<Settings />} />
+          </Routes>
+        </div>
+
+        {downloadScreen && (
+          <DownloadScreen
+            app={appData}
+            hideDownloadScreen={hideDownloadScreen}
+          />
+        )}
+
+        <Footer />
+      </section>
+    </Router>
   );
 };
 

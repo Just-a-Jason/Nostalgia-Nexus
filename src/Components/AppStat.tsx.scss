@@ -1,0 +1,39 @@
+@keyframes scale-up {
+  from {
+    transform: scale(0);
+  }
+  to {
+    transform: scale(1);
+  }
+}
+
+.app-stat {
+  animation: pop 500ms;
+  width: 95%;
+  color: #fff;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  padding: 10px;
+  background: linear-gradient(45deg, #000, #0b1437);
+  border-radius: 10px;
+  border: solid 2px #ffffff96;
+  opacity: 0.7;
+
+  h3,
+  .wrapper {
+    width: 50%;
+  }
+
+  .wrapper {
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 10px;
+    display: flex;
+    gap: 10px;
+
+    img {
+      width: 40px;
+    }
+  }
+}

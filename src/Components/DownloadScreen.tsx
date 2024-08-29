@@ -1,13 +1,14 @@
+import { DownloadPayload } from "../Interfaces/DownloadPayload";
+import DownloadProgressScreen from "./DownloadProgressScreen";
 import { useEffect, useState } from "react";
 import GoogleDriveService from "../API/GoogleDriveService";
 import { BASE_IMAGE_URL } from "../constants";
+import { inLibrary, removeAppFromDataBase } from "../API/Database";
+import { invoke } from "@tauri-apps/api";
 import { App } from "../Interfaces/App";
 import "./DownloadScreen.tsx.scss";
 import LazyImage from "./LazyImage";
-import DownloadProgressScreen from "./DownloadProgressScreen";
-import { DownloadPayload } from "../Interfaces/DownloadPayload";
-import { invoke } from "@tauri-apps/api";
-import { inLibrary } from "../API/Database";
+import SvgIcon from "./SvgIcon";
 
 interface Props {
   hideDownloadScreen: () => void;
@@ -18,6 +19,32 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
   const [payload, setPayload] = useState<undefined | DownloadPayload>(
     undefined
   );
+  const [isInLibrary, setInLibrary] = useState(false);
+  const [filesPath, setFilesPath] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  const unInstallGame = async () => {
+    try {
+      setPayload({
+        downloaded: 0,
+        fileSize: 0,
+        operation: "Uninstalling game files...",
+        progress: 0,
+        remainingTime: 0,
+      });
+
+      await invoke("remove_file", { path: filesPath });
+      setBusy(true);
+
+      if (app) await removeAppFromDataBase(app.download.fileID);
+
+      setInLibrary(false);
+      app?.setInLib?.(false);
+    } catch (error) {
+      console.error(error);
+    }
+    setBusy(false);
+  };
 
   useEffect(() => {
     const inlib = async () => {
@@ -26,7 +53,7 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
         setInLibrary(res.exists);
 
         if (res.exists) {
-          setExePath(res.savePath);
+          setFilesPath(res.savePath);
         }
       }
     };
@@ -34,16 +61,12 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
     inlib();
   }, []);
 
-  const [downloading, setDownloading] = useState(false);
-  const [isInLibrary, setInLibrary] = useState(false);
-  const [exePath, setExePath] = useState("");
-
   const downloadFiles = async () => {
-    if (downloading || !app) return;
+    if (busy || !app) return;
 
     if (isInLibrary) {
       try {
-        await invoke("run_game", { dirPath: exePath });
+        await invoke("run_game", { dirPath: filesPath });
       } catch (error) {
         console.error("Failed to start game:", error);
       }
@@ -52,13 +75,13 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
 
     const driveService = new GoogleDriveService(app);
 
-    setDownloading(true);
+    setBusy(true);
 
     await driveService.downloadFile(app.download.fileID, {
       downloadingFinished: (path) => {
         if (path) {
-          setExePath(path);
-          setDownloading(false);
+          setFilesPath(path);
+          setBusy(false);
           setInLibrary(true);
           return;
         }
@@ -71,64 +94,73 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
 
   return (
     <>
-      {downloading && <DownloadProgressScreen payload={payload} />}
+      {busy && <DownloadProgressScreen payload={payload} />}
 
       <div className="download-screen" data-tauri-drag-region>
         <div className="wrapper">
-          <LazyImage
-            src={`${BASE_IMAGE_URL}${app?.iconUrl}?raw=true`}
-            alt="app download icon"
-          />
+          <div className="app-img">
+            <LazyImage
+              src={`${BASE_IMAGE_URL}${app?.iconUrl}?raw=true`}
+              alt="app download icon"
+            />
+            {isInLibrary && (
+              <div className="in-library">
+                <SvgIcon src="icons/in library.svg" alt="checkmark" />
+              </div>
+            )}
+          </div>
 
           <div className="options">
-            <p className="file-size">{app?.download.fileSize}</p>
+            <div className="meta-data">
+              <p className="file-size">{app?.download.fileSize} (Zipped)</p>
+              <p className="relese-date">{app?.releseDate}</p>
+            </div>
+
             <h1>{app?.name}</h1>
 
-            <p>{app?.description}</p>
-            <p className="relese-date">{app?.releseDate}</p>
+            <p className="description">{app?.description}</p>
 
             <div className="buttons">
               <button
-                className="download-button"
-                title="Install!"
+                className="green-button"
+                title={(!isInLibrary && "Install!") || "Run game! ▶️"}
                 onClick={downloadFiles}
               >
                 {(isInLibrary && "Run game") ||
-                  (!downloading && "Install") ||
+                  (!busy && "Install") ||
                   "Instaling..."}
-                {(isInLibrary && (
+                <SvgIcon
+                  src={
+                    (isInLibrary && "icons/run game.svg") ||
+                    (!busy && "icons/download.svg") ||
+                    "icons/spinner.svg"
+                  }
+                  alt="green button icon"
+                />
+              </button>
+              {isInLibrary && (
+                <button
+                  className={`red-button ${(busy && "disabled") || ""}`}
+                  onClick={unInstallGame}
+                  title="Uninstall 🗑️"
+                  disabled={busy}
+                >
+                  Uninstall
                   <img
-                    src="icons/run game.svg"
-                    alt="download icon"
+                    src="icons/uninstall.svg"
+                    alt="uninstall icon"
                     draggable={false}
                   />
-                )) ||
-                  (!downloading && (
-                    <img
-                      src="icons/download.svg"
-                      alt="download icon"
-                      draggable={false}
-                    />
-                  )) || (
-                    <img
-                      src="icons/spinner.svg"
-                      alt="download icon"
-                      draggable={false}
-                    />
-                  )}
-              </button>
+                </button>
+              )}
               <button
-                className={`cancel-button ${(downloading && "disabled") || ""}`}
+                className={`orange-button ${(busy && "disabled") || ""}`}
                 onClick={hideDownloadScreen}
-                title="Cancel"
-                disabled={downloading}
+                title="Close ❌"
+                disabled={busy}
               >
-                Cancel
-                <img
-                  src="icons/close.svg"
-                  alt="download icon"
-                  draggable={false}
-                />
+                Close
+                <img src="icons/close.svg" alt="close icon" draggable={false} />
               </button>
             </div>
           </div>

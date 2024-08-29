@@ -1,14 +1,15 @@
 import Database from "tauri-plugin-sql-api";
 import { exists, readTextFile } from "@tauri-apps/api/fs";
 import { App } from "../Interfaces/App";
+import { fileSizeToBytes } from "../constants";
 
 interface SaveAppOptions {
   basePath: string;
   app: App;
 }
 
-const setupDatabase = async () => {
-  const db = await Database.load("sqlite:library.db");
+export const initDataBase = async () => {
+  const db = await loadDataBase();
 
   await db.execute(`
       CREATE TABLE IF NOT EXISTS apps(
@@ -16,23 +17,58 @@ const setupDatabase = async () => {
           savePath string NOT NULL,
           fullGameCode string,
           fileID string NOT NULL,
+          fileSize long NOT NULL,
           lastPlayed string,
-          totalPlayTime INTEGER NOT NULL
-      )`);
+          totalPlayTime INTEGER NOT NULL,
+          iconUrl string NOT NULL );`);
+
+  await clearUninstalledGames();
+  await db.close();
+};
+
+export const getAllIds = async () => {
+  const db = await loadDataBase();
+
+  const res: string[] = (
+    (await db.select("SELECT fileID FROM apps;")) as string[]
+  ).map((obj: any) => obj.fileID);
+
+  await db.close();
+
+  return res as string[];
+};
+
+export const removeAppFromDataBase = async (fileID: string) => {
+  const db = await loadDataBase();
+
+  await db.execute("DELETE FROM apps WHERE fileID = ?;", [fileID]);
+
+  await db.close();
+};
+
+const loadDataBase = async () => {
+  const db = await Database.load("sqlite:library.db");
 
   return db;
 };
 
 export const addGameToLibrary = async ({ app, basePath }: SaveAppOptions) => {
-  const db = await setupDatabase();
-
   const FULL_GAME_CODE = basePath + "//code.txt";
 
   if ((await inLibrary(app.download.fileID)).exists) return;
 
+  const db = await loadDataBase();
+
   await db.execute(
-    "INSERT INTO apps(name, savePath, fileID, totalPlayTime) VALUES(?,?,?,?);",
-    [app.name, basePath, app.download.fileID, 0]
+    "INSERT INTO apps(name, savePath, fileID, totalPlayTime, fileSize,iconUrl) VALUES(?,?,?,?,?,?);",
+    [
+      app.name,
+      basePath,
+      app.download.fileID,
+      0,
+      fileSizeToBytes(app.download.fileSize),
+      app.iconUrl,
+    ]
   );
 
   if (await exists(FULL_GAME_CODE)) {
@@ -47,7 +83,7 @@ export const addGameToLibrary = async ({ app, basePath }: SaveAppOptions) => {
 };
 
 export const inLibrary = async (fileID: string) => {
-  const db = await setupDatabase();
+  const db = await loadDataBase();
 
   const appData: Record<string, any> = await db.select(
     "SELECT savePath FROM apps WHERE fileID = ?;",
@@ -56,7 +92,32 @@ export const inLibrary = async (fileID: string) => {
 
   const exists = appData.length !== 0;
 
+  await db.close();
+
   return { exists: exists, savePath: exists ? appData[0]["savePath"] : "" };
 };
 
-export default setupDatabase;
+const clearUninstalledGames = async () => {
+  const db = await loadDataBase();
+
+  const games: any[] = await db.select("SELECT fileID, savePath FROM apps;");
+
+  for (const game of games) {
+    if (!(await exists(game.savePath))) {
+      await db.execute("DELETE FROM apps WHERE fileID = ?;", [game.fileID]);
+    }
+  }
+
+  await db.close();
+};
+
+export const totalInstalledSize = async () => {
+  const db = await loadDataBase();
+
+  const sizes = await db.select("SELECT SUM(fileSize) as totalSize FROM apps;");
+
+  await db.close();
+  return sizes;
+};
+
+export default loadDataBase;
