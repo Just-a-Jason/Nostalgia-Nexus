@@ -1,4 +1,4 @@
-import { exists } from "@tauri-apps/api/fs";
+import { exists, readTextFile } from "@tauri-apps/api/fs";
 import { appDataDir } from "@tauri-apps/api/path";
 import { getClient, ResponseType } from "@tauri-apps/api/http";
 import { createDir } from "@tauri-apps/api/fs";
@@ -116,6 +116,8 @@ export default class GoogleDriveService {
         app: this.app,
       });
 
+      await this.checkRequirements(destPath);
+
       await this.showNotif({
         title: "Nostalgia Nexus | App installed! ✨",
         icon: "icons/icon.png",
@@ -123,6 +125,7 @@ export default class GoogleDriveService {
         sound: "Alarm2",
       });
       this.options?.downloadingFinished(destPath);
+      this.app.setInLib?.(true);
     } catch (error) {
       console.error(error);
 
@@ -142,5 +145,13 @@ export default class GoogleDriveService {
   private async showNotif(data: notification.Options) {
     if (!(await notification.isPermissionGranted())) return;
     await notification.sendNotification(data);
+  }
+
+  private async checkRequirements(destPath: string) {
+    const REQUIREMENTS_PATH = destPath + "\\requirements.json";
+    console.log(REQUIREMENTS_PATH);
+    if (!(await exists(REQUIREMENTS_PATH))) return;
+
+    const requirements = JSON.parse(await readTextFile(REQUIREMENTS_PATH));
   }
 }

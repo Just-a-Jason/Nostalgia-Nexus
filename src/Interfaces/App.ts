@@ -4,6 +4,8 @@ export interface App {
   releseDate: string;
   iconUrl: string;
   name: string;
+
+  setInLib?: (inLib: boolean) => void;
 }
 
 interface Download {

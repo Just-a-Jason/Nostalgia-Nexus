@@ -17,6 +17,8 @@ const cutContent = (text: string, maxChars: number) =>
 const AppItem = ({ app, showDownloadScreen }: Props) => {
   const [inLib, setInLib] = useState(false);
 
+  app.setInLib = (inLib: boolean) => setInLib(inLib);
+
   useEffect(() => {
     const init = async () => {
       try {

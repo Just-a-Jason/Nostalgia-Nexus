@@ -28,7 +28,7 @@ const Settings = () => {
       <AppStat
         title="Installed apps size"
         icon="icons/disk.svg"
-        content={bytesToFileSize(totalAppsSize)!}
+        content={bytesToFileSize(totalAppsSize, 2)!}
       />
     </div>
   );

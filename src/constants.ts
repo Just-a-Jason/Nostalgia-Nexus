@@ -9,7 +9,10 @@ export const VIRUS_WARNING_REGEX =
 
 const fileEndings = ["B", "KB", "MB", "GB", "TB"];
 
-export const bytesToFileSize = (fileSize: number | undefined) => {
+export const bytesToFileSize = (
+  fileSize: number | undefined,
+  decimals: number = 0
+) => {
   if (fileSize === undefined) return;
 
   let fileEnding = 0;
@@ -21,7 +24,7 @@ export const bytesToFileSize = (fileSize: number | undefined) => {
 
   if (fileEnding > fileEndings.length) fileEnding = fileEndings.length - 1;
 
-  return `${fileSize.toFixed(0)} ${fileEndings[fileEnding]}`;
+  return `${fileSize.toFixed(decimals)} ${fileEndings[fileEnding]}`;
 };
 
 export const fileSizeToBytes = (fileSize: string) => {
