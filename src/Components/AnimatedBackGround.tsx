@@ -1,6 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 
-const AnimatedBackground: React.FC = () => {
+const AnimatedBackground = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   useEffect(() => {
@@ -14,7 +14,7 @@ const AnimatedBackground: React.FC = () => {
     canvas.height = window.innerHeight;
 
     const particlesArray: Particle[] = [];
-    const numberOfParticles = 50;
+    const numberOfParticles = 80;
     const maxDistance = 100;
 
     class Particle {
@@ -119,7 +119,11 @@ const AnimatedBackground: React.FC = () => {
     };
   }, []);
 
-  return <canvas ref={canvasRef} />;
+  return (
+    <div className="canvas-wrapper">
+      <canvas ref={canvasRef} />
+    </div>
+  );
 };
 
 export default AnimatedBackground;

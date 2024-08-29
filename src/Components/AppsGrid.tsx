@@ -30,7 +30,6 @@ const AppsGrid = ({ showDownloadScreen }: Props) => {
 
   return (
     <section className="apps-grid">
-      <AnimatedBackground />
       {apps.length === 0 ? (
         <h1>Loading apps...</h1>
       ) : (

@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import "./NavItem.tsx.scss";
+import SvgIcon from "./SvgIcon";
 
 interface Props {
   route: string;
@@ -14,7 +15,7 @@ const NavItem = ({ icon, text, route }: Props) => {
   return (
     <li className="nav-item" title={text} onClick={onClick}>
       {text}
-      <img src={icon} alt="navigation menu icon" />
+      <SvgIcon src={icon} alt="navigation menu icon" />
     </li>
   );
 };

@@ -7,6 +7,7 @@ import Footer from "./Footer";
 import NavBar from "./NavBar";
 import AppsGrid from "./AppsGrid";
 import Settings from "./Routes/Settings";
+import AnimatedBackground from "./AnimatedBackGround";
 
 const AppLayout = () => {
   const [downloadScreen, setDownloadScreen] = useState(false);
@@ -25,6 +26,7 @@ const AppLayout = () => {
         <NavBar />
 
         <div className="app-router">
+          <AnimatedBackground />
           <Routes>
             <Route
               path="/"

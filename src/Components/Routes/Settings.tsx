@@ -10,7 +10,7 @@ const Settings = () => {
   const fetchFileSize = async () => {
     const sizes: any[] = (await totalInstalledSize()) as any[];
 
-    if (sizes.length === 0) return;
+    if (sizes.length === 0 || sizes[0]["totalSize"] === null) return;
 
     setTotalAppsSize(sizes[0]["totalSize"]);
   };

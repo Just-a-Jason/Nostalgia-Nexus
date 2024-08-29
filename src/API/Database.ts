@@ -19,7 +19,8 @@ export const initDataBase = async () => {
           fileID string NOT NULL,
           fileSize long NOT NULL,
           lastPlayed string,
-          totalPlayTime INTEGER NOT NULL
+          totalPlayTime INTEGER NOT NULL,
+          iconUrl string NOT NULL,
       )`);
 
   await clearUninstalledGames();
@@ -40,13 +41,14 @@ export const addGameToLibrary = async ({ app, basePath }: SaveAppOptions) => {
   const db = await loadDataBase();
 
   await db.execute(
-    "INSERT INTO apps(name, savePath, fileID, totalPlayTime, fileSize) VALUES(?,?,?,?,?);",
+    "INSERT INTO apps(name, savePath, fileID, totalPlayTime, fileSize,iconName) VALUES(?,?,?,?,?,?);",
     [
       app.name,
       basePath,
       app.download.fileID,
       0,
       fileSizeToBytes(app.download.fileSize),
+      app.iconUrl,
     ]
   );
 
@@ -94,7 +96,6 @@ export const totalInstalledSize = async () => {
   const db = await loadDataBase();
 
   const sizes = await db.select("SELECT SUM(fileSize) as totalSize FROM apps;");
-  console.log(sizes);
 
   await db.close();
   return sizes;
