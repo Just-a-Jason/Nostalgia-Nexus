@@ -1,4 +1,3 @@
-import AnimatedBackground from "./AnimatedBackGround";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { APPS_URL } from "../constants";

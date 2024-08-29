@@ -20,8 +20,7 @@ export const initDataBase = async () => {
           fileSize long NOT NULL,
           lastPlayed string,
           totalPlayTime INTEGER NOT NULL,
-          iconUrl string NOT NULL,
-      )`);
+          iconUrl string NOT NULL );`);
 
   await clearUninstalledGames();
   await db.close();
@@ -41,7 +40,7 @@ export const addGameToLibrary = async ({ app, basePath }: SaveAppOptions) => {
   const db = await loadDataBase();
 
   await db.execute(
-    "INSERT INTO apps(name, savePath, fileID, totalPlayTime, fileSize,iconName) VALUES(?,?,?,?,?,?);",
+    "INSERT INTO apps(name, savePath, fileID, totalPlayTime, fileSize,iconUrl) VALUES(?,?,?,?,?,?);",
     [
       app.name,
       basePath,

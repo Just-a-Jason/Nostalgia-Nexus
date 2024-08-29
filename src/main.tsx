@@ -13,4 +13,4 @@ const main = async () => {
   );
 };
 
-document.addEventListener("DOMContentLoaded", await main);
+document.addEventListener("DOMContentLoaded", main);
