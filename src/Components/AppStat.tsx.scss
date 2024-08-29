@@ -28,11 +28,12 @@
   .wrapper {
     justify-content: flex-end;
     align-items: center;
+    padding-right: 10px;
     display: flex;
     gap: 10px;
+
     img {
       width: 40px;
     }
-    padding-right: 10px;
   }
 }

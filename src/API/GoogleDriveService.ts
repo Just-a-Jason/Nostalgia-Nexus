@@ -153,5 +153,6 @@ export default class GoogleDriveService {
     if (!(await exists(REQUIREMENTS_PATH))) return;
 
     const requirements = JSON.parse(await readTextFile(REQUIREMENTS_PATH));
+    console.log(requirements);
   }
 }
