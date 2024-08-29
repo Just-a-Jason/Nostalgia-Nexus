@@ -38,6 +38,14 @@ export const getAllIds = async () => {
   return res as string[];
 };
 
+export const removeAppFromDataBase = async (fileID: string) => {
+  const db = await loadDataBase();
+
+  await db.execute("DELETE FROM apps WHERE fileID = ?;", [fileID]);
+
+  await db.close();
+};
+
 const loadDataBase = async () => {
   const db = await Database.load("sqlite:library.db");
 

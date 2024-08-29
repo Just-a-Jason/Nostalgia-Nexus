@@ -15,9 +15,17 @@ $border: solid 2px #2e2b2b;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  gap: 10px;
   filter: opacity(0.8);
+
+  .content {
+    animation: pop-up 700ms;
+    justify-content: center;
+    flex-direction: column;
+    pointer-events: none;
+    align-items: center;
+    display: flex;
+    gap: 10px;
+  }
 
   .progress-bar {
     border: $border;
