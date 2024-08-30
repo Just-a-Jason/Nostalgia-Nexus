@@ -1,3 +1,5 @@
+import { notification } from "@tauri-apps/api";
+
 export const APPS_URL =
   "https://raw.githubusercontent.com/Just-a-Jason/Nostalgia-Nexus/main/apps.json";
 
@@ -33,4 +35,9 @@ export const fileSizeToBytes = (fileSize: string) => {
   const power = Math.pow(FILE_SIZE_POWER, fileEndings.indexOf(data[1]));
 
   return parseFloat(data[0]) * power;
+};
+
+export const showNotif = async (data: notification.Options) => {
+  if (!(await notification.isPermissionGranted())) return;
+  await notification.sendNotification(data);
 };

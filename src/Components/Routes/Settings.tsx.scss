@@ -1,6 +1,6 @@
 .route {
   height: 100%;
-  overflow-y: hidden;
+  overflow-y: scroll;
   overflow-x: hidden;
   padding: 10px;
 }
@@ -11,4 +11,17 @@
   align-items: center;
   display: flex;
   gap: 10px;
+
+  h1 {
+    animation: pop 500ms;
+    align-items: center;
+    display: flex;
+    color: #fff;
+    opacity: 0.5;
+    width: 95%;
+    gap: 20px;
+    img {
+      width: 25px;
+    }
+  }
 }

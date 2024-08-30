@@ -2,9 +2,9 @@ import { DownloadPayload } from "../Interfaces/DownloadPayload";
 import DownloadProgressScreen from "./DownloadProgressScreen";
 import { useEffect, useState } from "react";
 import GoogleDriveService from "../API/GoogleDriveService";
-import { BASE_IMAGE_URL } from "../constants";
+import { BASE_IMAGE_URL, showNotif } from "../constants";
 import { inLibrary, removeAppFromDataBase } from "../API/Database";
-import { invoke } from "@tauri-apps/api";
+import { invoke, notification } from "@tauri-apps/api";
 import { App } from "../Interfaces/App";
 import "./DownloadScreen.tsx.scss";
 import LazyImage from "./LazyImage";
@@ -38,10 +38,23 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
 
       if (app) await removeAppFromDataBase(app.download.fileID);
 
+      await showNotif({
+        title: "Nostalgia Nexus | App Uninstalled 🗑️",
+        body: `${app?.name} uninstalled successfully! ✨💞`,
+        icon: "icons/icons.png",
+        sound: "Alarm2",
+      });
+
       setInLibrary(false);
       app?.setInLib?.(false);
     } catch (error) {
       console.error(error);
+      await showNotif({
+        title: "Nostalgia Nexus | Something Went Wrong 🫠",
+        body: `Somethink went wrong while uninstalling ${app?.name} 😵`,
+        icon: "icons/icons.png",
+        sound: "Default",
+      });
     }
     setBusy(false);
   };
