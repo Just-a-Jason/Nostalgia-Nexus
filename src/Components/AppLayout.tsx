@@ -8,15 +8,21 @@ import NavBar from "./NavBar";
 import AppsGrid from "./AppsGrid";
 import Settings from "./Routes/Settings";
 import AnimatedBackground from "./AnimatedBackGround";
+import LocalStorage from "../API/LocalStorage";
 
 const AppLayout = () => {
-  const [downloadScreen, setDownloadScreen] = useState(false);
   const [appData, setAppData] = useState<App | undefined>(undefined);
+  const [animated, setAnimated] = useState(
+    LocalStorage.tryGet(true, "animated-background")
+  );
+  const [downloadScreen, setDownloadScreen] = useState(false);
 
   const showDownloadScreen = (app: App) => {
     setDownloadScreen(true);
     setAppData(app);
   };
+
+  const setAnimatedBackGround = (on: boolean) => setAnimated(on);
 
   const hideDownloadScreen = () => setDownloadScreen(false);
 
@@ -26,13 +32,18 @@ const AppLayout = () => {
         <NavBar />
 
         <div className="app-router">
-          <AnimatedBackground />
+          {animated && <AnimatedBackground />}
           <Routes>
             <Route
               path="/"
               element={<AppsGrid showDownloadScreen={showDownloadScreen} />}
             />
-            <Route path="/settings" element={<Settings />} />
+            <Route
+              path="/settings"
+              element={
+                <Settings setAnimatedBackGround={setAnimatedBackGround} />
+              }
+            />
           </Routes>
         </div>
 

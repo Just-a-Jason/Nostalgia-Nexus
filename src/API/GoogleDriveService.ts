@@ -2,8 +2,7 @@ import { exists, readTextFile } from "@tauri-apps/api/fs";
 import { appDataDir } from "@tauri-apps/api/path";
 import { getClient, ResponseType } from "@tauri-apps/api/http";
 import { createDir } from "@tauri-apps/api/fs";
-import { VIRUS_WARNING_REGEX } from "../constants";
-import { notification } from "@tauri-apps/api";
+import { showNotif, VIRUS_WARNING_REGEX } from "../constants";
 import { listen } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api/tauri";
 import { DownloadPayload } from "../Interfaces/DownloadPayload";
@@ -118,18 +117,19 @@ export default class GoogleDriveService {
 
       await this.checkRequirements(destPath);
 
-      await this.showNotif({
+      await showNotif({
         title: "Nostalgia Nexus | App installed! ✨",
         icon: "icons/icon.png",
         body: `${this.options?.appName || ""} installed successfully! 💞`,
         sound: "Alarm2",
       });
+
       this.options?.downloadingFinished(destPath);
       this.app.setInLib?.(true);
     } catch (error) {
       console.error(error);
 
-      await this.showNotif({
+      await showNotif({
         title: "Nostalgia Nexus | Something went wrong! ⚠️",
         icon: "icons/icon.png",
         body: `Something whent wrong when installing ${
@@ -140,11 +140,6 @@ export default class GoogleDriveService {
 
       this.options?.downloadingFinished(null);
     }
-  }
-
-  private async showNotif(data: notification.Options) {
-    if (!(await notification.isPermissionGranted())) return;
-    await notification.sendNotification(data);
   }
 
   private async checkRequirements(destPath: string) {
