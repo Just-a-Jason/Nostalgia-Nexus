@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import GoogleDriveService from "../API/GoogleDriveService";
 import { BASE_IMAGE_URL, showNotif } from "../constants";
 import { inLibrary, removeAppFromDataBase } from "../API/Database";
-import { invoke, notification } from "@tauri-apps/api";
 import { App } from "../Interfaces/App";
 import "./DownloadScreen.tsx.scss";
 import LazyImage from "./LazyImage";
 import SvgIcon from "./SvgIcon";
+import { invoke } from "@tauri-apps/api";
 
 interface Props {
   hideDownloadScreen: () => void;
