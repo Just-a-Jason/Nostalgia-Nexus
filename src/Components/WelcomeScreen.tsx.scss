@@ -1,0 +1,84 @@
+.welcome-screen {
+  background: linear-gradient(#000, rgba(14, 102, 169, 0.54));
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  inset: 0;
+  border-radius: 10px;
+  cursor: grabbing;
+  border: solid 2px #0f92c19e;
+
+  color: #fff;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 20px;
+
+  h1,
+  p {
+    animation: pop-up 500ms;
+  }
+
+  .settings {
+    background: none;
+    animation: pop 500ms;
+    width: 80%;
+    height: 300px;
+    border-radius: 10px;
+
+    h1 {
+      font-size: 20px;
+      img {
+        width: 20px;
+      }
+    }
+
+    h3 {
+      font-size: 15px;
+    }
+  }
+  header {
+    display: flex;
+    gap: 20px;
+
+    img {
+      width: 40px;
+    }
+  }
+  h1 {
+    filter: drop-shadow(2px 3px 10px #000);
+    font-size: 40px;
+    span {
+      gap: 10px;
+      background: linear-gradient(45deg, #2a8aff, #98c8ff 50%);
+      background-clip: text;
+      color: transparent;
+    }
+  }
+
+  button {
+    transition: 200ms;
+    cursor: pointer;
+    position: absolute;
+    width: 100px;
+    height: 50px;
+    right: 10px;
+    bottom: 10px;
+
+    border: solid 2px #fff;
+    border-radius: 10px;
+    background: linear-gradient(45deg, #000, #0b1437);
+    color: #fff;
+    opacity: 0.5;
+
+    justify-content: space-around;
+    align-items: center;
+    display: flex;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+}

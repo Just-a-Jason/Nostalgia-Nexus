@@ -11,9 +11,10 @@ import SettingsGroup from "../SettingsGroup";
 
 interface Props {
   setAnimatedBackGround: (on: boolean) => void;
+  hideStats: boolean;
 }
 
-const Settings = ({ setAnimatedBackGround }: Props) => {
+const Settings = ({ setAnimatedBackGround, hideStats = false }: Props) => {
   const [totalAppsSize, setTotalAppsSize] = useState(0);
   const [dataBaseSize, setDataBaseSize] = useState(0);
 
@@ -37,7 +38,16 @@ const Settings = ({ setAnimatedBackGround }: Props) => {
     LocalStorage.tryGet(true, "ui-animations")
   );
 
+  const [showAppsInLib, setShowAppsInLib] = useState(
+    LocalStorage.tryGet(true, "show-apps-in-lib")
+  );
+
+  const [autoUpdates, setAutoUpdates] = useState(
+    LocalStorage.tryGet(true, "auto-updates")
+  );
+
   const fetchFileSize = async () => {
+    if (hideStats) return;
     const dataBasePath = (await appDataDir()) + "library.db";
 
     const sizes: any[] = (await totalInstalledSize()) as any[];
@@ -55,29 +65,31 @@ const Settings = ({ setAnimatedBackGround }: Props) => {
   }, []);
   return (
     <div className="settings route">
-      <SettingsGroup
-        title="Statistics"
-        icon={{ src: "icons/cpu.svg", alt: "cpu icon" }}
-      >
-        <AppStat
-          icon="icons/database.svg"
-          hint="Database size used to store & map games in library to acess them from this UI."
-          title="Database size"
-          content={bytesToFileSize(dataBaseSize, 2)!}
-        />
-        <AppStat
-          title="Cached assets size"
-          icon="icons/broom.svg"
-          content="0 B"
-          hint="Allows you to faster access game icons, list and other stuff based on your internet speed. Just stores the files on your local machine."
-        />
-        <AppStat
-          title="Installed apps size"
-          icon="icons/disk.svg"
-          hint="Calculated size of apps on your hardrive."
-          content={bytesToFileSize(totalAppsSize, 2)!}
-        />
-      </SettingsGroup>
+      {!hideStats && (
+        <SettingsGroup
+          title="Statistics"
+          icon={{ src: "icons/cpu.svg", alt: "cpu icon" }}
+        >
+          <AppStat
+            icon="icons/database.svg"
+            hint="Database size used to store & map games in library to acess them from this UI."
+            title="Database size"
+            content={bytesToFileSize(dataBaseSize, 2)!}
+          />
+          <AppStat
+            title="Cached assets size"
+            icon="icons/broom.svg"
+            content="0 B"
+            hint="Allows you to faster access game icons, list and other stuff based on your internet speed. Just stores the files on your local machine."
+          />
+          <AppStat
+            title="Installed apps size"
+            icon="icons/disk.svg"
+            hint="Calculated size of apps on your hardrive."
+            content={bytesToFileSize(totalAppsSize, 2)!}
+          />
+        </SettingsGroup>
+      )}
 
       <SettingsGroup
         title="General Settings"
@@ -91,6 +103,24 @@ const Settings = ({ setAnimatedBackGround }: Props) => {
           }}
           title="Allow assets cache"
           checked={cache}
+        />
+        <AppSetting
+          hint="Toggles display of an game/app if it is in library in Apps/Games section."
+          onCheckedChanged={(checked) => {
+            LocalStorage.set("show-apps-in-lib", checked);
+            setShowAppsInLib(checked);
+          }}
+          title="Show installed apps in Games/Apps section."
+          checked={showAppsInLib}
+        />
+        <AppSetting
+          hint="Toggles auto app updates to keep it up to date."
+          onCheckedChanged={(checked) => {
+            LocalStorage.set("show-apps-in-lib", checked);
+            setAutoUpdates(checked);
+          }}
+          title="Auto updates"
+          checked={autoUpdates}
         />
       </SettingsGroup>
 

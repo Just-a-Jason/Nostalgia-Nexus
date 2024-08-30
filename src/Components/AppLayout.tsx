@@ -9,6 +9,7 @@ import AppsGrid from "./AppsGrid";
 import Settings from "./Routes/Settings";
 import AnimatedBackground from "./AnimatedBackGround";
 import LocalStorage from "../API/LocalStorage";
+import WelcomeScreen from "./WelcomeScreen";
 
 const AppLayout = () => {
   const [appData, setAppData] = useState<App | undefined>(undefined);
@@ -16,6 +17,10 @@ const AppLayout = () => {
     LocalStorage.tryGet(true, "animated-background")
   );
   const [downloadScreen, setDownloadScreen] = useState(false);
+
+  const [welcomeScreen, setWelcomeScreen] = useState(
+    LocalStorage.tryGet(true, "welcome-screen")
+  );
 
   const showDownloadScreen = (app: App) => {
     setDownloadScreen(true);
@@ -41,7 +46,10 @@ const AppLayout = () => {
             <Route
               path="/settings"
               element={
-                <Settings setAnimatedBackGround={setAnimatedBackGround} />
+                <Settings
+                  setAnimatedBackGround={setAnimatedBackGround}
+                  hideStats={false}
+                />
               }
             />
           </Routes>
@@ -51,6 +59,16 @@ const AppLayout = () => {
           <DownloadScreen
             app={appData}
             hideDownloadScreen={hideDownloadScreen}
+          />
+        )}
+
+        {welcomeScreen && (
+          <WelcomeScreen
+            showAnimatedBackground={setAnimatedBackGround}
+            hideWelcomeScreen={() => {
+              LocalStorage.set("welcome-screen", false);
+              setWelcomeScreen(false);
+            }}
           />
         )}
 
