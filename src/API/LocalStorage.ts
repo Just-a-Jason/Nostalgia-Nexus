@@ -3,7 +3,8 @@ type SettingsKey =
   | "animated-background"
   | "run-after-download"
   | "create-shortcut"
-  | "ui-animations";
+  | "ui-animations"
+  | "dark-theme";
 
 export default abstract class LocalStorage {
   public static tryGet(defaultValue: boolean, key: SettingsKey): boolean {

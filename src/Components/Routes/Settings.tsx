@@ -21,9 +21,12 @@ const Settings = ({ setAnimatedBackGround }: Props) => {
   const [background, setBackGround] = useState(
     LocalStorage.tryGet(true, "animated-background")
   );
+  const [darkTheme, setDarkTheme] = useState(
+    LocalStorage.tryGet(true, "dark-theme")
+  );
 
   const [runAfterDownload, setRunAfterDownload] = useState(
-    LocalStorage.tryGet(true, "run-after-download")
+    LocalStorage.tryGet(false, "run-after-download")
   );
 
   const [shortCut, setShortCut] = useState(
@@ -58,12 +61,20 @@ const Settings = ({ setAnimatedBackGround }: Props) => {
       >
         <AppStat
           icon="icons/database.svg"
+          hint="Database size used to store & map games in library to acess them from this UI."
           title="Database size"
           content={bytesToFileSize(dataBaseSize, 2)!}
         />
         <AppStat
+          title="Cached assets size"
+          icon="icons/broom.svg"
+          content="0 B"
+          hint="Allows you to faster access game icons, list and other stuff based on your internet speed. Just stores the files on your local machine."
+        />
+        <AppStat
           title="Installed apps size"
           icon="icons/disk.svg"
+          hint="Calculated size of apps on your hardrive."
           content={bytesToFileSize(totalAppsSize, 2)!}
         />
       </SettingsGroup>
@@ -73,15 +84,7 @@ const Settings = ({ setAnimatedBackGround }: Props) => {
         icon={{ src: "icons/settings.svg", alt: "settings icon" }}
       >
         <AppSetting
-          onCheckedChanged={(checked) => {
-            LocalStorage.set("animated-background", checked);
-            setAnimatedBackGround(checked);
-            setBackGround(checked);
-          }}
-          title="Show animated background"
-          checked={background}
-        />
-        <AppSetting
+          hint="Allows you to faster access game icons, list and other stuff based on your internet speed. Just stores the files on your local machine."
           onCheckedChanged={(checked) => {
             LocalStorage.set("allow-cache", checked);
             setCache(checked);
@@ -92,10 +95,11 @@ const Settings = ({ setAnimatedBackGround }: Props) => {
       </SettingsGroup>
 
       <SettingsGroup
-        title="Instalation Settings"
+        title="Installation Settings"
         icon={{ src: "icons/download.svg", alt: "settings icon" }}
       >
         <AppSetting
+          hint="Creates shortcut on your desktop to the game executable file."
           onCheckedChanged={(checked) => {
             LocalStorage.set("create-shortcut", checked);
             setShortCut(checked);
@@ -104,11 +108,12 @@ const Settings = ({ setAnimatedBackGround }: Props) => {
           checked={shortCut}
         />
         <AppSetting
+          hint="Allows the installer to run the game after intallation."
           onCheckedChanged={(checked) => {
             LocalStorage.set("run-after-download", checked);
             setRunAfterDownload(checked);
           }}
-          title="Run game after download"
+          title="Auto run game after download"
           checked={runAfterDownload}
         />
       </SettingsGroup>
@@ -118,12 +123,37 @@ const Settings = ({ setAnimatedBackGround }: Props) => {
         icon={{ src: "icons/ui.svg", alt: "ui icon" }}
       >
         <AppSetting
+          hint="Removes/Adds animations to user interface."
           onCheckedChanged={(checked) => {
             LocalStorage.set("ui-animations", checked);
+
+            const root = document.querySelector("#root") as HTMLDivElement;
+            root.classList.remove("no-anim");
+            if (!checked) root.classList.add("no-anim");
+
             setAnimations(checked);
           }}
           title="UI animations"
           checked={animations}
+        />
+        <AppSetting
+          hint="Toggle the visibility of background animation."
+          onCheckedChanged={(checked) => {
+            LocalStorage.set("animated-background", checked);
+            setAnimatedBackGround(checked);
+            setBackGround(checked);
+          }}
+          title="Show animated background"
+          checked={background}
+        />
+        <AppSetting
+          hint="Toggle the dark/light theme."
+          onCheckedChanged={(checked) => {
+            LocalStorage.set("dark-theme", checked);
+            setDarkTheme(checked);
+          }}
+          title="Dark Theme"
+          checked={darkTheme}
         />
       </SettingsGroup>
     </div>
