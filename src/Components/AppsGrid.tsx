@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
+import { getAllIds } from "../API/Database";
 import { APPS_URL } from "../constants";
 import { App } from "../Interfaces/App";
 import AppItem from "./AppItem";
 import "./AppsGrid.tsx.scss";
-import { getAllIds } from "../API/Database";
+import axios from "axios";
 
 interface Props {
   showDownloadScreen: (app: App) => void;
+  showAppsInGrid: boolean;
 }
 
-const AppsGrid = ({ showDownloadScreen }: Props) => {
+const AppsGrid = ({ showDownloadScreen, showAppsInGrid }: Props) => {
   const [libraryIds, setLibraryIds] = useState<string[]>([]);
   const [apps, setApps] = useState<App[]>([]);
 
@@ -37,10 +38,11 @@ const AppsGrid = ({ showDownloadScreen }: Props) => {
       ) : (
         apps.map((app, index) => (
           <AppItem
-            app={app}
-            key={index}
-            appIds={libraryIds}
             showDownloadScreen={showDownloadScreen}
+            showIfInLib={showAppsInGrid}
+            appIds={libraryIds}
+            key={index}
+            app={app}
           />
         ))
       )}

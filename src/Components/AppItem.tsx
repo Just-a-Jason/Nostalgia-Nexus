@@ -7,6 +7,7 @@ import SvgIcon from "./SvgIcon";
 
 interface Props {
   showDownloadScreen: (app: App) => void;
+  showIfInLib: boolean;
   appIds: string[];
   app: App;
 }
@@ -14,35 +15,43 @@ interface Props {
 const cutContent = (text: string, maxChars: number) =>
   (text.length > maxChars && text.substring(0, maxChars) + "...") || text;
 
-const AppItem = ({ app, showDownloadScreen, appIds }: Props) => {
+const AppItem = ({ app, showDownloadScreen, appIds, showIfInLib }: Props) => {
   const [inLib, setInLib] = useState(false);
 
-  app.setInLib = (inLib: boolean) => setInLib(inLib);
+  if (app) app.setInLib = (inLib: boolean) => setInLib(inLib);
+
+  const showScreen = () => {
+    if (!app) return;
+    showDownloadScreen(app);
+  };
 
   useEffect(() => {
+    if (!app) return;
     setInLib(appIds.includes(app.download.fileID));
   }, []);
 
   return (
-    <div className="app-item" onClick={() => showDownloadScreen(app)}>
-      <h3>{cutContent(app.name, 25)}</h3>
+    (!showIfInLib && inLib && <></>) || (
+      <div className="app-item" onClick={showScreen}>
+        <h3>{cutContent(app.name, 25)}</h3>
 
-      <LazyImage
-        src={`${BASE_IMAGE_URL}${app.iconUrl}?raw=true`}
-        alt={app.name}
-      />
+        <LazyImage
+          src={`${BASE_IMAGE_URL}${app.iconUrl}?raw=true`}
+          alt={app.name}
+        />
 
-      <p>{cutContent(app.description, 150)}</p>
-      <p className="file-size">{app.download.fileSize}</p>
-      <p className="relese-date">{app.releseDate}</p>
+        <p>{cutContent(app.description, 150)}</p>
+        <p className="file-size">{app.download.fileSize}</p>
+        <p className="relese-date">{app.releseDate}</p>
 
-      {inLib && (
-        <div className="in-library">
-          <h2>In library</h2>
-          <SvgIcon src="icons/in library.svg" alt="in library icon" />
-        </div>
-      )}
-    </div>
+        {inLib && (
+          <div className="in-library">
+            <h2>In library</h2>
+            <SvgIcon src="icons/in library.svg" alt="in library icon" />
+          </div>
+        )}
+      </div>
+    )
   );
 };
 

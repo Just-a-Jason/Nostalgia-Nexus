@@ -4,12 +4,14 @@ import Settings from "./Routes/Settings";
 
 interface Props {
   showAnimatedBackground: (on: boolean) => void;
+  showInstalledApps: (on: boolean) => void;
   hideWelcomeScreen: () => void;
 }
 
 const WelcomeScreen = ({
   showAnimatedBackground,
   hideWelcomeScreen,
+  showInstalledApps,
 }: Props) => {
   return (
     <div data-tauri-drag-region className="welcome-screen">
@@ -26,6 +28,7 @@ const WelcomeScreen = ({
       </p>
 
       <Settings
+        showInstalledApps={showInstalledApps}
         setAnimatedBackGround={showAnimatedBackground}
         hideStats={true}
       />
