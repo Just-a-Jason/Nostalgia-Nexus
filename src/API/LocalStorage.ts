@@ -1,5 +1,13 @@
+type SettingsKey =
+  | "allow-cache"
+  | "animated-background"
+  | "run-after-download"
+  | "create-shortcut"
+  | "ui-animations"
+  | "dark-theme";
+
 export default abstract class LocalStorage {
-  public static tryGet(defaultValue: boolean, key: string): boolean {
+  public static tryGet(defaultValue: boolean, key: SettingsKey): boolean {
     const data = localStorage.getItem(key);
 
     if (localStorage.getItem(key) === null) {
@@ -10,7 +18,7 @@ export default abstract class LocalStorage {
     return JSON.parse(data!) as boolean;
   }
 
-  public static set(key: string, value: boolean) {
+  public static set(key: SettingsKey, value: boolean) {
     localStorage.setItem(key, JSON.stringify(value));
   }
 }

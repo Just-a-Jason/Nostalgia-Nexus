@@ -6,8 +6,8 @@ import { bytesToFileSize } from "../../constants";
 import { exists, readBinaryFile } from "@tauri-apps/api/fs";
 import { appDataDir } from "@tauri-apps/api/path";
 import AppSetting from "../AppSetting";
-import SvgIcon from "../SvgIcon";
 import LocalStorage from "../../API/LocalStorage";
+import SettingsGroup from "../SettingsGroup";
 
 interface Props {
   setAnimatedBackGround: (on: boolean) => void;
@@ -17,11 +17,25 @@ const Settings = ({ setAnimatedBackGround }: Props) => {
   const [totalAppsSize, setTotalAppsSize] = useState(0);
   const [dataBaseSize, setDataBaseSize] = useState(0);
 
+  const [cache, setCache] = useState(LocalStorage.tryGet(true, "allow-cache"));
   const [background, setBackGround] = useState(
     LocalStorage.tryGet(true, "animated-background")
   );
+  const [darkTheme, setDarkTheme] = useState(
+    LocalStorage.tryGet(true, "dark-theme")
+  );
 
-  const [cache, setCache] = useState(LocalStorage.tryGet(true, "allow-cache"));
+  const [runAfterDownload, setRunAfterDownload] = useState(
+    LocalStorage.tryGet(false, "run-after-download")
+  );
+
+  const [shortCut, setShortCut] = useState(
+    LocalStorage.tryGet(true, "create-shortcut")
+  );
+
+  const [animations, setAnimations] = useState(
+    LocalStorage.tryGet(true, "ui-animations")
+  );
 
   const fetchFileSize = async () => {
     const dataBasePath = (await appDataDir()) + "library.db";
@@ -41,41 +55,107 @@ const Settings = ({ setAnimatedBackGround }: Props) => {
   }, []);
   return (
     <div className="settings route">
-      <h1>
-        Statistics <SvgIcon src="icons/cpu.svg" alt="cpu icon" />
-      </h1>
+      <SettingsGroup
+        title="Statistics"
+        icon={{ src: "icons/cpu.svg", alt: "cpu icon" }}
+      >
+        <AppStat
+          icon="icons/database.svg"
+          hint="Database size used to store & map games in library to acess them from this UI."
+          title="Database size"
+          content={bytesToFileSize(dataBaseSize, 2)!}
+        />
+        <AppStat
+          title="Cached assets size"
+          icon="icons/broom.svg"
+          content="0 B"
+          hint="Allows you to faster access game icons, list and other stuff based on your internet speed. Just stores the files on your local machine."
+        />
+        <AppStat
+          title="Installed apps size"
+          icon="icons/disk.svg"
+          hint="Calculated size of apps on your hardrive."
+          content={bytesToFileSize(totalAppsSize, 2)!}
+        />
+      </SettingsGroup>
 
-      <AppStat
-        icon="icons/database.svg"
-        title="Database size"
-        content={bytesToFileSize(dataBaseSize, 2)!}
-      />
-      <AppStat
-        title="Installed apps size"
-        icon="icons/disk.svg"
-        content={bytesToFileSize(totalAppsSize, 2)!}
-      />
+      <SettingsGroup
+        title="General Settings"
+        icon={{ src: "icons/settings.svg", alt: "settings icon" }}
+      >
+        <AppSetting
+          hint="Allows you to faster access game icons, list and other stuff based on your internet speed. Just stores the files on your local machine."
+          onCheckedChanged={(checked) => {
+            LocalStorage.set("allow-cache", checked);
+            setCache(checked);
+          }}
+          title="Allow assets cache"
+          checked={cache}
+        />
+      </SettingsGroup>
 
-      <h1>
-        Settings <SvgIcon src="icons/settings.svg" alt="settings icon" />
-      </h1>
-      <AppSetting
-        onCheckedChanged={(checked) => {
-          LocalStorage.set("animated-background", checked);
-          setAnimatedBackGround(checked);
-          setBackGround(checked);
-        }}
-        title="Animated background"
-        checked={background}
-      />
-      <AppSetting
-        onCheckedChanged={(checked) => {
-          LocalStorage.set("allow-cache", checked);
-          setCache(checked);
-        }}
-        title="Allow assets cache"
-        checked={cache}
-      />
+      <SettingsGroup
+        title="Installation Settings"
+        icon={{ src: "icons/download.svg", alt: "settings icon" }}
+      >
+        <AppSetting
+          hint="Creates shortcut on your desktop to the game executable file."
+          onCheckedChanged={(checked) => {
+            LocalStorage.set("create-shortcut", checked);
+            setShortCut(checked);
+          }}
+          title="Create desktop shortcut"
+          checked={shortCut}
+        />
+        <AppSetting
+          hint="Allows the installer to run the game after intallation."
+          onCheckedChanged={(checked) => {
+            LocalStorage.set("run-after-download", checked);
+            setRunAfterDownload(checked);
+          }}
+          title="Auto run game after download"
+          checked={runAfterDownload}
+        />
+      </SettingsGroup>
+
+      <SettingsGroup
+        title="UI Settings"
+        icon={{ src: "icons/ui.svg", alt: "ui icon" }}
+      >
+        <AppSetting
+          hint="Removes/Adds animations to user interface."
+          onCheckedChanged={(checked) => {
+            LocalStorage.set("ui-animations", checked);
+
+            const root = document.querySelector("#root") as HTMLDivElement;
+            root.classList.remove("no-anim");
+            if (!checked) root.classList.add("no-anim");
+
+            setAnimations(checked);
+          }}
+          title="UI animations"
+          checked={animations}
+        />
+        <AppSetting
+          hint="Toggle the visibility of background animation."
+          onCheckedChanged={(checked) => {
+            LocalStorage.set("animated-background", checked);
+            setAnimatedBackGround(checked);
+            setBackGround(checked);
+          }}
+          title="Show animated background"
+          checked={background}
+        />
+        <AppSetting
+          hint="Toggle the dark/light theme."
+          onCheckedChanged={(checked) => {
+            LocalStorage.set("dark-theme", checked);
+            setDarkTheme(checked);
+          }}
+          title="Dark Theme"
+          checked={darkTheme}
+        />
+      </SettingsGroup>
     </div>
   );
 };

@@ -12,12 +12,25 @@
   display: flex;
   gap: 10px;
 
-  h1 {
+  .settings-group {
     animation: pop 500ms;
+    background-color: #3161aa33;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 10px;
+    border: solid 2px #3f86d773;
+    padding: 10px;
+    border-radius: 10px;
+  }
+
+  h1 {
     align-items: center;
     display: flex;
     color: #fff;
-    opacity: 0.5;
+    opacity: 0.7;
     width: 95%;
     gap: 20px;
     img {
