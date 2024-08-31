@@ -132,18 +132,20 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
       {busy && <DownloadProgressScreen payload={payload} />}
 
       <div className="download-screen" data-tauri-drag-region>
-        <div className="download-settings">
-          <DownloadOption
-            setIsOn={runAfterDownloadSetting}
-            text="Run after download"
-            isOn={runAfterDownload}
-          />
-          <DownloadOption
-            text="Create desktop shortcut"
-            setIsOn={createShortCutSetting}
-            isOn={createShortcut}
-          />
-        </div>
+        {!isInLibrary && (
+          <div className="download-settings">
+            <DownloadOption
+              setIsOn={runAfterDownloadSetting}
+              text="Run after download"
+              isOn={runAfterDownload}
+            />
+            <DownloadOption
+              text="Create desktop shortcut"
+              setIsOn={createShortCutSetting}
+              isOn={createShortcut}
+            />
+          </div>
+        )}
         <div className="wrapper">
           <div className="app-img">
             <LazyImage

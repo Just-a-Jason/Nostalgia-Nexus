@@ -52,6 +52,10 @@ const Settings = ({
     LocalStorage.tryGet(true, "auto-updates")
   );
 
+  const [nostifications, setNotifications] = useState(
+    LocalStorage.tryGet(true, "notifications")
+  );
+
   const fetchFileSize = async () => {
     if (hideStats) return;
     const dataBasePath = (await appDataDir()) + "library.db";
@@ -89,7 +93,7 @@ const Settings = ({
             hint="Allows you to faster access game icons, list and other stuff based on your internet speed. Just stores the files on your local machine."
           />
           <AppStat
-            title="Installed apps size"
+            title="Total installed apps size"
             icon="icons/disk.svg"
             hint="Calculated size of apps on your hardrive."
             content={bytesToFileSize(totalAppsSize, 2)!}
@@ -112,16 +116,14 @@ const Settings = ({
         />
 
         <AppSetting
-          hint="Toggles display of an game/app if it is in library in Apps/Games section."
+          hint="Toggles notifications on/off."
           onCheckedChanged={(checked) => {
-            LocalStorage.set("show-apps-in-lib", checked);
-            setShowAppsInLib(checked);
-            showInstalledApps(checked);
+            LocalStorage.set("notifications", checked);
+            setNotifications(checked);
           }}
-          title="Show installed apps in Games/Apps section."
-          checked={showAppsInLib}
+          title="Show notifications"
+          checked={nostifications}
         />
-
         <AppSetting
           hint="Toggles auto app updates to keep it up to date."
           onCheckedChanged={(checked) => {
@@ -130,6 +132,16 @@ const Settings = ({
           }}
           title="Auto updates"
           checked={autoUpdates}
+        />
+        <AppSetting
+          hint="Toggles display of an game/app if it is in library in Apps/Games section."
+          onCheckedChanged={(checked) => {
+            LocalStorage.set("show-apps-in-lib", checked);
+            setShowAppsInLib(checked);
+            showInstalledApps(checked);
+          }}
+          title="Show installed apps in Games/Apps section."
+          checked={showAppsInLib}
         />
       </SettingsGroup>
 

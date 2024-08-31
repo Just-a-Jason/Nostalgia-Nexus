@@ -33,19 +33,15 @@ const AppsGrid = ({ showDownloadScreen, showAppsInGrid }: Props) => {
 
   return (
     <section className="apps-grid">
-      {apps.length === 0 ? (
-        <h1>Loading apps...</h1>
-      ) : (
-        apps.map((app, index) => (
-          <AppItem
-            showDownloadScreen={showDownloadScreen}
-            showIfInLib={showAppsInGrid}
-            appIds={libraryIds}
-            key={index}
-            app={app}
-          />
-        ))
-      )}
+      {apps.map((app, index) => (
+        <AppItem
+          showDownloadScreen={showDownloadScreen}
+          showIfInLib={showAppsInGrid}
+          appIds={libraryIds}
+          key={index}
+          app={app}
+        />
+      ))}
     </section>
   );
 };
