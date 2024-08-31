@@ -55,8 +55,21 @@
     }
   }
 
-  // img {
-  // }
+  &.template {
+    h3 {
+      width: 200px;
+      background-color: #504c4c;
+      height: 20px;
+      border-radius: 10px;
+    }
+
+    .file-size {
+      width: 50%;
+      background-color: #504c4c;
+      height: 20px;
+      border-radius: 10px;
+    }
+  }
 
   &:hover {
     filter: opacity(1);

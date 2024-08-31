@@ -7,7 +7,8 @@ type SettingsKey =
   | "dark-theme"
   | "show-apps-in-lib"
   | "auto-updates"
-  | "welcome-screen";
+  | "welcome-screen"
+  | "notifications";
 
 export default abstract class LocalStorage {
   public static tryGet(defaultValue: boolean, key: SettingsKey): boolean {

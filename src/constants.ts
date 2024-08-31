@@ -1,4 +1,5 @@
 import { notification } from "@tauri-apps/api";
+import LocalStorage from "./API/LocalStorage";
 
 export const APPS_URL =
   "https://raw.githubusercontent.com/Just-a-Jason/Nostalgia-Nexus/main/apps.json";
@@ -38,6 +39,10 @@ export const fileSizeToBytes = (fileSize: string) => {
 };
 
 export const showNotif = async (data: notification.Options) => {
+  const allowedNotif = LocalStorage.tryGet(true, "notifications");
+
+  if (!allowedNotif) return;
+
   if (!(await notification.isPermissionGranted())) return;
   await notification.sendNotification(data);
 };

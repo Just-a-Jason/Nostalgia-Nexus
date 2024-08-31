@@ -1,20 +1,25 @@
-import { useEffect, useState } from "react";
-import AppStat from "../AppStat";
-import "./Settings.tsx.scss";
-import { totalInstalledSize } from "../../API/Database";
-import { bytesToFileSize } from "../../constants";
 import { exists, readBinaryFile } from "@tauri-apps/api/fs";
+import { totalInstalledSize } from "../../API/Database";
 import { appDataDir } from "@tauri-apps/api/path";
-import AppSetting from "../AppSetting";
+import { bytesToFileSize } from "../../constants";
 import LocalStorage from "../../API/LocalStorage";
 import SettingsGroup from "../SettingsGroup";
+import { useEffect, useState } from "react";
+import AppSetting from "../AppSetting";
+import AppStat from "../AppStat";
+import "./Settings.tsx.scss";
 
 interface Props {
   setAnimatedBackGround: (on: boolean) => void;
+  showInstalledApps: (on: boolean) => void;
   hideStats: boolean;
 }
 
-const Settings = ({ setAnimatedBackGround, hideStats = false }: Props) => {
+const Settings = ({
+  setAnimatedBackGround,
+  hideStats = false,
+  showInstalledApps,
+}: Props) => {
   const [totalAppsSize, setTotalAppsSize] = useState(0);
   const [dataBaseSize, setDataBaseSize] = useState(0);
 
@@ -22,6 +27,7 @@ const Settings = ({ setAnimatedBackGround, hideStats = false }: Props) => {
   const [background, setBackGround] = useState(
     LocalStorage.tryGet(true, "animated-background")
   );
+
   const [darkTheme, setDarkTheme] = useState(
     LocalStorage.tryGet(true, "dark-theme")
   );
@@ -44,6 +50,10 @@ const Settings = ({ setAnimatedBackGround, hideStats = false }: Props) => {
 
   const [autoUpdates, setAutoUpdates] = useState(
     LocalStorage.tryGet(true, "auto-updates")
+  );
+
+  const [nostifications, setNotifications] = useState(
+    LocalStorage.tryGet(true, "notifications")
   );
 
   const fetchFileSize = async () => {
@@ -83,7 +93,7 @@ const Settings = ({ setAnimatedBackGround, hideStats = false }: Props) => {
             hint="Allows you to faster access game icons, list and other stuff based on your internet speed. Just stores the files on your local machine."
           />
           <AppStat
-            title="Installed apps size"
+            title="Total installed apps size"
             icon="icons/disk.svg"
             hint="Calculated size of apps on your hardrive."
             content={bytesToFileSize(totalAppsSize, 2)!}
@@ -104,14 +114,15 @@ const Settings = ({ setAnimatedBackGround, hideStats = false }: Props) => {
           title="Allow assets cache"
           checked={cache}
         />
+
         <AppSetting
-          hint="Toggles display of an game/app if it is in library in Apps/Games section."
+          hint="Toggles notifications on/off."
           onCheckedChanged={(checked) => {
-            LocalStorage.set("show-apps-in-lib", checked);
-            setShowAppsInLib(checked);
+            LocalStorage.set("notifications", checked);
+            setNotifications(checked);
           }}
-          title="Show installed apps in Games/Apps section."
-          checked={showAppsInLib}
+          title="Show notifications"
+          checked={nostifications}
         />
         <AppSetting
           hint="Toggles auto app updates to keep it up to date."
@@ -121,6 +132,16 @@ const Settings = ({ setAnimatedBackGround, hideStats = false }: Props) => {
           }}
           title="Auto updates"
           checked={autoUpdates}
+        />
+        <AppSetting
+          hint="Toggles display of an game/app if it is in library in Apps/Games section."
+          onCheckedChanged={(checked) => {
+            LocalStorage.set("show-apps-in-lib", checked);
+            setShowAppsInLib(checked);
+            showInstalledApps(checked);
+          }}
+          title="Show installed apps in Games/Apps section."
+          checked={showAppsInLib}
         />
       </SettingsGroup>
 
@@ -137,6 +158,7 @@ const Settings = ({ setAnimatedBackGround, hideStats = false }: Props) => {
           title="Create desktop shortcut"
           checked={shortCut}
         />
+
         <AppSetting
           hint="Allows the installer to run the game after intallation."
           onCheckedChanged={(checked) => {
@@ -166,6 +188,7 @@ const Settings = ({ setAnimatedBackGround, hideStats = false }: Props) => {
           title="UI animations"
           checked={animations}
         />
+
         <AppSetting
           hint="Toggle the visibility of background animation."
           onCheckedChanged={(checked) => {
@@ -176,6 +199,7 @@ const Settings = ({ setAnimatedBackGround, hideStats = false }: Props) => {
           title="Show animated background"
           checked={background}
         />
+
         <AppSetting
           hint="Toggle the dark/light theme."
           onCheckedChanged={(checked) => {
