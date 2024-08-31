@@ -6,10 +6,12 @@ import WelcomeScreen from "./WelcomeScreen";
 import Settings from "./Routes/Settings";
 import { App } from "../Interfaces/App";
 import AppsGrid from "./AppsGrid";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./AppLayout.tsx.scss";
 import Footer from "./Footer";
 import NavBar from "./NavBar";
+import CacheScreen from "./CacheScreen";
+import CacheService from "../API/CacheService";
 
 const AppLayout = () => {
   const [appData, setAppData] = useState<App | undefined>(undefined);
@@ -20,18 +22,38 @@ const AppLayout = () => {
 
   const [downloadScreen, setDownloadScreen] = useState(false);
 
-  const [welcomeScreen, setWelcomeScreen] = useState(
-    LocalStorage.tryGet(true, "welcome-screen")
-  );
+  const [welcomeScreen, setWelcomeScreen] = useState(false);
+
+  const [cacheScreen, setCacheScreen] = useState(false);
 
   const [showInstalledApps, setInstalledApps] = useState(
     LocalStorage.tryGet(true, "show-apps-in-lib")
   );
 
+  const [cacheService, setCacheService] = useState<CacheService | null>(null);
+
   const showDownloadScreen = (app: App) => {
     setDownloadScreen(true);
     setAppData(app);
   };
+
+  const fetchCache = async () => {
+    if (LocalStorage.tryGet(true, "allow-cache")) {
+      setCacheScreen(true);
+
+      const service = new CacheService();
+      setCacheService(service);
+
+      await service.useCache();
+    }
+
+    setWelcomeScreen(LocalStorage.tryGet(true, "welcome-screen"));
+    setCacheScreen(false);
+  };
+
+  useEffect(() => {
+    fetchCache();
+  }, []);
 
   return (
     <Router>
@@ -63,12 +85,7 @@ const AppLayout = () => {
           </Routes>
         </div>
 
-        {downloadScreen && (
-          <DownloadScreen
-            hideDownloadScreen={() => setDownloadScreen(false)}
-            app={appData}
-          />
-        )}
+        {cacheScreen && <CacheScreen cacheService={cacheService} />}
 
         {welcomeScreen && (
           <WelcomeScreen
@@ -78,6 +95,13 @@ const AppLayout = () => {
               LocalStorage.set("welcome-screen", false);
               setWelcomeScreen(false);
             }}
+          />
+        )}
+
+        {downloadScreen && (
+          <DownloadScreen
+            hideDownloadScreen={() => setDownloadScreen(false)}
+            app={appData}
           />
         )}
 

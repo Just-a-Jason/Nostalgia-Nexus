@@ -1,0 +1,108 @@
+.cache-screen {
+  background: linear-gradient(#000, #0e66a98a);
+  border: solid 2px #0f92c19e;
+  animation: fade 400ms;
+  justify-content: center;
+  flex-direction: column;
+  border-radius: 10px;
+  align-items: center;
+  position: absolute;
+  cursor: grabbing;
+  display: flex;
+  height: 100%;
+  width: 100%;
+  z-index: 6;
+  inset: 0;
+  gap: 20px;
+
+  .status {
+    justify-content: space-between;
+    animation: pop 400ms;
+    position: relative;
+    border-radius: 10px;
+    display: flex;
+    height: 50px;
+    width: 50%;
+    p {
+      text-align: center;
+      animation: none;
+      width: 50%;
+    }
+
+    .progress-bar {
+      opacity: 0.5;
+      margin: 0 auto;
+      border: solid 2px #fff;
+      background: #000;
+      justify-content: flex-start;
+      border-radius: 10px;
+      align-items: center;
+      position: relative;
+      display: flex;
+      padding: 10px;
+      width: 400px;
+      height: 50px;
+
+      .progress-bar-fill {
+        background: linear-gradient(90deg, #37a4fe, #ffffff00);
+        border-radius: 20px;
+        height: 25px;
+        width: 10%;
+        inset: 0;
+      }
+
+      p {
+        position: absolute;
+        right: 10px;
+      }
+    }
+  }
+
+  p {
+    animation: pop 400ms;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-size: 20px;
+    color: #fff;
+    gap: 10px;
+
+    span {
+      justify-content: center;
+      align-items: center;
+      font-style: italic;
+      font-weight: bold;
+      font-size: 25px;
+      display: flex;
+
+      filter: drop-shadow(2px 3px 10px #000);
+      background: linear-gradient(45deg, #ffde04, #f58905 50%);
+      background-clip: text;
+      color: transparent;
+
+      img {
+        width: 40px;
+      }
+    }
+  }
+
+  header {
+    animation: pop 400ms;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    gap: 20px;
+
+    img {
+      width: 40px;
+    }
+
+    h1 {
+      filter: drop-shadow(2px 3px 10px #000);
+      font-size: 40px;
+      background: linear-gradient(45deg, #2a8aff, #98c8ff 50%);
+      background-clip: text;
+      color: transparent;
+    }
+  }
+}
