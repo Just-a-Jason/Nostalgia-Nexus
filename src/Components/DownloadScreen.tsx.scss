@@ -29,6 +29,16 @@ $border: solid 4px #ffffff34;
 }
 
 .download-screen {
+  .download-settings {
+    animation: pop 500ms;
+    position: absolute;
+    width: 500px;
+    right: 40px;
+    bottom: 100px;
+    padding: 10px;
+    display: flex;
+    gap: 10px;
+  }
   cursor: grabbing;
   justify-content: center;
   align-items: center;

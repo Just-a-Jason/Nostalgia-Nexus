@@ -9,6 +9,8 @@ import "./DownloadScreen.tsx.scss";
 import LazyImage from "./LazyImage";
 import SvgIcon from "./SvgIcon";
 import { invoke } from "@tauri-apps/api";
+import DownloadOption from "./DownloadOption";
+import LocalStorage from "../API/LocalStorage";
 
 interface Props {
   hideDownloadScreen: () => void;
@@ -19,7 +21,27 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
   const [payload, setPayload] = useState<undefined | DownloadPayload>(
     undefined
   );
+
   const [isInLibrary, setInLibrary] = useState(false);
+
+  const [runAfterDownload, setRunAfterDownload] = useState(
+    LocalStorage.tryGet(false, "run-after-download")
+  );
+
+  const [createShortcut, setCreateShortcut] = useState(
+    LocalStorage.tryGet(true, "create-shortcut")
+  );
+
+  const runAfterDownloadSetting = (on: boolean) => {
+    setRunAfterDownload(on);
+    LocalStorage.set("run-after-download", on);
+  };
+
+  const createShortCutSetting = (on: boolean) => {
+    setCreateShortcut(on);
+    LocalStorage.set("create-shortcut", on);
+  };
+
   const [filesPath, setFilesPath] = useState("");
   const [busy, setBusy] = useState(false);
 
@@ -110,6 +132,18 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
       {busy && <DownloadProgressScreen payload={payload} />}
 
       <div className="download-screen" data-tauri-drag-region>
+        <div className="download-settings">
+          <DownloadOption
+            setIsOn={runAfterDownloadSetting}
+            text="Run after download"
+            isOn={runAfterDownload}
+          />
+          <DownloadOption
+            text="Create desktop shortcut"
+            setIsOn={createShortCutSetting}
+            isOn={createShortcut}
+          />
+        </div>
         <div className="wrapper">
           <div className="app-img">
             <LazyImage
