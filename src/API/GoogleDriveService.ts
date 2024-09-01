@@ -8,6 +8,7 @@ import { invoke } from "@tauri-apps/api/tauri";
 import { DownloadPayload } from "../Interfaces/DownloadPayload";
 import { addGameToLibrary } from "./Database";
 import { App } from "../Interfaces/App";
+import LocalStorage from "./LocalStorage";
 
 interface DownloadOptions {
   downloadingFinished: (path: string | null) => void;
@@ -125,6 +126,10 @@ export default class GoogleDriveService {
       });
 
       this.options?.downloadingFinished(destPath);
+
+      if (LocalStorage.tryGet(false, "run-after-download")) {
+        await invoke("run_game", { dirPath: destPath });
+      }
       this.app.setInLib?.(true);
     } catch (error) {
       console.error(error);

@@ -1,4 +1,3 @@
-import { BASE_IMAGE_URL } from "../constants";
 import { useEffect, useState } from "react";
 import { App } from "../Interfaces/App";
 import LazyImage from "./LazyImage";
@@ -35,10 +34,7 @@ const AppItem = ({ app, showDownloadScreen, appIds, showIfInLib }: Props) => {
       <div className="app-item" onClick={showScreen}>
         <h3>{cutContent(app.name, 25)}</h3>
 
-        <LazyImage
-          src={`${BASE_IMAGE_URL}${app.iconUrl}?raw=true`}
-          alt={app.name}
-        />
+        <LazyImage src={app.iconUrl} alt={app.name} />
 
         <p>{cutContent(app.description, 150)}</p>
         <p className="file-size">{app.download.fileSize}</p>

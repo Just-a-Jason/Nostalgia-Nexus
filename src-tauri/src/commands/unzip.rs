@@ -1,11 +1,12 @@
 use std::fs::{self, File};
 use std::io::{self, BufReader};
 use std::path::Path;
+use tauri::command;
 use tauri::Window;
 use tokio::task;
 use zip::read::ZipArchive;
 
-#[tauri::command]
+#[command]
 pub async fn unzip_file(window: Window, zip_path: String, dest_path: String) -> Result<(), String> {
     task::spawn_blocking(move || {
         let file = File::open(&zip_path).map_err(|e| e.to_string())?;

@@ -6,6 +6,7 @@ import WelcomeScreen from "./WelcomeScreen";
 import Settings from "./Routes/Settings";
 import { App } from "../Interfaces/App";
 import AppsGrid from "./AppsGrid";
+import CacheScreen from "./CacheScreen";
 import { useState } from "react";
 import "./AppLayout.tsx.scss";
 import Footer from "./Footer";
@@ -20,8 +21,10 @@ const AppLayout = () => {
 
   const [downloadScreen, setDownloadScreen] = useState(false);
 
-  const [welcomeScreen, setWelcomeScreen] = useState(
-    LocalStorage.tryGet(true, "welcome-screen")
+  const [welcomeScreen, setWelcomeScreen] = useState(false);
+
+  const [cacheScreen, setCacheScreen] = useState(
+    LocalStorage.tryGet(true, "allow-cache")
   );
 
   const [showInstalledApps, setInstalledApps] = useState(
@@ -63,10 +66,10 @@ const AppLayout = () => {
           </Routes>
         </div>
 
-        {downloadScreen && (
-          <DownloadScreen
-            hideDownloadScreen={() => setDownloadScreen(false)}
-            app={appData}
+        {cacheScreen && (
+          <CacheScreen
+            setCacheScreen={setCacheScreen}
+            setWelcomeScreen={setWelcomeScreen}
           />
         )}
 
@@ -78,6 +81,13 @@ const AppLayout = () => {
               LocalStorage.set("welcome-screen", false);
               setWelcomeScreen(false);
             }}
+          />
+        )}
+
+        {downloadScreen && (
+          <DownloadScreen
+            hideDownloadScreen={() => setDownloadScreen(false)}
+            app={appData}
           />
         )}
 

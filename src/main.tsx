@@ -1,7 +1,7 @@
 import ReactDOM from "react-dom/client";
+import { initDataBase } from "./API/Database";
 import React from "react";
 import App from "./App";
-import { initDataBase } from "./API/Database";
 
 const main = async () => {
   await initDataBase();
