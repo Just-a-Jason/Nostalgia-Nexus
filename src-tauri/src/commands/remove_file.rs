@@ -1,9 +1,10 @@
 use std::fs;
 use std::path::Path;
+use tauri::command;
 use tauri::Window;
 use tokio::task;
 
-#[tauri::command]
+#[command]
 pub async fn remove_file(window: Window, path: String) -> Result<(), String> {
     task::spawn_blocking(move || {
         let path = Path::new(&path);

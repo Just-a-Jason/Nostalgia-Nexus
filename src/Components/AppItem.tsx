@@ -1,4 +1,3 @@
-import { BASE_IMAGE_URL } from "../constants";
 import { useEffect, useState } from "react";
 import { App } from "../Interfaces/App";
 import LazyImage from "./LazyImage";

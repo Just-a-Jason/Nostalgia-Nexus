@@ -1,16 +1,16 @@
+import { inLibrary, removeAppFromDataBase } from "../API/Database";
 import { DownloadPayload } from "../Interfaces/DownloadPayload";
 import DownloadProgressScreen from "./DownloadProgressScreen";
-import { useEffect, useState } from "react";
 import GoogleDriveService from "../API/GoogleDriveService";
-import { BASE_IMAGE_URL, showNotif } from "../constants";
-import { inLibrary, removeAppFromDataBase } from "../API/Database";
-import { App } from "../Interfaces/App";
-import "./DownloadScreen.tsx.scss";
-import LazyImage from "./LazyImage";
-import SvgIcon from "./SvgIcon";
-import { invoke } from "@tauri-apps/api";
-import DownloadOption from "./DownloadOption";
 import LocalStorage from "../API/LocalStorage";
+import DownloadOption from "./DownloadOption";
+import { useEffect, useState } from "react";
+import { invoke } from "@tauri-apps/api";
+import { showNotif } from "../constants";
+import { App } from "../Interfaces/App";
+import LazyImage from "./LazyImage";
+import "./DownloadScreen.tsx.scss";
+import SvgIcon from "./SvgIcon";
 
 interface Props {
   hideDownloadScreen: () => void;

@@ -1,10 +1,11 @@
 use reqwest::blocking::Client;
 use std::fs::File;
 use std::io::{Read, Write};
+use tauri::command;
 use tauri::Window;
 use tokio::task;
 
-#[tauri::command]
+#[command]
 pub async fn download_file(window: Window, url: String, dest: String) -> Result<(), String> {
     task::spawn_blocking(move || {
         let client = Client::new();

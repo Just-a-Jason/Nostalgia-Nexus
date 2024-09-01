@@ -10,7 +10,8 @@ fn main() {
             commands::download::download_file,
             commands::unzip::unzip_file,
             commands::remove_file::remove_file,
-            commands::run_game::run_game
+            commands::run_game::run_game,
+            commands::folder_size::get_folder_size
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

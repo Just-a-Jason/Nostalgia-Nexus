@@ -1,5 +1,4 @@
 import { exists, readBinaryFile } from "@tauri-apps/api/fs";
-import { totalInstalledSize } from "../../API/Database";
 import { appDataDir } from "@tauri-apps/api/path";
 import { bytesToFileSize } from "../../constants";
 import LocalStorage from "../../API/LocalStorage";
@@ -8,6 +7,7 @@ import { useEffect, useState } from "react";
 import AppSetting from "../AppSetting";
 import AppStat from "../AppStat";
 import "./Settings.tsx.scss";
+import { invoke } from "@tauri-apps/api";
 
 interface Props {
   setAnimatedBackGround: (on: boolean) => void;
@@ -24,6 +24,7 @@ const Settings = ({
   const [dataBaseSize, setDataBaseSize] = useState(0);
 
   const [cache, setCache] = useState(LocalStorage.tryGet(true, "allow-cache"));
+
   const [background, setBackGround] = useState(
     LocalStorage.tryGet(true, "animated-background")
   );
@@ -56,18 +57,33 @@ const Settings = ({
     LocalStorage.tryGet(true, "notifications")
   );
 
+  const [cacheSize, setCacheSize] = useState(0);
+
   const fetchFileSize = async () => {
     if (hideStats) return;
     const dataBasePath = (await appDataDir()) + "library.db";
 
-    const sizes: any[] = (await totalInstalledSize()) as any[];
-
-    if (sizes.length === 0 || sizes[0]["totalSize"] === null) return;
-
-    setTotalAppsSize(sizes[0]["totalSize"]);
-
     if (await exists(dataBasePath))
       setDataBaseSize((await readBinaryFile(dataBasePath)).length);
+
+    const cacheDir = `${await appDataDir()}\\cache`;
+    const libraryDir = `${await appDataDir()}\\library`;
+
+    if (await exists(libraryDir)) {
+      const appsSize: number = await invoke("get_folder_size", {
+        folderPath: libraryDir,
+      });
+
+      setTotalAppsSize(appsSize);
+    }
+
+    if (await exists(cacheDir)) {
+      const cSize: number = await invoke("get_folder_size", {
+        folderPath: cacheDir,
+      });
+
+      setCacheSize(cSize);
+    }
   };
 
   useEffect(() => {
@@ -89,7 +105,7 @@ const Settings = ({
           <AppStat
             title="Cached assets size"
             icon="icons/broom.svg"
-            content="0 B"
+            content={bytesToFileSize(cacheSize, 2) || "0 B"}
             hint="Allows you to faster access game icons, list and other stuff based on your internet speed. Just stores the files on your local machine."
           />
           <AppStat
