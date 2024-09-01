@@ -51,7 +51,7 @@ const CacheScreen = ({ setCacheScreen, setWelcomeScreen }: Props) => {
         <SvgIcon src="icons/icon.svg" alt="nostalgia nexus logo" />
       </header>
       <p>
-        App is cacheing assets to make your experience{" "}
+        Nostalgia Nexus is cacheing assets to make your experience{" "}
         <span>
           EXTERMELY FAST! <SvgIcon src="icons/bolt.svg" alt="fast bolt icon" />
         </span>
