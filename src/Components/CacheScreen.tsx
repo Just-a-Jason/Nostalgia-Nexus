@@ -1,30 +1,48 @@
+import CacheService, { CacheServicePayload } from "../API/CacheService";
 import { DownloadPayload } from "../Interfaces/DownloadPayload";
 import { listen } from "@tauri-apps/api/event";
 import { bytesToFileSize } from "../constants";
-import CacheService from "../API/CacheService";
 import { useEffect, useState } from "react";
 import "./CacheScreen.tsx.scss";
 import SvgIcon from "./SvgIcon";
+import LocalStorage from "../API/LocalStorage";
 
 interface Props {
-  cacheService: CacheService | null;
+  setCacheScreen: (on: boolean) => void;
+  setWelcomeScreen: (on: boolean) => void;
 }
 
-const CacheScreen = ({ cacheService }: Props) => {
+const CacheScreen = ({ setCacheScreen, setWelcomeScreen }: Props) => {
+  const [cache, setCache] = useState<CacheServicePayload | undefined>(
+    undefined
+  );
+
   const [payload, setPayload] = useState<DownloadPayload | undefined>(
     undefined
   );
 
-  console.log(cacheService);
+  const [cacheService, setCacheService] = useState<CacheService | null>(null);
 
   useEffect(() => {
+    if (cacheService) return;
+
     listen("download-progress", (event) => {
       setPayload(event.payload as DownloadPayload);
     });
-  });
 
-  const remaining =
-    (cacheService?.totalItems || 0) - (cacheService?.currentItem || 0);
+    const service = new CacheService({
+      onFinish: () => {
+        setCacheScreen(false);
+        setWelcomeScreen(LocalStorage.tryGet(true, "welcome-screen"));
+        service.useCache();
+      },
+
+      onProgress: (payload) => setCache(payload),
+    });
+    service.writeCache();
+
+    setCacheService(service);
+  });
 
   return (
     <div data-tauri-drag-region className="cache-screen">
@@ -51,10 +69,10 @@ const CacheScreen = ({ cacheService }: Props) => {
           ></div>
         </div>
       </div>
-      <p>Cacheing... {cacheService?.cachingFileName || ""}</p>
+      <p>Cacheing... {cache?.fileName}</p>
       <p>
-        ({cacheService?.currentItem || "0"} / {cacheService?.totalItems || "0"})
-        [Remaining assets: {remaining}]
+        {cache?.currentItem || 0} / {cache?.totalItems || 0} [Remaining assets:{" "}
+        {cache?.remainingAssets || 0}]
       </p>
       <p>
         {bytesToFileSize(payload?.downloaded) || "0 B"} /{" "}

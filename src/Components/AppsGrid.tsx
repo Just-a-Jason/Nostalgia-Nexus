@@ -1,10 +1,9 @@
 import { useEffect, useState } from "react";
 import { getAllIds } from "../API/Database";
-import { APPS_URL } from "../constants";
+import CacheService from "../API/CacheService";
 import { App } from "../Interfaces/App";
 import AppItem from "./AppItem";
 import "./AppsGrid.tsx.scss";
-import axios from "axios";
 
 interface Props {
   showDownloadScreen: (app: App) => void;
@@ -18,12 +17,10 @@ const AppsGrid = ({ showDownloadScreen, showAppsInGrid }: Props) => {
   const fetchApps = async () => {
     try {
       setLibraryIds(await getAllIds());
-      const response = await axios.get(APPS_URL, { responseType: "json" });
-      if (response.status === 200) {
-        setApps(response.data);
-      }
-    } catch {
-      console.warn("Can't fetch the url: " + APPS_URL);
+      const service = new CacheService();
+      setApps(await service.useCache());
+    } catch (error) {
+      console.warn(error);
     }
   };
 

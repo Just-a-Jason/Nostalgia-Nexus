@@ -149,7 +149,7 @@ const DownloadScreen = ({ app, hideDownloadScreen }: Props) => {
         <div className="wrapper">
           <div className="app-img">
             <LazyImage
-              src={`${BASE_IMAGE_URL}${app?.iconUrl}?raw=true`}
+              src={app?.iconUrl || "icons/loading.jpg"}
               alt="app download icon"
             />
             {isInLibrary && (

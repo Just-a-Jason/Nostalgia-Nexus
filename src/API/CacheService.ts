@@ -1,86 +1,178 @@
-import { createDir, exists, writeTextFile } from "@tauri-apps/api/fs";
+import {
+  createDir,
+  exists,
+  readTextFile,
+  writeTextFile,
+} from "@tauri-apps/api/fs";
 import { appDataDir } from "@tauri-apps/api/path";
 import { APPS_URL, BASE_IMAGE_URL } from "../constants";
 import LocalStorage from "./LocalStorage";
 import { invoke } from "@tauri-apps/api";
 import { App } from "../Interfaces/App";
 import axios from "axios";
+import { convertFileSrc } from "@tauri-apps/api/tauri";
+
+interface CacheServiceOptions {
+  onProgress?: (payload?: CacheServicePayload) => void;
+  onFinish?: () => void;
+}
+
+export interface CacheServicePayload {
+  remainingAssets: number;
+  currentItem: number;
+  totalItems: number;
+  fileName: string;
+}
 
 export default class CacheService {
   constructor(
+    private options?: CacheServiceOptions,
     private cacheIconsDir: string = "",
-    public cachingFileName: string = "",
-    private cacheJSONFile = "",
-    public totalItems: number = 0,
-    public currentItem: number = 0
+    private cacheJSONFile = ""
   ) {}
 
-  public async writeCache() {
+  private async setUpPaths() {
     const CACHE_DIR = (await appDataDir()) + "\\cache";
     this.cacheIconsDir = CACHE_DIR + "\\icons";
     this.cacheJSONFile = CACHE_DIR + "\\cache.json";
+  }
+  public async writeCache() {
+    await this.setUpPaths();
 
     const cacheAllowed = LocalStorage.tryGet(true, "allow-cache");
-
     if (cacheAllowed) await this.createCacheDir();
 
     const webData = (await axios.get(APPS_URL, { responseType: "json" }))
       .data as App[];
-
     // Cache disabled
-    if (!cacheAllowed) return;
-    else if (cacheAllowed && !(await exists(this.cacheJSONFile))) {
-      await writeTextFile(this.cacheJSONFile, JSON.stringify(webData));
+    if (!cacheAllowed) {
+      this.options?.onFinish?.();
+      return;
+    } else if (cacheAllowed) {
+      const fileExists = await exists(this.cacheJSONFile);
 
-      this.totalItems = webData.length;
+      if (fileExists) {
+        const localData = JSON.parse(await readTextFile(this.cacheJSONFile));
+        const [diff, indexes] = this.difference(localData, webData);
 
-      // Cache can't be compared to webData. Program must save all data from web.
-      await this.cacheFilesToHardDrive(webData);
+        // Update local version of the file
+        if (diff.length > 0) {
+          for (const i of indexes) {
+            const urlA = `${this.cacheIconsDir}${webData[i].iconUrl}`;
+            const urlB = `${this.cacheIconsDir}${diff[i].iconUrl}`;
+
+            if (urlA !== urlB) {
+              // Remove the old file from cache if exists
+              if (await exists(urlB)) {
+                await invoke("remove_file", { path: urlB });
+              }
+            }
+          }
+
+          await this.cacheFilesToHardDrive(diff);
+
+          await writeTextFile(this.cacheJSONFile, JSON.stringify(webData));
+        }
+
+        this.options?.onFinish?.();
+      } else {
+        await this.cacheFilesToHardDrive(webData, true);
+        await writeTextFile(this.cacheJSONFile, JSON.stringify(webData));
+        this.options?.onFinish?.();
+      }
     }
   }
 
-  private async cacheFilesToHardDrive(apps: App[]) {
+  private async cacheFilesToHardDrive(
+    apps: App[],
+    skipExisting: boolean = false
+  ) {
+    let currentItem = 0;
+
     for (const app of apps) {
       const IMAGE_URL = `${BASE_IMAGE_URL}${app.iconUrl}?raw=true`;
 
       const savePath = `${this.cacheIconsDir}\\${app.iconUrl}`;
-      this.cachingFileName = app.iconUrl;
 
-      await invoke("download_file", { url: IMAGE_URL, dest: savePath });
-      this.currentItem++;
+      const skip = skipExisting && (await exists(savePath));
+
+      this.options?.onProgress?.({
+        remainingAssets: apps.length - currentItem,
+        currentItem: currentItem,
+        fileName: app.iconUrl,
+        totalItems: apps.length,
+      });
+
+      if (!skip)
+        await invoke("download_file", { url: IMAGE_URL, dest: savePath });
+      currentItem++;
     }
   }
 
-  public async useCache(): Promise<App[]> {
-    const webData = (await axios.get(APPS_URL, { responseType: "json" }))
-      .data as App[];
+  async useCache(): Promise<App[]> {
+    await this.setUpPaths();
 
-    if (await this.cacheFileExists()) {
+    let apps: App[];
+
+    if (
+      (await this.cacheFileExists()) &&
+      LocalStorage.tryGet(true, "allow-cache")
+    ) {
+      try {
+        const localData: App[] = JSON.parse(
+          await readTextFile(this.cacheJSONFile)
+        );
+
+        for (const app of localData) {
+          const SRC = `${this.cacheIconsDir}\\${app.iconUrl}`;
+          app.iconUrl = this.loadLocalResource(SRC);
+        }
+
+        apps = localData;
+      } catch {
+        apps = await this.fetchApps();
+      }
+    } else {
+      apps = await this.fetchApps();
     }
 
-    return webData;
+    return apps;
+  }
+
+  async fetchApps(): Promise<App[]> {
+    const apps: App[] = (await axios.get(APPS_URL, { responseType: "json" }))
+      .data;
+
+    // Convert iconUrl to the BASE_IMAGE_URL format
+    for (const app of apps) {
+      app.iconUrl = `${BASE_IMAGE_URL}${app.iconUrl}?raw=true`;
+    }
+
+    return apps;
   }
 
   private async cacheFileExists(): Promise<boolean> {
     return await exists(this.cacheJSONFile);
   }
 
-  private difference(a: App[], b: App[]): App[] {
+  private difference(a: App[], b: App[]): [App[], number[]] {
     const diff: App[] = [];
+    const indexes = [];
 
     // Compare elements that exist in both arrays
     for (let i = 0; i < a.length; i++) {
       if (!this.compare(a[i], b[i])) {
         diff.push(b[i]);
+        indexes.push(i);
       }
     }
 
-    // Add any extra elements from `b` that are beyond the length of `a`
     for (let i = a.length; i < b.length; i++) {
       diff.push(b[i]);
+      indexes.push(i);
     }
 
-    return diff;
+    return [diff, indexes];
   }
 
   private async createCacheDir() {
@@ -88,7 +180,9 @@ export default class CacheService {
     await createDir(this.cacheIconsDir, { recursive: true });
   }
 
-  private async loadLocalResource(path: string) {}
+  private loadLocalResource(path: string) {
+    return convertFileSrc(path);
+  }
 
   private compare(a: App, b: App): boolean {
     return (
