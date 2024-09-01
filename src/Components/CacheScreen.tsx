@@ -15,16 +15,21 @@ const CacheScreen = ({ cacheService }: Props) => {
     undefined
   );
 
+  console.log(cacheService);
+
   useEffect(() => {
     listen("download-progress", (event) => {
       setPayload(event.payload as DownloadPayload);
     });
   });
 
+  const remaining =
+    (cacheService?.totalItems || 0) - (cacheService?.currentItem || 0);
+
   return (
     <div data-tauri-drag-region className="cache-screen">
       <header>
-        <h1>Nostalgia Nexus!</h1>
+        <h1>Nostalgia Nexus</h1>
         <SvgIcon src="icons/icon.svg" alt="nostalgia nexus logo" />
       </header>
       <p>
@@ -48,8 +53,8 @@ const CacheScreen = ({ cacheService }: Props) => {
       </div>
       <p>Cacheing... {cacheService?.cachingFileName || ""}</p>
       <p>
-        Remaining assets: {cacheService?.currentItem || "0"} /{" "}
-        {cacheService?.totalItems || "0"}
+        ({cacheService?.currentItem || "0"} / {cacheService?.totalItems || "0"})
+        [Remaining assets: {remaining}]
       </p>
       <p>
         {bytesToFileSize(payload?.downloaded) || "0 B"} /{" "}

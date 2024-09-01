@@ -24,7 +24,7 @@ const AppLayout = () => {
 
   const [welcomeScreen, setWelcomeScreen] = useState(false);
 
-  const [cacheScreen, setCacheScreen] = useState(false);
+  const [cacheScreen, setCacheScreen] = useState(true);
 
   const [showInstalledApps, setInstalledApps] = useState(
     LocalStorage.tryGet(true, "show-apps-in-lib")
@@ -38,17 +38,19 @@ const AppLayout = () => {
   };
 
   const fetchCache = async () => {
-    if (LocalStorage.tryGet(true, "allow-cache")) {
-      setCacheScreen(true);
+    const screen = LocalStorage.tryGet(true, "welcome-screen");
+    const cache = LocalStorage.tryGet(true, "allow-cache");
 
-      const service = new CacheService();
-      setCacheService(service);
-
-      await service.useCache();
+    if (!cache) {
+      setWelcomeScreen(screen);
+      setCacheScreen(false);
+      return;
     }
 
-    setWelcomeScreen(LocalStorage.tryGet(true, "welcome-screen"));
-    setCacheScreen(false);
+    const service = new CacheService();
+    setCacheService(service);
+
+    await service.writeCache();
   };
 
   useEffect(() => {
