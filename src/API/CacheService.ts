@@ -87,26 +87,24 @@ export default class CacheService {
     apps: App[],
     skipExisting: boolean = false
   ) {
-    let currentItem = 0;
-
-    for (const app of apps) {
+    const downloadPromises = apps.map(async (app, index) => {
       const IMAGE_URL = `${BASE_IMAGE_URL}${app.iconUrl}?raw=true`;
-
       const savePath = `${this.cacheIconsDir}\\${app.iconUrl}`;
-
       const skip = skipExisting && (await exists(savePath));
 
       this.options?.onProgress?.({
-        remainingAssets: apps.length - currentItem,
-        currentItem: currentItem,
+        remainingAssets: apps.length - index,
+        currentItem: index + 1,
         fileName: app.iconUrl,
         totalItems: apps.length,
       });
 
-      if (!skip)
+      if (!skip) {
         await invoke("download_file", { url: IMAGE_URL, dest: savePath });
-      currentItem++;
-    }
+      }
+    });
+
+    await Promise.all(downloadPromises);
   }
 
   async useCache(): Promise<App[]> {
