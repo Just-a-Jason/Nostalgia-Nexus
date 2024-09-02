@@ -1,7 +1,7 @@
 import Database from "tauri-plugin-sql-api";
 import { exists, readTextFile } from "@tauri-apps/api/fs";
 import { App } from "../Interfaces/App";
-import { fileSizeToBytes } from "../constants";
+import { DATABASE_TABLES, fileSizeToBytes } from "../constants";
 
 interface SaveAppOptions {
   basePath: string;
@@ -11,17 +11,11 @@ interface SaveAppOptions {
 export const initDataBase = async () => {
   const db = await loadDataBase();
 
-  await db.execute(`
-      CREATE TABLE IF NOT EXISTS app(
-          name string NOT NULL,
-          savePath string NOT NULL,
-          fullGameCode string,
-          fileID string NOT NULL,
-          fileSize long NOT NULL,
-          lastPlayed string,
-          totalPlayTime INTEGER NOT NULL,
-          iconUrl string NOT NULL );`);
+  const tables = DATABASE_TABLES.map(async (table) => {
+    await db.execute(table);
+  });
 
+  await Promise.all(tables);
   await clearUninstalledGames();
   await db.close();
 };
@@ -60,16 +54,19 @@ export const addGameToLibrary = async ({ app, basePath }: SaveAppOptions) => {
   const db = await loadDataBase();
 
   await db.execute(
-    "INSERT INTO app(name, savePath, fileID, totalPlayTime, fileSize,iconUrl) VALUES(?,?,?,?,?,?);",
+    "INSERT INTO app(fileID, name, fileSize, savePath, iconUrl) VALUES(?,?,?,?,?);",
     [
-      app.name,
-      basePath,
       app.download.fileID,
-      0,
+      app.name,
       fileSizeToBytes(app.download.fileSize),
+      basePath,
       app.iconUrl,
     ]
   );
+
+  await db.execute("INSERT INTO meta_data(fileID) VALUES (?);", [
+    app.download.fileID,
+  ]);
 
   if (await exists(FULL_GAME_CODE)) {
     const code = await readTextFile(FULL_GAME_CODE);

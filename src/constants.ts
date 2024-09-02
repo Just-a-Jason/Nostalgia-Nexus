@@ -46,3 +46,20 @@ export const showNotif = async (data: notification.Options) => {
   if (!(await notification.isPermissionGranted())) return;
   await notification.sendNotification(data);
 };
+
+export const DATABASE_TABLES = [
+  `CREATE TABLE IF NOT EXISTS app(
+    fileID string NOT NULL,
+    savePath string NOT NULL,
+    fileSize long NOT NULL,
+    name string NOT NULL,
+    iconUrl string NOT NULL,
+    fullGameCode string
+  );`,
+
+  `CREATE TABLE IF NOT EXISTS meta_data(
+    fileID string NOT NULL,
+    totalPlayTime INTIGER NOT NULL DEFAULT 0,
+    lastPlayed string
+  );`,
+];

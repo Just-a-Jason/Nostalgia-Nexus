@@ -1,4 +1,4 @@
-import { exists, readTextFile } from "@tauri-apps/api/fs";
+import { exists, readTextFile, writeTextFile } from "@tauri-apps/api/fs";
 import { appDataDir } from "@tauri-apps/api/path";
 import { getClient, ResponseType } from "@tauri-apps/api/http";
 import { createDir } from "@tauri-apps/api/fs";
@@ -111,8 +111,13 @@ export default class GoogleDriveService {
 
       await invoke("unzip_file", { zipPath, destPath });
 
-      // Create desktop shortcut if enabled
+      // Create meta-file
+      const metaFile = destPath + "\\.meta";
+      if (!(await exists(metaFile))) {
+        await writeTextFile(metaFile, this.app.download.fileID);
+      }
 
+      // Create desktop shortcut if enabled
       if (LocalStorage.tryGet(true, "create-shortcut")) {
       }
 
