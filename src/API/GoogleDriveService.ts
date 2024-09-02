@@ -117,11 +117,18 @@ export default class GoogleDriveService {
         await writeTextFile(metaFile, this.app.download.fileID);
       }
 
+      let desktopPath: null | string = null;
+
       // Create desktop shortcut if enabled
       if (LocalStorage.tryGet(true, "create-shortcut")) {
+        desktopPath = await invoke("create_desktop_shortcut", {
+          appName: this.app.name,
+          appPath: `${destPath}\\game.exe`,
+        });
       }
 
       await addGameToLibrary({
+        shortCutPath: desktopPath,
         basePath: destPath,
         app: this.app,
       });
@@ -159,7 +166,6 @@ export default class GoogleDriveService {
 
   private async checkRequirements(destPath: string) {
     const REQUIREMENTS_PATH = destPath + "\\requirements.json";
-    console.log(REQUIREMENTS_PATH);
     if (!(await exists(REQUIREMENTS_PATH))) return;
 
     const requirements = JSON.parse(await readTextFile(REQUIREMENTS_PATH));

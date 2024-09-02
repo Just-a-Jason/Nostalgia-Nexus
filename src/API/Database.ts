@@ -1,9 +1,12 @@
-import Database from "tauri-plugin-sql-api";
 import { exists, readTextFile } from "@tauri-apps/api/fs";
-import { App } from "../Interfaces/App";
 import { DATABASE_TABLES, fileSizeToBytes } from "../constants";
+import Database from "tauri-plugin-sql-api";
+import { App } from "../Interfaces/App";
+import LocalStorage from "./LocalStorage";
+import { invoke } from "@tauri-apps/api";
 
 interface SaveAppOptions {
+  shortCutPath: string | null;
   basePath: string;
   app: App;
 }
@@ -35,6 +38,19 @@ export const getAllIds = async () => {
 export const removeAppFromDataBase = async (fileID: string) => {
   const db = await loadDataBase();
 
+  const shortCutPath: string | null = (
+    (await db.select("SELECT shortCutPath FROM app WHERE fileID = ?;", [
+      fileID,
+    ])) as Record<string, string>[]
+  )[0]["shortCutPath"];
+
+  // Remove shortcut from desktop if it exists
+  if (shortCutPath !== null) {
+    if (await exists(shortCutPath)) {
+      await invoke("remove_file", { path: shortCutPath });
+    }
+  }
+
   await db.execute("DELETE FROM app WHERE fileID = ?;", [fileID]);
 
   await db.close();
@@ -46,7 +62,11 @@ const loadDataBase = async () => {
   return db;
 };
 
-export const addGameToLibrary = async ({ app, basePath }: SaveAppOptions) => {
+export const addGameToLibrary = async ({
+  app,
+  basePath,
+  shortCutPath = null,
+}: SaveAppOptions) => {
   const FULL_GAME_CODE = basePath + "//code.txt";
 
   if ((await inLibrary(app.download.fileID)).exists) return;
@@ -63,6 +83,10 @@ export const addGameToLibrary = async ({ app, basePath }: SaveAppOptions) => {
       app.iconUrl,
     ]
   );
+
+  if (LocalStorage.tryGet(true, "create-shortcut")) {
+    await db.execute("UPDATE app SET shortCutPath = ?;", [shortCutPath]);
+  }
 
   await db.execute("INSERT INTO meta_data(fileID) VALUES (?);", [
     app.download.fileID,

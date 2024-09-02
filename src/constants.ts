@@ -54,7 +54,8 @@ export const DATABASE_TABLES = [
     fileSize long NOT NULL,
     name string NOT NULL,
     iconUrl string NOT NULL,
-    fullGameCode string
+    fullGameCode string,
+    shortCutPath string
   );`,
 
   `CREATE TABLE IF NOT EXISTS meta_data(

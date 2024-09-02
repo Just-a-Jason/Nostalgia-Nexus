@@ -11,26 +11,17 @@ use tokio::task;
 use zip::read::ZipArchive;
 
 #[command]
-pub fn create_desktop_shortcut(
-    app_handle: tauri::AppHandle,
-    app_name: String,
-) -> Result<(), String> {
-    // Path to the target executable
-    let app_path = app_handle
-        .path_resolver()
-        .resolve_resource("your_app_name")
-        .ok_or("Could not resolve app path")?;
+pub fn create_desktop_shortcut(app_name: String, app_path: String) -> Result<String, String> {
+    let app_path = std::path::Path::new(&app_path);
 
-    // Path to the shortcut you want to create
     let shortcut_path = dirs::desktop_dir()
         .ok_or("Could not find desktop directory")?
         .join(format!("{}.lnk", app_name));
 
-    // Create the shortcut
     let sl = ShellLink::new(&app_path).map_err(|e| e.to_string())?;
     sl.create_lnk(&shortcut_path).map_err(|e| e.to_string())?;
 
-    Ok(())
+    Ok(shortcut_path.to_string_lossy().to_string())
 }
 
 #[command]
