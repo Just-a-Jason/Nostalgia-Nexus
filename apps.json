@@ -36,6 +36,18 @@
     }
   },
   {
+    "name": "Angry Birds Rio 2",
+    "releseDate": "April 11, 2014",
+    "iconUrl": "AB Rio2.jpg",
+    "description": "\"Angry Birds Rio2\" is an exciting installment in the popular Angry Birds franchise, developed by Rovio Entertainment in partnership with 20th Century Fox. Released in March 2014, the game was inspired by the animated film \"Rio.\" In this edition, the Angry Birds are not battling against the usual green pigs but instead find themselves in the vibrant city of Rio de Janeiro, Brazil.",
+
+    "download": {
+      "fileSize": "119 MB",
+      "version": "2.2.0",
+      "fileID": "1H9nh2g3xB3R62F5fCRS5-gX5lJrJvdo5"
+    }
+  },
+  {
     "name": "Angry Birds Seasons",
     "releseDate": "October 21, 2010",
     "iconUrl": "AB Seasons.jpg",
@@ -75,9 +87,9 @@
     "iconUrl": "AB Star Wars II.jpg",
     "description": "\"Angry Birds Star Wars II\" is a thrilling sequel to the successful crossover between the Angry Birds franchise and the legendary \"Star Wars\" universe. Developed by Rovio Entertainment in partnership with Lucasfilm, the game was released in September 2013.",
     "download": {
-      "fileSize": "67 MB",
-      "version": "1.1.2",
-      "fileID": "127r_StdEDrIGIU6z_YVSFZRu6Yc0KF-p"
+      "fileSize": "102 MB",
+      "version": "1.5.1",
+      "fileID": "1uYL8sg9JbdlTMPmKACg20glTdT6jiYSg"
     }
   },
   {
