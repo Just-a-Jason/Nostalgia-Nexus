@@ -52,7 +52,8 @@
           "$APPDATA/*",
           "$APPDATA/library/**",
           "$APPDATA/cache/**",
-          "$APPDATA/cache/cache.json"
+          "$APPDATA/cache/cache.json",
+          "$DESKTOP/**"
         ]
       },
       "protocol": {

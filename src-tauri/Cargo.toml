@@ -11,7 +11,8 @@ edition = "2021"
 tauri-build = { version = "1", features = [] }
 
 [dependencies]
-tauri = { version = "1", features = [ "protocol-asset",
+tauri = { version = "1", features = [
+    "protocol-asset",
     "shell-execute",
     "notification-all",
     "path-all",
@@ -31,7 +32,8 @@ reqwest = { version = "0.11", features = ["blocking"] }
 tokio = { version = "1", features = ["full"] }
 winapi = { version = "0.3", features = ["winbase"] }
 zip = "0.5"
-
+mslnk = "0.1.8"
+dirs = "4.0"
 
 [dependencies.tauri-plugin-sql]
 git = "https://github.com/tauri-apps/plugins-workspace"
