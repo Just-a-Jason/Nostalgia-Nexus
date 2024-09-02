@@ -12,7 +12,7 @@ export const initDataBase = async () => {
   const db = await loadDataBase();
 
   await db.execute(`
-      CREATE TABLE IF NOT EXISTS apps(
+      CREATE TABLE IF NOT EXISTS app(
           name string NOT NULL,
           savePath string NOT NULL,
           fullGameCode string,
@@ -30,7 +30,7 @@ export const getAllIds = async () => {
   const db = await loadDataBase();
 
   const res: string[] = (
-    (await db.select("SELECT fileID FROM apps;")) as string[]
+    (await db.select("SELECT fileID FROM app;")) as string[]
   ).map((obj: any) => obj.fileID);
 
   await db.close();
@@ -41,7 +41,7 @@ export const getAllIds = async () => {
 export const removeAppFromDataBase = async (fileID: string) => {
   const db = await loadDataBase();
 
-  await db.execute("DELETE FROM apps WHERE fileID = ?;", [fileID]);
+  await db.execute("DELETE FROM app WHERE fileID = ?;", [fileID]);
 
   await db.close();
 };
@@ -60,7 +60,7 @@ export const addGameToLibrary = async ({ app, basePath }: SaveAppOptions) => {
   const db = await loadDataBase();
 
   await db.execute(
-    "INSERT INTO apps(name, savePath, fileID, totalPlayTime, fileSize,iconUrl) VALUES(?,?,?,?,?,?);",
+    "INSERT INTO app(name, savePath, fileID, totalPlayTime, fileSize,iconUrl) VALUES(?,?,?,?,?,?);",
     [
       app.name,
       basePath,
@@ -73,7 +73,7 @@ export const addGameToLibrary = async ({ app, basePath }: SaveAppOptions) => {
 
   if (await exists(FULL_GAME_CODE)) {
     const code = await readTextFile(FULL_GAME_CODE);
-    await db.execute("UPDATE apps SET fullGameCode = ? WHERE fileID = ?;", [
+    await db.execute("UPDATE app SET fullGameCode = ? WHERE fileID = ?;", [
       code,
       app.download.fileID,
     ]);
@@ -86,7 +86,7 @@ export const inLibrary = async (fileID: string) => {
   const db = await loadDataBase();
 
   const appData: Record<string, any> = await db.select(
-    "SELECT savePath FROM apps WHERE fileID = ?;",
+    "SELECT savePath FROM app WHERE fileID = ?;",
     [fileID]
   );
 
@@ -100,11 +100,11 @@ export const inLibrary = async (fileID: string) => {
 const clearUninstalledGames = async () => {
   const db = await loadDataBase();
 
-  const games: any[] = await db.select("SELECT fileID, savePath FROM apps;");
+  const games: any[] = await db.select("SELECT fileID, savePath FROM app;");
 
   for (const game of games) {
     if (!(await exists(game.savePath))) {
-      await db.execute("DELETE FROM apps WHERE fileID = ?;", [game.fileID]);
+      await db.execute("DELETE FROM app WHERE fileID = ?;", [game.fileID]);
     }
   }
 
@@ -114,7 +114,7 @@ const clearUninstalledGames = async () => {
 export const totalInstalledSize = async () => {
   const db = await loadDataBase();
 
-  const sizes = await db.select("SELECT SUM(fileSize) as totalSize FROM apps;");
+  const sizes = await db.select("SELECT SUM(fileSize) as totalSize FROM app;");
 
   await db.close();
   return sizes;

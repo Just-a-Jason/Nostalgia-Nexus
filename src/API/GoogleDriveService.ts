@@ -111,6 +111,11 @@ export default class GoogleDriveService {
 
       await invoke("unzip_file", { zipPath, destPath });
 
+      // Create desktop shortcut if enabled
+
+      if (LocalStorage.tryGet(true, "create-shortcut")) {
+      }
+
       await addGameToLibrary({
         basePath: destPath,
         app: this.app,

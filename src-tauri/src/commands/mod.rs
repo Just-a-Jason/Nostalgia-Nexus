@@ -1,5 +1,2 @@
-pub mod download;
-pub mod folder_size;
-pub mod remove_file;
+pub mod file_managment;
 pub mod run_game;
-pub mod unzip;

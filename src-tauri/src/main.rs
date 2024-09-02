@@ -7,11 +7,12 @@ fn main() {
     tauri::Builder::default()
         .plugin(tauri_plugin_sql::Builder::default().build())
         .invoke_handler(tauri::generate_handler![
-            commands::download::download_file,
-            commands::unzip::unzip_file,
-            commands::remove_file::remove_file,
+            commands::file_managment::download_file,
+            commands::file_managment::unzip_file,
+            commands::file_managment::remove_file,
             commands::run_game::run_game,
-            commands::folder_size::get_folder_size
+            commands::file_managment::get_folder_size,
+            commands::file_managment::create_desktop_shortcut
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
