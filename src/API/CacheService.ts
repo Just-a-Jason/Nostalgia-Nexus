@@ -8,7 +8,7 @@ import { appDataDir } from "@tauri-apps/api/path";
 import { APPS_URL, BASE_IMAGE_URL } from "../constants";
 import LocalStorage from "./LocalStorage";
 import { invoke } from "@tauri-apps/api";
-import { App } from "../Interfaces/App";
+import App from "../Interfaces/App";
 import axios from "axios";
 import { convertFileSrc } from "@tauri-apps/api/tauri";
 

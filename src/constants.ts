@@ -85,8 +85,8 @@ export const parseCategory = (category: Category) => {
 
 export const CATEGORIES = [
   Category.AngryBirds,
-  Category.Educational,
   Category.Fnaf,
   Category.OldScottGames,
   Category.PointAndClick,
+  Category.Educational,
 ];

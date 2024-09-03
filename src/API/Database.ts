@@ -1,7 +1,7 @@
 import { exists, readTextFile } from "@tauri-apps/api/fs";
 import { DATABASE_TABLES, fileSizeToBytes } from "../constants";
 import Database from "tauri-plugin-sql-api";
-import { App } from "../Interfaces/App";
+import App from "../Interfaces/App";
 import LocalStorage from "./LocalStorage";
 import { invoke } from "@tauri-apps/api";
 
