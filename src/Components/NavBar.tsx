@@ -8,7 +8,7 @@ const NavBar = () => {
       <TitleBar />
       <nav className="nav-bar">
         <ul>
-          <NavItem route="/apps" icon="icons/apps.svg" text="Apps" />
+          {/* <NavItem route="/apps" icon="icons/apps.svg" text="Apps" /> */}
           <NavItem route="/" icon="icons/games.svg" text="Games" />
           <NavItem
             route="/settings"

@@ -6,7 +6,8 @@
   overflow-x: hidden;
   color: #fff;
   padding: 15px;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   height: 100%;
   gap: 10px;
 

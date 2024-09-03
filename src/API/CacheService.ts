@@ -192,7 +192,8 @@ export default class CacheService {
       a.releseDate === b.releseDate &&
       a.download.fileSize === b.download.fileSize &&
       a.download.version === b.download.version &&
-      a.download.fileID === b.download.fileID
+      a.download.fileID === b.download.fileID &&
+      a.category === b.category
     );
   }
 }

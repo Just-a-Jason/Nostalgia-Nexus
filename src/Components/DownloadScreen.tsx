@@ -7,7 +7,7 @@ import DownloadOption from "./DownloadOption";
 import { useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api";
 import { showNotif } from "../constants";
-import { App } from "../Interfaces/App";
+import App from "../Interfaces/App";
 import LazyImage from "./LazyImage";
 import "./DownloadScreen.tsx.scss";
 import SvgIcon from "./SvgIcon";

@@ -1,5 +1,6 @@
 import { notification } from "@tauri-apps/api";
 import LocalStorage from "./API/LocalStorage";
+import Category from "./Interfaces/Category";
 
 export const APPS_URL =
   "https://raw.githubusercontent.com/Just-a-Jason/Nostalgia-Nexus/main/apps.json";
@@ -63,4 +64,29 @@ export const DATABASE_TABLES = [
     totalPlayTime INTIGER NOT NULL DEFAULT 0,
     lastPlayed string
   );`,
+];
+
+export const parseCategory = (category: Category) => {
+  switch (category) {
+    case Category.AngryBirds:
+      return "Angry Birds (2009-2014)";
+    case Category.Educational:
+      return "Educational Games (2009)";
+    case Category.Fnaf:
+      return "Five nights at Freddy's (2014-2016)";
+    case Category.OldScottGames:
+      return "Old Scott Games (2003-2007)";
+    case Category.PointAndClick:
+      return "Point & Click (2008-2009)";
+    default:
+      return "In Library";
+  }
+};
+
+export const CATEGORIES = [
+  Category.AngryBirds,
+  Category.Educational,
+  Category.Fnaf,
+  Category.OldScottGames,
+  Category.PointAndClick,
 ];
