@@ -28,7 +28,7 @@ export default class CacheService {
   constructor(
     private options?: CacheServiceOptions,
     private cacheIconsDir: string = "",
-    private cacheJSONFile = ""
+    private cacheJSONFile: string = ""
   ) {}
 
   private async setUpPaths() {
@@ -56,10 +56,11 @@ export default class CacheService {
         const [diff, indexes] = this.difference(localData, webData);
 
         // Update local version of the file
+        let cacheIndex = 0;
         if (diff.length > 0) {
           for (const i of indexes) {
             const urlA = `${this.cacheIconsDir}${webData[i].iconUrl}`;
-            const urlB = `${this.cacheIconsDir}${diff[i].iconUrl}`;
+            const urlB = `${this.cacheIconsDir}${diff[cacheIndex++].iconUrl}`;
 
             if (urlA !== urlB) {
               // Remove the old file from cache if exists
@@ -72,6 +73,7 @@ export default class CacheService {
           await this.cacheFilesToHardDrive(diff);
 
           await writeTextFile(this.cacheJSONFile, JSON.stringify(webData));
+          window.location.reload();
         }
 
         this.options?.onFinish?.();
