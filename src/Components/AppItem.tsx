@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { App } from "../Interfaces/App";
+import App from "../Interfaces/App";
 import LazyImage from "./LazyImage";
 import "./AppItem.tsx.scss";
 import SvgIcon from "./SvgIcon";

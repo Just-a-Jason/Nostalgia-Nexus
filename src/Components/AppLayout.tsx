@@ -4,7 +4,7 @@ import LocalStorage from "../API/LocalStorage";
 import DownloadScreen from "./DownloadScreen";
 import WelcomeScreen from "./WelcomeScreen";
 import Settings from "./Routes/Settings";
-import { App } from "../Interfaces/App";
+import App from "../Interfaces/App";
 import AppsGrid from "./AppsGrid";
 import CacheScreen from "./CacheScreen";
 import { useState } from "react";

@@ -4,7 +4,7 @@
     "releseDate": "2013/2014",
     "iconUrl": "AB Breakfast1.jpg",
     "description": "\"Angry Birds Breakfast 1\" is a breakfast-themed mobile game featuring the iconic Angry Birds characters flinging breakfast foods to defeat green pigs and rescue stolen eggs.",
-
+    "category": 1,
     "download": {
       "fileSize": "50 MB",
       "version": "1.0.0",
@@ -16,7 +16,7 @@
     "releseDate": "December 11, 2009",
     "iconUrl": "AB Classic.jpg",
     "description": "\"Angry Birds Classic\" is the groundbreaking and much-loved mobile game that revolutionized the gaming industry. Developed by Rovio Entertainment, it was first released in December 2009 and quickly became a global sensation. In this addictively fun game, players are tasked with launching a variety of cute and colorful birds from a slingshot to dismantle intricate structures housing pesky green pigs.",
-
+    "category": 1,
     "download": {
       "fileSize": "105 MB",
       "version": "3.3.0",
@@ -28,7 +28,7 @@
     "releseDate": "March 21, 2011",
     "iconUrl": "AB Rio.jpg",
     "description": "\"Angry Birds Rio\" is an exciting installment in the popular Angry Birds franchise, developed by Rovio Entertainment in partnership with 20th Century Fox. Released in March 2011, the game was inspired by the animated film \"Rio.\" In this edition, the Angry Birds are not battling against the usual green pigs but instead find themselves in the vibrant city of Rio de Janeiro, Brazil.",
-
+    "category": 1,
     "download": {
       "fileSize": "51 MB",
       "version": "1.4.4",
@@ -40,7 +40,7 @@
     "releseDate": "April 11, 2014",
     "iconUrl": "AB Rio2.jpg",
     "description": "\"Angry Birds Rio2\" is an exciting installment in the popular Angry Birds franchise, developed by Rovio Entertainment in partnership with 20th Century Fox. Released in March 2014, the game was inspired by the animated film \"Rio.\" In this edition, the Angry Birds are not battling against the usual green pigs but instead find themselves in the vibrant city of Rio de Janeiro, Brazil.",
-
+    "category": 1,
     "download": {
       "fileSize": "119 MB",
       "version": "2.2.0",
@@ -52,7 +52,7 @@
     "releseDate": "October 21, 2010",
     "iconUrl": "AB Seasons.jpg",
     "description": "\"Angry Birds Seasons\" is a captivating spin-off of the popular Angry Birds franchise, developed by Rovio Entertainment. Released in October 2010, the game introduces a seasonal theme, with each level pack corresponding to various holidays and events throughout the year.",
-
+    "category": 1,
     "download": {
       "fileSize": "131 MB",
       "version": "4.0.0",
@@ -64,6 +64,7 @@
     "releseDate": "March 22, 2012",
     "iconUrl": "AB Space.jpg",
     "description": "\"Angry Birds Space\" is a captivating and innovative addition to the beloved Angry Birds franchise, developed by Rovio Entertainment. Released in March 2012, the game takes the classic bird-flinging gameplay to new heights by introducing players to a whole new dimension of physics-based puzzles.",
+    "category": 1,
     "download": {
       "fileSize": "66 MB",
       "version": "2.0.0",
@@ -75,6 +76,7 @@
     "releseDate": "November 8, 2012",
     "iconUrl": "AB Star Wars.jpg",
     "description": "\"Angry Birds Star Wars\" is an epic crossover between the world-famous Angry Birds franchise and the iconic \"Star Wars\" universe. Developed by Rovio Entertainment in collaboration with Lucasfilm, the game was launched in November 2012 and quickly became a massive hit.",
+    "category": 1,
     "download": {
       "fileSize": "91 MB",
       "version": "1.5.0",
@@ -86,6 +88,7 @@
     "releseDate": "September 18, 2013",
     "iconUrl": "AB Star Wars II.jpg",
     "description": "\"Angry Birds Star Wars II\" is a thrilling sequel to the successful crossover between the Angry Birds franchise and the legendary \"Star Wars\" universe. Developed by Rovio Entertainment in partnership with Lucasfilm, the game was released in September 2013.",
+    "category": 1,
     "download": {
       "fileSize": "102 MB",
       "version": "1.5.1",
@@ -97,6 +100,7 @@
     "releseDate": "September 27, 2012",
     "iconUrl": "BP.jpg",
     "description": "\"Bad Piggies\" is a spin-off game from the Angry Birds franchise, created by Rovio Entertainment. Released in September 2012, the game takes a unique perspective by allowing players to take on the role of the mischievous green pigs, who are typically the antagonists in the Angry Birds series.",
+    "category": 1,
     "download": {
       "fileSize": "39 MB",
       "version": "1.5.1",
@@ -108,6 +112,7 @@
     "releseDate": "October 7, 2016",
     "iconUrl": "fnaf_sl.jpg",
     "description": "In Five Nights at Freddy's: Sister Location, players explore a new animatronic facility, taking on the role of a technician named Mike. The game deviates from the traditional security guard setting and introduces a narrative-driven experience. Players navigate through different sections of the facility, facing unique animatronics and completing tasks. The game includes a mix of suspenseful gameplay and a deeper narrative, shedding light on the dark lore of the FNaF universe.",
+    "category": 0,
     "download": {
       "fileSize": "906 MB",
       "version": "1.0.0.0",
@@ -119,6 +124,7 @@
     "releseDate": "August 8, 2014",
     "iconUrl": "fnaf1.jpg",
     "description": "\"Five Nights at Freddy's 1\" is a horror game where players work as a night security guard at Freddy Fazbear's Pizza, fending off animatronic characters that come to life. The goal is to survive five nights by monitoring cameras and closing security doors to avoid jump scares from the animatronics.",
+    "category": 0,
     "download": {
       "fileSize": "220 MB",
       "version": "1.131.0.0",
@@ -130,6 +136,7 @@
     "releseDate": "November 11, 2014",
     "iconUrl": "fnaf2.jpg",
     "description": "\"Five Nights at Freddy's 2\" is the sequel where players work as a night security guard again, facing new animatronics in a different location. There are no security doors, and players must manage a music box to avoid attacks from the Puppet. The game introduces a Freddy Fazbear mask for defense, adding to the suspenseful gameplay.",
+    "category": 0,
     "download": {
       "fileSize": "207 MB",
       "version": "1.32.0.0",
@@ -141,6 +148,7 @@
     "releseDate": "March 2, 2015",
     "iconUrl": "fnaf3.jpg",
     "description": "\"In Five Nights at Freddy's 3, players take on the role of a security guard once more, but this time in a horror attraction. The main threat is Springtrap, a decommissioned animatronic, haunted by a vengeful spirit. The game introduces a unique mechanic involving audio devices to lure Springtrap away. The atmosphere is tense as players navigate through a haunted location while trying to survive the night.\"",
+    "category": 0,
     "download": {
       "fileSize": "111 MB",
       "version": "1.31.0.0",
@@ -152,6 +160,7 @@
     "releseDate": "July 23, 2015",
     "iconUrl": "fnaf4.jpg",
     "description": "\"In Five Nights at Freddy's 4, players assume the role of a child trying to survive a series of nights at home haunted by nightmare versions of animatronic characters. Unlike previous games, there is no security office; instead, players must listen for subtle audio cues to anticipate and defend against animatronic attacks. The game features a more intense and personal atmosphere, with a focus on sound and fear of the unknown, making it a unique and challenging installment in the series.\"",
+    "category": 0,
     "download": {
       "fileSize": "498 MB",
       "version": "1.0.0.0",
@@ -163,6 +172,7 @@
     "releseDate": "October 30, 2015",
     "iconUrl": "fnaf4.jpg",
     "description": "\"In Five Nights at Freddy's 4, players assume the role of a child trying to survive a series of nights at home haunted by nightmare versions of animatronic characters. Unlike previous games, there is no security office; instead, players must listen for subtle audio cues to anticipate and defend against animatronic attacks. The game features a more intense and personal atmosphere, with a focus on sound and fear of the unknown, making it a unique and challenging installment in the series.\"",
+    "category": 0,
     "download": {
       "fileSize": "494 MB",
       "version": "1.0.0.0",
@@ -174,6 +184,7 @@
     "releseDate": "2003",
     "iconUrl": "Legacy of Flan.jpg",
     "description": "\"Legacy of Flan: Flan Rising\" is an interesting RPG with a unique fighting and leveling system. You play a group of four flans (little marshmallow-like creatures), which all have different strengths and weaknesses. While fighting enemies you can collect drops that change one flan into a new one with new abilities. This way your group will get stronger and be able to fight more powerful foes. But it's not always easy to find the right combination of flans to win a fight. Made by Scott Cawthon in 2003.",
+    "category": 2,
     "download": {
       "fileSize": "72 MB",
       "version": "1.0.0",
@@ -185,6 +196,7 @@
     "releseDate": "August 13, 2007",
     "iconUrl": "The Desolate Room.jpg",
     "description": "\"The Desolate Room\" is a retro-style indie game developed by Scott Cawthon, the creator of the popular \"Five Nights at Freddy's\" series. It was released in 2007 and serves as one of Scott's earlier works in game development.",
+    "category": 2,
     "download": {
       "fileSize": "58 MB",
       "version": "1.0.0",
@@ -196,6 +208,7 @@
     "releseDate": "October 10, 2008",
     "iconUrl": "SklepikNemo.jpg",
     "description": "\"Sklepik Nemo\" to symulator, w którym zarządzasz własnym sklepem. Gracze muszą dbać o zaopatrzenie, obsługę klientów i rozwój swojego biznesu, aby osiągnąć sukces. Gra oferuje różnorodne wyzwania związane z prowadzeniem sklepu, co sprawia, że jest interesująca i wciągająca.",
+    "category": 4,
     "download": {
       "fileSize": "30 MB",
       "version": "1.0.0",
@@ -207,6 +220,7 @@
     "releseDate": "October 10, 2009",
     "iconUrl": "bylosobiezycie.jpg",
     "description": "Gra edukacyjna “Było Sobie Życie - Oddychanie” od Hippocampus to unikatowy tytuł, który pozwala graczom na poznanie mechanizmów oddychania i funkcjonowania układu oddechowego w ludzkim ciele.",
+    "category": 3,
     "download": {
       "fileSize": "91 MB",
       "version": "1.0.0",
@@ -218,6 +232,7 @@
     "releseDate": "October 10, 2009",
     "iconUrl": "cubiq.jpg",
     "description": "Stara gra dodawana do zestawu CD razem z grą \"Sklepik Nemo\"",
+    "category": 4,
     "download": {
       "fileSize": "30 MB",
       "version": "1.0.0",
