@@ -7,7 +7,7 @@ import { listen } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api/tauri";
 import { DownloadPayload } from "../Interfaces/DownloadPayload";
 import { addGameToLibrary } from "./Database";
-import { App } from "../Interfaces/App";
+import App from "../Interfaces/App";
 import LocalStorage from "./LocalStorage";
 
 interface DownloadOptions {
