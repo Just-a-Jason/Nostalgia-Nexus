@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { getAllIds } from "../API/Database";
 import CacheService from "../API/CacheService";
 import App from "../Interfaces/App";
-import AppItem from "./AppItem";
 import "./AppsGrid.tsx.scss";
 import CategoryGroup from "./CategoryGroup";
 import { CATEGORIES } from "../constants";
@@ -33,7 +32,14 @@ const AppsGrid = ({ showDownloadScreen, showAppsInGrid }: Props) => {
   return (
     <section className="apps-grid">
       {CATEGORIES.map((category, index) => (
-        <CategoryGroup apps={apps} category={category} key={index} />
+        <CategoryGroup
+          showDownloadScreen={showDownloadScreen}
+          showIfInLib={showAppsInGrid}
+          appIds={libraryIds}
+          category={category}
+          apps={apps}
+          key={index}
+        />
       ))}
       {/* {apps.map((app, index) => (
         <AppItem
