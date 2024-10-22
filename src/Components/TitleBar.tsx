@@ -15,6 +15,13 @@ const TitleBar = () => {
           title="Minimize app"
         />
         <TitleBarButton
+          onClick={async () => {
+            (await app.isMaximized()) ? app.unmaximize() : app.maximize();
+          }}
+          icon="icons/maximize.svg"
+          title="Maximize app"
+        />
+        <TitleBarButton
           onClick={() => app.close()}
           icon="icons/close.svg"
           title="Close app"

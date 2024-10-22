@@ -149,8 +149,6 @@ export const loadUserLibrary = async (): Promise<AppInLibrary[]> => {
     "SELECT savePath, fileSize, name, iconUrl, fullGameCode, shortCutPath FROM app;"
   );
 
-  console.log(libraryData);
-
   await db.close();
   return libraryData as AppInLibrary[];
 };

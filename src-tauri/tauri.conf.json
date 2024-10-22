@@ -30,6 +30,7 @@
         "show": true,
         "minimize": true,
         "unminimize": true,
+        "maximize": true,
         "startDragging": true
       },
       "http": {
@@ -66,8 +67,12 @@
         "title": "Nostalgia Nexus Launcher",
         "width": 1000,
         "height": 700,
+        "minWidth": 700,
+        "minHeight": 700,
         "center": true,
-        "resizable": false,
+        "resizable": true,
+        "maximizable": true,
+        "minimizable": true,
         "decorations": false,
         "transparent": true
       }

@@ -1,1 +1,82 @@
 $background-color: #111216;
+
+$small-screen: 800px;
+$medium-screen: 1280px;
+$big-screen: 1500px;
+
+@media only screen and (min-width: $medium-screen) {
+  .category-group {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media only screen and (min-width: $big-screen) {
+  .category-group {
+    grid-template-columns: repeat(6, 1fr);
+  }
+
+  #root {
+    border: none !important;
+    border-radius: unset !important;
+  }
+
+  .app-footer {
+    border-radius: unset;
+  }
+
+  .title-bar {
+    border-radius: unset;
+  }
+
+  .wrapper {
+    .options {
+      width: 60%;
+      height: 400px;
+    }
+    .lazy-img,
+    .lazy-image {
+      width: 400px;
+      height: 400px;
+    }
+  }
+}
+
+@media only screen and (max-width: $small-screen) {
+  .category-group {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .download-screen {
+    .wrapper {
+      .in-library {
+        width: 250px;
+        height: 250px;
+        inset: unset;
+      }
+
+      .options {
+        width: 60%;
+        .buttons {
+          button {
+            font-size: 15px;
+            width: 120px;
+            gap: 5px;
+            svg {
+              width: 10px;
+            }
+          }
+        }
+      }
+
+      .app-img {
+        align-items: center;
+        display: flex;
+      }
+      .lazy-img,
+      .lazy-image {
+        width: 250px;
+        height: 250px;
+      }
+    }
+  }
+}
