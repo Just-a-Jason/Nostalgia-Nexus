@@ -1,8 +1,17 @@
-# Nostalgia Nexus
+Nostalgia nexus is a game launcher for old forgotten or deleted games. 🎮
 
-![image](https://github.com/user-attachments/assets/12355582-ca61-4f10-a3af-65c16ed2420f)
-![image](https://github.com/user-attachments/assets/ec72f320-a1ba-4fa7-a64e-ded52bfd7306)
+# Download Screen ⬇️
 
-App made with TypeScript, Tauri, React, Scss & Rust 💞
+> ![download-screen](https://raw.githubusercontent.com/Just-a-Jason/Nostalgia-Nexus/main/screenshots/app_download_screen.png)
 
-It is a launcher for old games wich you can't play anymore... 😢
+# Integrated library system 📚
+
+> ![library-page](https://raw.githubusercontent.com/Just-a-Jason/Nostalgia-Nexus/main/screenshots/hub.png)
+
+> ![library-page](https://raw.githubusercontent.com/Just-a-Jason/Nostalgia-Nexus/main/screenshots/library_page.png)
+
+> It's made with TypeScript, Tauri, React, Scss & Rust! 💞
+
+## IMPORTANT NOTE! ⚠️
+
+> It's still under development! 🛠️
