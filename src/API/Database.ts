@@ -4,6 +4,7 @@ import Database from "tauri-plugin-sql-api";
 import App from "../Interfaces/App";
 import LocalStorage from "./LocalStorage";
 import { invoke } from "@tauri-apps/api";
+import AppInLibrary from "../Interfaces/AppInLibrary";
 
 interface SaveAppOptions {
   shortCutPath: string | null;
@@ -139,6 +140,17 @@ export const totalInstalledSize = async () => {
 
   await db.close();
   return sizes;
+};
+
+export const loadUserLibrary = async (): Promise<AppInLibrary[]> => {
+  const db = await loadDataBase();
+
+  const libraryData = await db.select(
+    "SELECT savePath, fileSize, name, iconUrl, fullGameCode, shortCutPath FROM app;"
+  );
+
+  await db.close();
+  return libraryData as AppInLibrary[];
 };
 
 export default loadDataBase;

@@ -1,14 +1,14 @@
 import { exists, readTextFile, writeTextFile } from "@tauri-apps/api/fs";
-import { appDataDir } from "@tauri-apps/api/path";
 import { getClient, ResponseType } from "@tauri-apps/api/http";
-import { createDir } from "@tauri-apps/api/fs";
+import { DownloadPayload } from "../Interfaces/DownloadPayload";
 import { showNotif, VIRUS_WARNING_REGEX } from "../constants";
+import { appDataDir } from "@tauri-apps/api/path";
+import { createDir } from "@tauri-apps/api/fs";
 import { listen } from "@tauri-apps/api/event";
 import { invoke } from "@tauri-apps/api/tauri";
-import { DownloadPayload } from "../Interfaces/DownloadPayload";
 import { addGameToLibrary } from "./Database";
-import App from "../Interfaces/App";
 import LocalStorage from "./LocalStorage";
+import App from "../Interfaces/App";
 
 interface DownloadOptions {
   downloadingFinished: (path: string | null) => void;

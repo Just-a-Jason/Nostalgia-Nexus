@@ -11,6 +11,7 @@ import { useState } from "react";
 import "./AppLayout.tsx.scss";
 import Footer from "./Footer";
 import NavBar from "./NavBar";
+import Library from "./Routes/Library";
 
 const AppLayout = () => {
   const [appData, setAppData] = useState<App | undefined>(undefined);
@@ -63,6 +64,7 @@ const AppLayout = () => {
                 />
               }
             />
+            <Route path="/library" element={<Library />} />
           </Routes>
         </div>
 
