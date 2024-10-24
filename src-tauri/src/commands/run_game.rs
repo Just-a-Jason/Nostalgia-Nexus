@@ -26,7 +26,9 @@ pub async fn run_game(window: Window, dir_path: String) -> Result<(), String> {
 
         // Start the timer
         let timer = Instant::now();
-        let _ = child_process.wait();
+
+        // Wait untill the game closes 🕛
+        child_process.wait().map_err(|e| e.to_string())?;
 
         // The game has been closed, now calculate the time in-game
         println!("{:?}", timer.elapsed());
