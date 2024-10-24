@@ -12,6 +12,7 @@ import "./AppLayout.tsx.scss";
 import Footer from "./Footer";
 import NavBar from "./NavBar";
 import Library from "./Routes/Library";
+import { listen } from "@tauri-apps/api/event";
 
 const AppLayout = () => {
   const [appData, setAppData] = useState<App | undefined>(undefined);
@@ -36,6 +37,9 @@ const AppLayout = () => {
     setDownloadScreen(true);
     setAppData(app);
   };
+
+  listen("game-started", () => {});
+  listen("game-ended", () => {});
 
   return (
     <Router>
