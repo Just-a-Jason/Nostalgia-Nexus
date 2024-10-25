@@ -9,10 +9,11 @@
   overflow-y: scroll;
 
   .library-item {
+    filter: drop-shadow(2px 2px 20px #4d788f);
+    position: relative;
     transition: 200ms;
     position: relative;
     border: solid 3px #4d788f;
-    filter: drop-shadow(2px 2px 20px #4d788f);
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -24,7 +25,9 @@
     border-radius: 10px;
 
     &:hover {
-      transform: skew(2deg, 2deg);
+      // transform: skew(2deg, 2deg);
+      transform: perspective(800px);
+
       img {
         transform: scale(1.2);
       }
@@ -35,7 +38,7 @@
     }
 
     .info {
-      background: linear-gradient(45deg, #000, #268fd086);
+      background: linear-gradient(45deg, #000, #268fd0ce);
       pointer-events: none;
       position: absolute;
       width: 100%;
@@ -55,5 +58,21 @@
       transition: 200ms;
       width: 300px;
     }
+  }
+
+  .title {
+    font-weight: bold;
+    background-clip: text;
+    font-size: 25px;
+    position: absolute;
+    left: 20px;
+    top: 10px;
+  }
+  .total-play-time {
+    position: absolute;
+    left: 10px;
+    bottom: 10px;
+    font-size: 20px;
+    opacity: 0.5;
   }
 }

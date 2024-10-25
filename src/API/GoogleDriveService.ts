@@ -1,4 +1,4 @@
-import { exists, readTextFile } from "@tauri-apps/api/fs";
+import { exists } from "@tauri-apps/api/fs";
 import { getClient, ResponseType } from "@tauri-apps/api/http";
 import { DownloadPayload } from "../Interfaces/DownloadPayload";
 import { showNotif, VIRUS_WARNING_REGEX } from "../constants";
@@ -165,8 +165,7 @@ export default class GoogleDriveService {
     const REQUIREMENTS_PATH = destPath + "\\requirements.json";
     if (!(await exists(REQUIREMENTS_PATH))) return;
 
-    const requirements = JSON.parse(await readTextFile(REQUIREMENTS_PATH));
-    console.log(requirements);
+    // const requirements = JSON.parse(await readTextFile(REQUIREMENTS_PATH));
   }
 
   private async saveMetaFile(path: string) {

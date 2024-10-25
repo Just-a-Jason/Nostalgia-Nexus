@@ -89,9 +89,16 @@ export const addGameToLibrary = async ({
     await db.execute("UPDATE app SET shortCutPath = ?;", [shortCutPath]);
   }
 
-  await db.execute("INSERT INTO meta_data(fileID) VALUES (?);", [
-    app.download.fileID,
-  ]);
+  const hasMetaData: any[] = await db.select(
+    "SELECT fileID FROM meta_data WHERE fileID = ?",
+    [app.download.fileID]
+  );
+
+  if (hasMetaData.length == 0) {
+    await db.execute("INSERT INTO meta_data(fileID) VALUES (?);", [
+      app.download.fileID,
+    ]);
+  }
 
   if (await exists(FULL_GAME_CODE)) {
     const code = await readTextFile(FULL_GAME_CODE);
@@ -146,7 +153,7 @@ export const loadUserLibrary = async (): Promise<AppInLibrary[]> => {
   const db = await loadDataBase();
 
   const libraryData = await db.select(
-    "SELECT savePath, fileSize, name, iconUrl, fullGameCode, shortCutPath FROM app;"
+    "SELECT a.savePath, a.fileSize, a.name, a.iconUrl, a.fullGameCode, a.shortCutPath, m.totalPlayTime FROM app a, meta_data m WHERE a.fileID = m.fileID;"
   );
 
   await db.close();

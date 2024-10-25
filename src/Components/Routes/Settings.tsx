@@ -221,6 +221,8 @@ const Settings = ({
           onCheckedChanged={(checked) => {
             LocalStorage.set("dark-theme", checked);
             setDarkTheme(checked);
+
+            document.body.classList.toggle("light-theme");
           }}
           title="Dark Theme"
           checked={darkTheme}
