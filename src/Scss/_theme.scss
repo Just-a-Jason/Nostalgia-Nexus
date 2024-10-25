@@ -8,11 +8,18 @@ $big-screen: 1500px;
   .category-group {
     grid-template-columns: repeat(4, 1fr);
   }
+  .library {
+    grid-template-columns: repeat(6, 1fr);
+  }
 }
 
 @media only screen and (min-width: $big-screen) {
   .category-group {
     grid-template-columns: repeat(6, 1fr);
+  }
+
+  .library {
+    grid-template-columns: repeat(9, 1fr);
   }
 
   #root {

@@ -1,5 +1,5 @@
 import ReactDOM from "react-dom/client";
-import { initDataBase } from "./API/Database";
+import { initDataBase, updatePlayTime } from "./API/Database";
 import React from "react";
 import App from "./App";
 import { listen } from "@tauri-apps/api/event";
@@ -11,8 +11,12 @@ const main = async () => {
     console.log("Game started", e.payload);
   });
 
-  listen("game-ended", (e) => {
-    console.log("game ended", e.payload);
+  listen("game-ended", async (e) => {
+    console.log("Game eneded", e.payload);
+    await updatePlayTime(
+      (e.payload as any).file_id,
+      (e.payload as any).total_play_time
+    );
   });
 
   ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(
