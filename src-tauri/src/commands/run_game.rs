@@ -1,3 +1,5 @@
+use crate::commands::file_managment::read_meta_file;
+use crate::commands::structs::App;
 use std::os::windows::process::CommandExt;
 use std::process::{Command, Stdio};
 use std::time::Instant;
@@ -15,11 +17,14 @@ pub async fn run_game(window: Window, dir_path: String) -> Result<(), String> {
         .spawn();
 
     if let Ok(mut child_process) = result {
+        // Load metafile 🧩
+        let meta_data = read_meta_file(dir_path + "\\.meta")?;
+
         // Tell the launcher wich game started
         window
             .emit("game-started", {
                 serde_json::json!({
-                    "gameName": "idk"
+                    "gameName": meta_data.name()
                 })
             })
             .map_err(|e| e.to_string())?;
@@ -30,15 +35,12 @@ pub async fn run_game(window: Window, dir_path: String) -> Result<(), String> {
         // Wait untill the game closes 🕛
         child_process.wait().map_err(|e| e.to_string())?;
 
-        // The game has been closed, now calculate the time in-game
-        println!("{:?}", timer.elapsed());
-
         // Tell the launcher wich game ended
         window
             .emit("game-ended", {
                 serde_json::json!({
-                    "gameName": "idk",
-                    "totalPlayTime": timer.elapsed()
+                    "gameName": meta_data.name(),
+                    "totalPlayTime": timer.elapsed().as_secs()
                 })
             })
             .map_err(|e| e.to_string())?;

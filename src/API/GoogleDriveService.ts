@@ -1,4 +1,4 @@
-import { exists, readTextFile, writeTextFile } from "@tauri-apps/api/fs";
+import { exists, readTextFile } from "@tauri-apps/api/fs";
 import { getClient, ResponseType } from "@tauri-apps/api/http";
 import { DownloadPayload } from "../Interfaces/DownloadPayload";
 import { showNotif, VIRUS_WARNING_REGEX } from "../constants";
@@ -112,10 +112,7 @@ export default class GoogleDriveService {
       await invoke("unzip_file", { zipPath, destPath });
 
       // Create meta-file
-      const metaFile = destPath + "\\.meta";
-      if (!(await exists(metaFile))) {
-        await writeTextFile(metaFile, this.app.download.fileID);
-      }
+      await this.saveMetaFile(destPath);
 
       let desktopPath: null | string = null;
 
@@ -170,5 +167,13 @@ export default class GoogleDriveService {
 
     const requirements = JSON.parse(await readTextFile(REQUIREMENTS_PATH));
     console.log(requirements);
+  }
+
+  private async saveMetaFile(path: string) {
+    const data = JSON.stringify({
+      name: this.app.name,
+      file_id: this.app.download.fileID,
+    });
+    await invoke("create_meta_file", { path: path + "\\.meta", data: data });
   }
 }

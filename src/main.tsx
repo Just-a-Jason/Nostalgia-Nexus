@@ -7,12 +7,12 @@ import { listen } from "@tauri-apps/api/event";
 const main = async () => {
   await initDataBase();
 
-  listen("game-started", () => {
-    console.log("Game started");
+  listen("game-started", (e) => {
+    console.log("Game started", e.payload);
   });
 
-  listen("game-ended", () => {
-    console.log("game ended");
+  listen("game-ended", (e) => {
+    console.log("game ended", e.payload);
   });
 
   ReactDOM.createRoot(document.getElementById("root") as HTMLElement).render(

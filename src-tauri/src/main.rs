@@ -12,7 +12,8 @@ fn main() {
             commands::file_managment::remove_file,
             commands::run_game::run_game,
             commands::file_managment::get_folder_size,
-            commands::file_managment::create_desktop_shortcut
+            commands::file_managment::create_desktop_shortcut,
+            commands::file_managment::create_meta_file
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
