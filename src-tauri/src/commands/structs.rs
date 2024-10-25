@@ -20,8 +20,4 @@ impl App {
     pub fn name(&self) -> &String {
         &self.name
     }
-
-    pub fn file_id(&self) -> &String {
-        &self.file_id
-    }
 }

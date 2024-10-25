@@ -1,5 +1,4 @@
 use crate::commands::file_managment::read_meta_file;
-use crate::commands::structs::App;
 use std::os::windows::process::CommandExt;
 use std::process::{Command, Stdio};
 use std::time::Instant;
