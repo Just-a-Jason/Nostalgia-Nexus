@@ -1,3 +1,4 @@
+use crate::commands::structs::App;
 use mslnk::ShellLink;
 use reqwest::blocking::Client;
 use std::fs;
@@ -162,4 +163,37 @@ pub async fn unzip_file(window: Window, zip_path: String, dest_path: String) -> 
     })
     .await
     .unwrap()
+}
+
+#[command]
+pub fn create_meta_file(path: String, data: String) -> Result<(), String> {
+    let mut file = File::create(&path).unwrap();
+
+    let app = serde_json::from_str::<App>(&data)
+        .map_err(|e| e.to_string())
+        .unwrap();
+
+    File::write(&mut file, app.to_string().as_bytes()).unwrap();
+
+    Ok(())
+}
+
+pub fn read_meta_file(path: String) -> Result<App, String> {
+    let content = fs::read_to_string(path).map_err(|e| e.to_string()).unwrap();
+
+    let lines: Vec<&str> = content.lines().collect();
+
+    let name = lines
+        .get(0)
+        .and_then(|line| line.strip_prefix("name="))
+        .unwrap_or("")
+        .to_string();
+
+    let file_id = lines
+        .get(1)
+        .and_then(|line| line.strip_prefix("file_id="))
+        .unwrap_or("")
+        .to_string();
+
+    Ok(App::new(name, file_id))
 }

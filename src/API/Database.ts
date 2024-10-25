@@ -153,4 +153,15 @@ export const loadUserLibrary = async (): Promise<AppInLibrary[]> => {
   return libraryData as AppInLibrary[];
 };
 
+export const updatePlayTime = async (fileId: string, time: number) => {
+  const db = await loadDataBase();
+
+  await db.execute(
+    "UPDATE meta_data SET totalPlayTime = totalPlayTime + ? WHERE fileID = ?;",
+    [time, fileId]
+  );
+
+  await db.close();
+};
+
 export default loadDataBase;

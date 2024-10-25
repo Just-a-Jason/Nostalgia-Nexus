@@ -1,20 +1,50 @@
+use crate::commands::file_managment::read_meta_file;
 use std::os::windows::process::CommandExt;
 use std::process::{Command, Stdio};
+use std::time::Instant;
 use tauri::command;
 use tauri::Window;
 use winapi::um::winbase::CREATE_NO_WINDOW;
 
 #[command]
 pub async fn run_game(window: Window, dir_path: String) -> Result<(), String> {
-    Command::new("cmd")
-        .args(&["/C", "cd", &dir_path, "&&", "start", "game.exe"])
+    let result = Command::new("cmd")
+        .args(&["/C", "cd", &dir_path, "&&", "game.exe"])
         .creation_flags(CREATE_NO_WINDOW)
         .stdout(Stdio::null())
         .stderr(Stdio::null())
-        .spawn()
-        .map_err(|e| e.to_string())?;
-    window
-        .emit("game-started", "Game started successfully")
-        .unwrap();
+        .spawn();
+
+    if let Ok(mut child_process) = result {
+        // Load metafile 🧩
+        let meta_data = read_meta_file(dir_path + "\\.meta")?;
+
+        // Tell the launcher wich game started
+        window
+            .emit("game-started", {
+                serde_json::json!({
+                    "game_name": meta_data.name()
+                })
+            })
+            .map_err(|e| e.to_string())?;
+
+        // Start the timer
+        let timer = Instant::now();
+
+        // Wait untill the game closes 🕛
+        child_process.wait().map_err(|e| e.to_string())?;
+
+        // Tell the launcher wich game ended
+        window
+            .emit("game-ended", {
+                serde_json::json!({
+                    "total_play_time": timer.elapsed().as_secs(),
+                    "game_name": meta_data.name(),
+                    "file_id": meta_data.file_id()
+                })
+            })
+            .map_err(|e| e.to_string())?;
+    }
+
     Ok(())
 }
