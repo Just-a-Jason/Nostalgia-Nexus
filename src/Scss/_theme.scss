@@ -87,3 +87,33 @@ $big-screen: 1500px;
     }
   }
 }
+
+body.light-theme {
+  .nav-bar,
+  .title-bar,
+  .app-router,
+  .app-footer,
+  .settings {
+    background-color: #f4f6ff;
+  }
+
+  .nav-item,
+  .category-title,
+  .app-item {
+    background: #10375c;
+  }
+
+  .green-button {
+    background: #10375c !important;
+  }
+
+  .title-bar {
+    color: #000;
+  }
+
+  .settings-group {
+    h1 {
+      color: #000;
+    }
+  }
+}

@@ -12,6 +12,7 @@ export const VIRUS_WARNING_REGEX =
   /<form[^>]*action="https:\/\/drive\.usercontent\.google\.com\/download"[^>]*>/;
 
 const fileEndings = ["B", "KB", "MB", "GB", "TB"];
+export const timeEndings = ["sec", "min", "h"];
 
 export const bytesToFileSize = (
   fileSize: number | undefined,

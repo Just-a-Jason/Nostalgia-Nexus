@@ -238,5 +238,17 @@
       "version": "1.0.0",
       "fileID": "1Dz2hxhmw2vjkZbThI8751crSPQT5KO9b"
     }
+  },
+  {
+    "name": "Shawarma Legend",
+    "releseDate": "October 10, 2014",
+    "iconUrl": "shawarma.jpg",
+    "description": "A game where you can make kebab. 🌯",
+    "category": 4,
+    "download": {
+      "fileSize": "80 MB",
+      "version": "1.0.0",
+      "fileID": "1stlElOGkxFgE0O2LVuJLVNXAXOj_26gw"
+    }
   }
 ]
