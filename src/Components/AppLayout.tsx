@@ -1,18 +1,17 @@
-import AnimatedBackground from "./AnimatedBackGround";
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
+import AnimatedBackground from "./AnimatedBackGround";
 import LocalStorage from "../API/LocalStorage";
 import DownloadScreen from "./DownloadScreen";
 import WelcomeScreen from "./WelcomeScreen";
 import Settings from "./Routes/Settings";
+import CacheScreen from "./CacheScreen";
+import Library from "./Routes/Library";
 import App from "../Interfaces/App";
 import AppsGrid from "./AppsGrid";
-import CacheScreen from "./CacheScreen";
 import { useState } from "react";
 import "./AppLayout.tsx.scss";
 import Footer from "./Footer";
 import NavBar from "./NavBar";
-import Library from "./Routes/Library";
-import { listen } from "@tauri-apps/api/event";
 
 const AppLayout = () => {
   const [appData, setAppData] = useState<App | undefined>(undefined);
@@ -37,9 +36,6 @@ const AppLayout = () => {
     setDownloadScreen(true);
     setAppData(app);
   };
-
-  listen("game-started", () => {});
-  listen("game-ended", () => {});
 
   return (
     <Router>
