@@ -23,7 +23,7 @@ pub async fn run_game(window: Window, dir_path: String) -> Result<(), String> {
         window
             .emit("game-started", {
                 serde_json::json!({
-                    "gameName": meta_data.name()
+                    "game_name": meta_data.name()
                 })
             })
             .map_err(|e| e.to_string())?;
@@ -38,9 +38,9 @@ pub async fn run_game(window: Window, dir_path: String) -> Result<(), String> {
         window
             .emit("game-ended", {
                 serde_json::json!({
-                    "totalPlayTime": timer.elapsed().as_secs(),
-                    "gameName": meta_data.name(),
-                    "fileId": meta_data.file_id()
+                    "total_play_time": timer.elapsed().as_secs(),
+                    "game_name": meta_data.name(),
+                    "file_id": meta_data.file_id()
                 })
             })
             .map_err(|e| e.to_string())?;
