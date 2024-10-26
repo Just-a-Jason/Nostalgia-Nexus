@@ -194,11 +194,8 @@ const Settings = ({
           hint="Removes/Adds animations to user interface."
           onCheckedChanged={(checked) => {
             LocalStorage.set("ui-animations", checked);
-
-            const root = document.querySelector("#root") as HTMLDivElement;
-            root.classList.remove("no-anim");
-            if (!checked) root.classList.add("no-anim");
-
+            const root = document.querySelector("#root") as HTMLElement;
+            root.classList.toggle("no-anim");
             setAnimations(checked);
           }}
           title="UI animations"

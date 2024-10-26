@@ -12,6 +12,10 @@ const main = async () => {
     document.body.classList.add("light-theme");
   }
 
+  if (!LocalStorage.tryGet(true, "ui-animations")) {
+    (document.querySelector("#root") as HTMLElement).classList.add("no-anim");
+  }
+
   listen("game-ended", async (e) => {
     await updatePlayTime(
       (e.payload as any).file_id,
